@@ -48,6 +48,13 @@ export const onToggleScreenMode = props => (e) => {
   }
 };
 
+export const onDiscussionOpen = props => (event) => {
+  if (props.isFullScreenMode) {
+    onToggleScreenMode(props)(event);
+  }
+  goTo('standardDiscussion')({ urlItemId: props.standard._id });
+};
+
 export const onModalOpen = ({ _id }) => () =>
   modal.modal.open({
     _id,

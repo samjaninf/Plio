@@ -1,8 +1,8 @@
-import { compose, mapProps, withHandlers } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 
-import { getPath } from '../../../../../ui/utils/router/paths';
 import {
+  onDiscussionOpen,
   onToggleScreenMode,
   onModalOpen,
   onRestore,
@@ -27,12 +27,12 @@ const mapStateToProps = (state, { standard: { _id, title, isDeleted = false } })
   hasFullAccess: getIsOrgOwner(state),
   isFullScreenMode: getIsFullScreenMode(state),
   isDiscussionOpened: getIsDiscussionOpened(state),
-  pathToDiscussion: getPath('standardDiscussion')({ urlItemId: _id }),
 });
 
 export default compose(
   connect(mapStateToProps),
   withHandlers({
+    onDiscussionOpen,
     onToggleScreenMode,
     onModalOpen,
     onRestore,
