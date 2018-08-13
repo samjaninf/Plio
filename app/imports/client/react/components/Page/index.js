@@ -14,12 +14,18 @@ const Page = ({
   classNames = defaults.classNames,
   displayRHS = true,
   children,
+  isFullScreenMode,
 }) => (
   <div className="row">
     <div className={cx(classNames.lhs, { 'hidden-sm-down': displayRHS })}>
       {children[0]}
     </div>
-    <div className={cx(classNames.rhs, { 'hidden-sm-down': !displayRHS })}>
+    <div
+      className={cx(classNames.rhs, {
+        'hidden-sm-down': !displayRHS,
+        expanded: isFullScreenMode,
+      })}
+    >
       {children[1]}
     </div>
   </div>

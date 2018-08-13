@@ -3,14 +3,18 @@ import { connect } from 'react-redux';
 import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 
-import { MOBILE_BREAKPOINT } from '/imports/api/constants';
-import { setWindowWidth } from '/imports/client/store/actions/windowActions';
-import { pickDeep } from '/imports/api/helpers';
-import Page from '../../components/Page';
+import { MOBILE_BREAKPOINT } from '../../../../api/constants';
+import { setWindowWidth } from '../../../../client/store/actions/windowActions';
+import { pickDeep } from '../../../../api/helpers';
+import { getIsFullScreenMode } from '../../../store/selectors/global';
 import { namedCompose } from '../../helpers';
+import Page from '../../components/Page';
 
 export default namedCompose('PageContainer')(
-  connect(pickDeep(['window.width', 'mobile.showCard', 'discussion.isDiscussionOpened'])),
+  connect(state => ({
+    isFullScreenMode: getIsFullScreenMode(state),
+    ...pickDeep(['window.width', 'mobile.showCard', 'discussion.isDiscussionOpened'], state),
+  })),
   lifecycle({
     componentDidMount() {
       const $window = $(window);

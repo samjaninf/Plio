@@ -176,8 +176,17 @@
 .content-cards {
   @include flex(1);
 
-  &.scroll {
-    transform: translateZ(0);
+  &.expanded,
+  .content-cards-inner.expanded {
+    position: fixed;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+  }
+
+  &.expanded {
+    height: 100vh;
   }
 
   .content-cards-inner {
@@ -204,11 +213,6 @@
     }
 
     &.expanded {
-      position: fixed !important;
-      top: 0 !important;
-      right: 0 !important;
-      left: 0 !important;
-      bottom: 0 !important;
       padding-left: 10%;
       padding-right: 10%;
       overflow-y: scroll;
