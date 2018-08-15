@@ -7,7 +7,7 @@ export default (config = () => ({})) => async (next, root, args, context) => {
   let error = Errors.USER_NOT_ORG_MEMBER;
   // eslint-disable-next-line prefer-const
   let { organizationId, userId, serialNumber } = await config(root, args, context);
-  const { collections: { Organizations } } = context;
+  const { loaders: { Organization: { byQuery } } } = context;
 
   if (!organizationId) ({ organizationId } = args);
   if (!userId) {
@@ -17,15 +17,12 @@ export default (config = () => ({})) => async (next, root, args, context) => {
 
   invariant(serialNumber || organizationId, 'organizationId or serialNumber is required');
 
-  const query = {};
+  const query = createOrgQueryWhereUserIsMember(userId);
 
   if (serialNumber) Object.assign(query, { serialNumber });
   else Object.assign(query, { _id: organizationId });
 
-  const organization = await Organizations.findOne({
-    ...query,
-    ...createOrgQueryWhereUserIsMember(userId),
-  });
+  const [organization] = await byQuery.load(query);
 
   invariant(organization, error);
 

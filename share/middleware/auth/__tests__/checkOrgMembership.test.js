@@ -5,9 +5,11 @@ import faker from 'faker';
 import Errors from '../../../errors';
 
 import checkOrgMembership from '../checkOrgMembership';
+import { createOrgQueryWhereUserIsMember } from '../../../mongo';
 
 describe('checkOrgMembership', () => {
   let Organizations;
+  let context = { userId: faker.random.uuid() };
 
   beforeAll(__setupDB);
 
@@ -16,12 +18,21 @@ describe('checkOrgMembership', () => {
   beforeEach(async () => {
     Organizations = new Mongo.Collection('Organizations');
     await Organizations.remove({});
+    context = {
+      ...context,
+      loaders: {
+        Organization: {
+          byQuery: {
+            load: jest.fn(query => Organizations.find(query).fetch()),
+          },
+        },
+      },
+    };
   });
 
   it('throws if no organization with provided id exists', async () => {
     const root = {};
-    const args = { organizationId: 1 };
-    const context = { userId: 2, collections: { Organizations } };
+    const args = { organizationId: faker.random.uuid() };
 
     const promise = checkOrgMembership()(T, root, args, context);
 
@@ -30,8 +41,7 @@ describe('checkOrgMembership', () => {
 
   it('throws if current user is not organization member', async () => {
     const root = {};
-    const args = { organizationId: 1 };
-    const context = { userId: 2, collections: { Organizations } };
+    const args = { organizationId: faker.random.uuid() };
 
     await Organizations.insert({ _id: args.organizationId });
 
@@ -42,8 +52,7 @@ describe('checkOrgMembership', () => {
 
   it('throws if user is not organization member', async () => {
     const root = {};
-    const args = { organizationId: 1, userId: 3 };
-    const context = { userId: 2, collections: { Organizations } };
+    const args = { organizationId: faker.random.uuid(), userId: faker.random.uuid() };
 
     await Organizations.insert({ _id: args.organizationId });
 
@@ -54,8 +63,7 @@ describe('checkOrgMembership', () => {
 
   it('passes with default config', async () => {
     const root = {};
-    const args = { organizationId: 1 };
-    const context = { userId: 2, collections: { Organizations } };
+    const args = { organizationId: faker.random.uuid() };
 
     await Organizations.insert({
       _id: args.organizationId,
@@ -65,12 +73,16 @@ describe('checkOrgMembership', () => {
     const promise = checkOrgMembership()(T, root, args, context);
 
     await expect(promise).resolves.toBe(true);
+
+    expect(context.loaders.Organization.byQuery.load).toHaveBeenCalledWith({
+      _id: args.organizationId,
+      ...createOrgQueryWhereUserIsMember(context.userId),
+    });
   });
 
   it('passes if only organizationId provided', async () => {
     const root = {};
-    const args = { organizationId: 1 };
-    const context = { userId: 2, collections: { Organizations } };
+    const args = { organizationId: faker.random.uuid() };
 
     await Organizations.insert({
       _id: args.organizationId,
@@ -86,8 +98,7 @@ describe('checkOrgMembership', () => {
 
   it('passes if only userId provided', async () => {
     const root = {};
-    const args = { organizationId: 1, userId: 3 };
-    const context = { userId: 2, collections: { Organizations } };
+    const args = { organizationId: faker.random.uuid(), userId: faker.random.uuid() };
 
     await Organizations.insert({
       _id: args.organizationId,
@@ -103,8 +114,7 @@ describe('checkOrgMembership', () => {
 
   it('passes if only serialNumber provided', async () => {
     const root = {};
-    const args = { serialNumber: 1 };
-    const context = { userId: 2, collections: { Organizations } };
+    const args = { serialNumber: faker.random.number() };
 
     await Organizations.insert({
       serialNumber: args.serialNumber,
@@ -120,8 +130,7 @@ describe('checkOrgMembership', () => {
 
   it('passes if both organizationId and userId provided', async () => {
     const root = {};
-    const args = { organizationId: 1, userId: 3 };
-    const context = { userId: 2, collections: { Organizations } };
+    const args = { organizationId: faker.random.uuid(), userId: faker.random.uuid() };
 
     await Organizations.insert({
       _id: args.organizationId,
@@ -137,14 +146,12 @@ describe('checkOrgMembership', () => {
   });
 
   it('fetches the correct organization', async () => {
-    const userId = faker.random.uuid();
     const root = {};
     const args = { serialNumber: 2, organizationId: undefined };
-    const context = { userId, collections: { Organizations } };
 
     await Promise.all(times(n => Organizations.insert({
       serialNumber: n,
-      users: [{ userId, isRemoved: false }],
+      users: [{ userId: context.userId, isRemoved: false }],
     }), 3));
     const organization = await Organizations.findOne({ serialNumber: args.serialNumber });
     const config = (_, { serialNumber, organizationId }) => ({ serialNumber, organizationId });
