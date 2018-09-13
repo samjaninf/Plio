@@ -16,6 +16,7 @@ import {
   EntityModalHeader,
   EntityModalBody,
   EntityModalForm,
+  ActivelyManageSubcard,
 } from '../../components';
 import { WithState, Composer } from '../../helpers';
 import KeyPartnerForm from './KeyPartnerForm';
@@ -126,13 +127,16 @@ const KeyPartnerEditModal = ({
                   <EntityModalBody>
                     <KeyPartnerForm {...{ organizationId }} save={handleSubmit} />
                     {_id && (
-                      <CanvasFilesSubcard
-                        {...{ organizationId }}
-                        documentId={_id}
-                        onUpdate={updateKeyPartner}
-                        slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
-                        documentType={CanvasSections.KEY_PARTNERS}
-                      />
+                      <Fragment>
+                        <ActivelyManageSubcard />
+                        <CanvasFilesSubcard
+                          {...{ organizationId }}
+                          documentId={_id}
+                          onUpdate={updateKeyPartner}
+                          slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
+                          documentType={CanvasSections.KEY_PARTNERS}
+                        />
+                      </Fragment>
                     )}
                   </EntityModalBody>
                 </Fragment>

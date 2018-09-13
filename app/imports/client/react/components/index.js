@@ -14,6 +14,7 @@ export * from './MatchMaker';
 export * from './svg';
 export * from './EntityManager';
 export * from './Chart';
+export * from './ActivleyManage';
 
 export { default as CardBlock } from './CardBlock';
 export { default as InputGroupAddon } from './InputGroupAddon';
@@ -38,6 +39,7 @@ export { default as GuidanceIcon } from './GuidanceIcon';
 export { default as Subcard } from './Subcard';
 export { default as SubcardHeader } from './SubcardHeader';
 export { default as SubcardBody } from './SubcardBody';
+export { default as SubcardSubtitle } from './SubcardSubtitle';
 export { default as Rect } from './Rect';
 export { default as Diamond } from './Diamond';
 export { default as StylessPopover } from './StylessPopover';
