@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CardTitle, Col, CardText, ListGroup } from 'reactstrap';
 
@@ -99,5 +100,9 @@ const ActivelyManageSubcard = () => (
     </SubcardBody>
   </Subcard>
 );
+
+ActivelyManageSubcard.propTypes = {
+  organizationId: PropTypes.string.isRequired,
+};
 
 export default ActivelyManageSubcard;

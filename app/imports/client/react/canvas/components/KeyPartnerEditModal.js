@@ -128,7 +128,7 @@ const KeyPartnerEditModal = ({
                     <KeyPartnerForm {...{ organizationId }} save={handleSubmit} />
                     {_id && (
                       <Fragment>
-                        <ActivelyManageSubcard />
+                        <ActivelyManageSubcard {...{ organizationId }} />
                         <CanvasFilesSubcard
                           {...{ organizationId }}
                           documentId={_id}

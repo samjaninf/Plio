@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ListGroupItem } from 'reactstrap';
 
-import { Icon, SubcardBody, CardBlock } from '../';
+import {
+  Icon,
+  SubcardBody,
+  CardBlock,
+  Pull,
+  Button,
+} from '../';
 
 const BodyWrapper = styled.div`
   .card-block {
@@ -31,6 +37,14 @@ const ActivelyManageItem = ({
       <SubcardBody {...{ isOpen }}>
         <CardBlock>
           {children}
+        </CardBlock>
+        <CardBlock>
+          <Pull left>
+            <Button color="secondary">Delete</Button>
+          </Pull>
+          <Pull right>
+            <Button color="secondary">Save</Button>
+          </Pull>
         </CardBlock>
       </SubcardBody>
     </BodyWrapper>
