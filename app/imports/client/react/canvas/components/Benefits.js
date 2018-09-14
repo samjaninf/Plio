@@ -41,7 +41,7 @@ const Benefits = ({
         {benefits.map(benefit => (
           <EntityManagerItem
             key={benefit._id}
-            entity={benefit}
+            itemId={benefit._id}
             customerElement={benefit}
             component={CustomerElementSubcard}
             onUpdate={updateBenefit}

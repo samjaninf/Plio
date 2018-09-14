@@ -4,19 +4,19 @@ import React from 'react';
 import { renderComponent } from '../../helpers';
 import { Consumer } from './EntityManager';
 
-const EntityManagerItem = ({ entity, ...rest }) => (
+const EntityManagerItem = ({ itemId, ...rest }) => (
   <Consumer>
     {({ state: { active }, toggle }) => renderComponent({
-      isOpen: active === entity._id,
-      toggle: () => toggle(entity._id),
+      isOpen: active === itemId,
+      toggle: () => toggle(itemId),
       ...rest,
     })}
   </Consumer>
 );
 
 EntityManagerItem.propTypes = {
-  entity: PropTypes.object.isRequired,
   component: PropTypes.func.isRequired,
+  itemId: PropTypes.string.isRequired,
 };
 
 export default EntityManagerItem;

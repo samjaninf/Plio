@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CardTitle, Col, CardText, ListGroup, ListGroupItem } from 'reactstrap';
+import { CardTitle, Col, CardText, ListGroup } from 'reactstrap';
 
 import { Styles } from '../../../../api/constants';
 import {
@@ -9,7 +9,9 @@ import {
   SubcardBody,
   SubcardSubtitle,
   CardBlock,
-  Icon,
+  EntityManager,
+  EntityManagerItem,
+  ActivelyManageItem,
 } from '../../components';
 
 const StyledCol = styled(Col)`
@@ -47,30 +49,50 @@ const ActivelyManageSubcard = () => (
             you need to do at least one of the following:
           </CardText>
           <ListGroup>
-            <ListGroupItem tag="a">
-              Add a <strong>Key goal</strong>
-              <Icon name="question-circle" />
-            </ListGroupItem>
-            <ListGroupItem tag="a">
-              Add a <strong>Standard</strong>
-              <Icon name="question-circle" />
-            </ListGroupItem>
-            <ListGroupItem tag="a">
-              Add a <strong>Risk</strong>
-              <Icon name="question-circle" />
-            </ListGroupItem>
-            <ListGroupItem tag="a">
-              Add a <strong>Nonconformity</strong>
-              <Icon name="question-circle" />
-            </ListGroupItem>
-            <ListGroupItem tag="a">
-              Add a <strong>Potential gain</strong>
-              <Icon name="question-circle" />
-            </ListGroupItem>
-            <ListGroupItem tag="a">
-              Add a <strong>Lesson learned</strong>
-              <Icon name="question-circle" />
-            </ListGroupItem>
+            <EntityManager>
+              <EntityManagerItem
+                component={ActivelyManageItem}
+                itemId="keyGoal"
+                label="Key goal"
+              >
+                ActivelyManageItem
+              </EntityManagerItem>
+              <EntityManagerItem
+                component={ActivelyManageItem}
+                itemId="standard"
+                label="Standard"
+              >
+                ActivelyManageItem
+              </EntityManagerItem>
+              <EntityManagerItem
+                component={ActivelyManageItem}
+                itemId="risk"
+                label="Risk"
+              >
+                ActivelyManageItem
+              </EntityManagerItem>
+              <EntityManagerItem
+                component={ActivelyManageItem}
+                itemId="nonconformity"
+                label="Nonconformity"
+              >
+                ActivelyManageItem
+              </EntityManagerItem>
+              <EntityManagerItem
+                component={ActivelyManageItem}
+                itemId="potentialGain"
+                label="Potential gain"
+              >
+                ActivelyManageItem
+              </EntityManagerItem>
+              <EntityManagerItem
+                component={ActivelyManageItem}
+                itemId="lessonLearned"
+                label="Lesson learned"
+              >
+                ActivelyManageItem
+              </EntityManagerItem>
+            </EntityManager>
           </ListGroup>
         </StyledCol>
       </CardBlock>

@@ -41,7 +41,7 @@ const Features = ({
         {features.map(feature => (
           <EntityManagerItem
             key={feature._id}
-            entity={feature}
+            itemId={feature._id}
             customerElement={feature}
             component={CustomerElementSubcard}
             onUpdate={updateFeature}

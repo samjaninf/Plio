@@ -41,7 +41,7 @@ const CustomerNeeds = ({
         {needs.map(need => (
           <EntityManagerItem
             key={need._id}
-            entity={need}
+            itemId={need._id}
             customerElement={need}
             component={CustomerElementSubcard}
             onUpdate={updateNeed}
