@@ -348,6 +348,7 @@ export const Styles = {
     white: '#fff',
     lightGrey: '#eee',
     darkGrey: '#373a3c',
+    brandPrimary: '#0275d8',
   },
 };
 /* eslint-enable max-len */

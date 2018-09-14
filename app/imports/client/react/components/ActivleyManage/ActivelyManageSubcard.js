@@ -1,17 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CardTitle, Col, CardText } from 'reactstrap';
+import { CardTitle, Col, CardText, ListGroup, ListGroupItem } from 'reactstrap';
 
+import { Styles } from '../../../../api/constants';
 import {
   Subcard,
   SubcardHeader,
   SubcardBody,
-  CardBlock,
   SubcardSubtitle,
+  CardBlock,
+  Icon,
 } from '../../components';
 
 const StyledCol = styled(Col)`
-  padding: 0 1.85rem
+  padding: 0 1.85rem;
+  .list-group-item {
+    padding: .75rem 1.25rem !important;
+    color: ${Styles.color.brandPrimary};
+    &:hover {
+      color: ${Styles.color.brandPrimary};
+    }
+    & > i {
+      float: right;
+      font-size: 1.3rem;
+      margin-top: 3px;
+    }
+  }
 `;
 
 const ActivelyManageSubcard = () => (
@@ -32,6 +46,32 @@ const ActivelyManageSubcard = () => (
             To actively manage this section of your canvas,
             you need to do at least one of the following:
           </CardText>
+          <ListGroup>
+            <ListGroupItem tag="a">
+              Add a <strong>Key goal</strong>
+              <Icon name="question-circle" />
+            </ListGroupItem>
+            <ListGroupItem tag="a">
+              Add a <strong>Standard</strong>
+              <Icon name="question-circle" />
+            </ListGroupItem>
+            <ListGroupItem tag="a">
+              Add a <strong>Risk</strong>
+              <Icon name="question-circle" />
+            </ListGroupItem>
+            <ListGroupItem tag="a">
+              Add a <strong>Nonconformity</strong>
+              <Icon name="question-circle" />
+            </ListGroupItem>
+            <ListGroupItem tag="a">
+              Add a <strong>Potential gain</strong>
+              <Icon name="question-circle" />
+            </ListGroupItem>
+            <ListGroupItem tag="a">
+              Add a <strong>Lesson learned</strong>
+              <Icon name="question-circle" />
+            </ListGroupItem>
+          </ListGroup>
         </StyledCol>
       </CardBlock>
     </SubcardBody>
