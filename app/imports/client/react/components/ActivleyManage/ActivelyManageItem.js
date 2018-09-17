@@ -5,10 +5,8 @@ import { ListGroupItem } from 'reactstrap';
 
 import {
   Icon,
-  SubcardBody,
-  CardBlock,
-  Pull,
-  Button,
+  EntityForm,
+  EntityCard,
 } from '../';
 
 const BodyWrapper = styled.div`
@@ -27,6 +25,7 @@ const ActivelyManageItem = ({
   toggle,
   label,
   children,
+  initialValues,
 }) => (
   <Fragment>
     <ListGroupItem tag="a" onClick={toggle}>
@@ -34,19 +33,18 @@ const ActivelyManageItem = ({
       <Icon name="question-circle" />
     </ListGroupItem>
     <BodyWrapper>
-      <SubcardBody {...{ isOpen }}>
-        <CardBlock>
-          {children}
-        </CardBlock>
-        <CardBlock>
-          <Pull left>
-            <Button color="secondary">Delete</Button>
-          </Pull>
-          <Pull right>
-            <Button color="secondary">Save</Button>
-          </Pull>
-        </CardBlock>
-      </SubcardBody>
+      <EntityForm
+        {...{ isOpen, initialValues }}
+        onSubmit={console.log}
+        onDelete={toggle}
+        component={EntityCard}
+      >
+        {() => (
+          <Fragment>
+            {children}
+          </Fragment>
+        )}
+      </EntityForm>
     </BodyWrapper>
   </Fragment>
 );
@@ -56,6 +54,7 @@ ActivelyManageItem.propTypes = {
   toggle: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  initialValues: PropTypes.object,
 };
 
 export default ActivelyManageItem;

@@ -22,9 +22,11 @@ const EntityCard = ({
   ...props
 }) => (
   <Subcard {...{ ...props, isOpen, toggle }}>
-    <SubcardHeader>
-      {label}
-    </SubcardHeader>
+    {label && (
+      <SubcardHeader>
+        {label}
+      </SubcardHeader>
+    )}
     <SubcardBody>
       <FormSpy subscription={{ submitError: true, error: true }}>
         {({ submitError, error }) => (
@@ -49,7 +51,7 @@ const EntityCard = ({
 );
 
 EntityCard.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   renderLeftButton: PropTypes.func,
   renderRightButton: PropTypes.func,
   isOpen: PropTypes.bool,

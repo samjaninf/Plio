@@ -22,7 +22,7 @@ const enhance = compose(
   }) => ({
     ...props,
     children: React.Children.map(children, (child) => {
-      switch (child.type) {
+      switch (child && child.type) {
         case SubcardHeader:
           return React.cloneElement(child, { isOpen, onClick: toggle });
         case SubcardBody:
