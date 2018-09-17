@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { ListGroupItem } from 'reactstrap';
+import { ListGroupItem, Form } from 'reactstrap';
 
 import {
   Icon,
@@ -33,16 +33,13 @@ const ActivelyManageItem = ({
       <Icon name="question-circle" />
     </ListGroupItem>
     <BodyWrapper>
-      <EntityForm
-        {...{ isOpen, initialValues }}
-        onSubmit={console.log}
-        onDelete={toggle}
-        component={EntityCard}
-      >
-        {() => (
-          <Fragment>
-            {children}
-          </Fragment>
+      <EntityForm {...{ initialValues }} onSubmit={console.log}>
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <EntityCard {...{ isOpen }} onDelete={toggle}>
+              {children}
+            </EntityCard>
+          </Form>
         )}
       </EntityForm>
     </BodyWrapper>

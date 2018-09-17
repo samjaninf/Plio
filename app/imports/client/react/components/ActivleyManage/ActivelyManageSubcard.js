@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { CardTitle, Col, CardText, ListGroup } from 'reactstrap';
 import { getUserOptions } from 'plio-util';
 import { Query } from 'react-apollo';
+// import { view } from 'ramda';
 
 import { Query as Queries } from '../../../graphql';
 import { Styles, ApolloFetchPolicies } from '../../../../api/constants';
@@ -36,7 +37,10 @@ const StyledCol = styled(Col)`
   }
 `;
 
-const ActivelyManageSubcard = ({ organizationId }) => (
+const ActivelyManageSubcard = ({
+  organizationId,
+  entity: { risks, title = '' },
+}) => (
   <Query
     query={Queries.CURRENT_USER_FULL_NAME}
     fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
@@ -84,10 +88,12 @@ const ActivelyManageSubcard = ({ organizationId }) => (
                       magnitude: ProblemMagnitudes.MAJOR,
                       originator: getUserOptions(user),
                       owner: getUserOptions(user),
+                      // type: view(lenses.head._id, riskTypes),
                     }}
                   >
                     <NewRiskCard
-                      {...{ organizationId }}
+                      {...{ organizationId, risks }}
+                      linkedTo={{ title }}
                     />
                   </EntityManagerItem>
                   <EntityManagerItem
@@ -123,6 +129,10 @@ const ActivelyManageSubcard = ({ organizationId }) => (
 
 ActivelyManageSubcard.propTypes = {
   organizationId: PropTypes.string.isRequired,
+  entity: PropTypes.shape({
+    title: PropTypes.string,
+    risks: PropTypes.array,
+  }).isRequired,
 };
 
 export default ActivelyManageSubcard;
