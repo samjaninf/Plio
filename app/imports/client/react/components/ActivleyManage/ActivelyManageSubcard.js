@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CardTitle, Col, CardText, ListGroup } from 'reactstrap';
+import { Query } from 'react-apollo';
 import { getUserOptions } from 'plio-util';
-import { Query, Mutation } from 'react-apollo';
-// import { view } from 'ramda';
 
-import { Query as Queries, Mutation as Mutations } from '../../../graphql';
-import { Styles, ApolloFetchPolicies } from '../../../../api/constants';
+import { Query as Queries } from '../../../graphql';
 import { ProblemMagnitudes } from '../../../../share/constants';
-import { validateRisk } from '../../../validation';
+import { Styles, ApolloFetchPolicies } from '../../../../api/constants';
 import {
   Subcard,
   SubcardHeader,
@@ -21,6 +19,7 @@ import {
   ActivelyManageItem,
 } from '../../components';
 import NewRiskCard from '../../risks/components/NewRiskCard';
+import AddRiskItem from './AddRiskItem';
 
 const StyledCol = styled(Col)`
   padding: 0 1.85rem;
@@ -79,57 +78,23 @@ const ActivelyManageSubcard = ({ organizationId, entity }) => (
                   >
                     ActivelyManageItem
                   </EntityManagerItem>
-                  <Mutation mutation={Mutations.CREATE_RISK}>
-                    {createRisk => (
-                      <EntityManagerItem
-                        component={ActivelyManageItem}
-                        itemId="risk"
-                        label="Risk"
-                        initialValues={{
-                          active: 0,
-                          title: null,
-                          magnitude: ProblemMagnitudes.MAJOR,
-                          originator: getUserOptions(user),
-                          owner: getUserOptions(user),
-                          // type: view(lenses.head._id, riskTypes),
-                        }}
-                        onSubmit={(values) => {
-                          const errors = validateRisk(values);
-                          if (errors) return errors;
-
-                          const {
-                            title,
-                            description,
-                            originator: { value: originatorId },
-                            owner: { value: ownerId },
-                            magnitude,
-                            type: typeId,
-                          } = values;
-
-                          return createRisk({
-                            variables: {
-                              input: {
-                                title,
-                                description,
-                                originatorId,
-                                ownerId,
-                                magnitude,
-                                typeId,
-                                organizationId,
-                                // entityId: entity._id,
-                              },
-                            },
-                          });
-                        }}
-                      >
-                        <NewRiskCard
-                          {...{ organizationId }}
-                          risks={entity.risks}
-                          linkedTo={{ title: entity.title }}
-                        />
-                      </EntityManagerItem>
-                    )}
-                  </Mutation>
+                  <AddRiskItem
+                    {...{ organizationId }}
+                    initialValues={{
+                      active: 0,
+                      title: null,
+                      magnitude: ProblemMagnitudes.MAJOR,
+                      originator: getUserOptions(user),
+                      owner: getUserOptions(user),
+                      // type: view(lenses.head._id, riskTypes),
+                    }}
+                  >
+                    <NewRiskCard
+                      {...{ organizationId }}
+                      linkedTo={{ title: entity.title }}
+                      risks={entity.risks}
+                    />
+                  </AddRiskItem>
                   <EntityManagerItem
                     component={ActivelyManageItem}
                     itemId="nonconformity"
