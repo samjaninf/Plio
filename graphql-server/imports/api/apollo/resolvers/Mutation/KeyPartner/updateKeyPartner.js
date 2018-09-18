@@ -4,6 +4,7 @@ import {
   flattenInput,
   checkKeyPartnerAccess,
   checkFilesAccess,
+  checkRisksAccess,
   keyPartnerUpdateAfterware,
 } from '../../../../../share/middleware';
 
@@ -15,5 +16,6 @@ export default applyMiddleware(
   flattenInput(),
   checkKeyPartnerAccess(),
   checkFilesAccess(),
+  checkRisksAccess(),
   keyPartnerUpdateAfterware(),
 )(resolver);

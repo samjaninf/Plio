@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Mutation } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import { append, map, prop, compose } from 'ramda';
-import { noop } from 'plio-util';
+import { noop, getUserOptions } from 'plio-util';
 
-import { Mutation as Mutations } from '../../../graphql';
+import { Query as Queries, Mutation as Mutations } from '../../../graphql';
+import { ApolloFetchPolicies } from '../../../../api/constants';
 import { validateRisk } from '../../../validation';
+import { ProblemMagnitudes } from '../../../../share/constants';
 import { Composer } from '../../helpers';
 import {
   EntityManagerItem,
@@ -18,25 +20,33 @@ const addRisk = (riskId, risks) => compose(
   map(prop('_id')),
 )(risks);
 
-const AddRiskItem = ({
-  organizationId,
-  linkedTo,
-  risks = [],
-  ...restProps
-}) => (
+const AddRiskItem = ({ organizationId, linkedTo, risks = [] }) => (
   <Composer
     components={[
       /* eslint-disable react/no-children-prop */
+      <Query
+        query={Queries.CURRENT_USER_FULL_NAME}
+        fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
+        children={noop}
+      />,
       <Mutation mutation={Mutations.UPDATE_KEY_PARTNER} children={noop} />,
       <Mutation mutation={Mutations.CREATE_RISK} children={noop} />,
       /* eslint-enable react/no-children-prop */
     ]}
   >
-    {([updateKeyPartner, createRisk]) => (
+    {([{ data: { user } }, updateKeyPartner, createRisk]) => (
       <EntityManagerItem
         component={ActivelyManageItem}
         itemId="risk"
         label="Risk"
+        initialValues={{
+          active: 0,
+          title: null,
+          magnitude: ProblemMagnitudes.MAJOR,
+          originator: getUserOptions(user),
+          owner: getUserOptions(user),
+          // type: view(lenses.head._id, riskTypes),
+        }}
         onSubmit={(values, callback) => {
           const errors = validateRisk(values);
           if (errors) return errors;
@@ -71,7 +81,6 @@ const AddRiskItem = ({
             },
           })).then(callback);
         }}
-        {...restProps}
       >
         <NewRiskCard {...{ organizationId, linkedTo, risks }} />
       </EntityManagerItem>
