@@ -20,76 +20,80 @@ const addRisk = (riskId, risks) => compose(
   map(prop('_id')),
 )(risks);
 
-const AddRiskItem = ({ organizationId, linkedTo, risks = [] }) => {
-  console.log(risks);
-  return (
-    <Composer
-      components={[
-        /* eslint-disable react/no-children-prop */
-        <Query
-          query={Queries.CURRENT_USER_FULL_NAME}
-          fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
-          children={noop}
-        />,
-        <Mutation mutation={Mutations.UPDATE_KEY_PARTNER} children={noop} />,
-        <Mutation mutation={Mutations.CREATE_RISK} children={noop} />,
-        /* eslint-enable react/no-children-prop */
-      ]}
-    >
-      {([{ data: { user } }, updateKeyPartner, createRisk]) => (
-        <EntityManagerItem
-          component={ActivelyManageItem}
-          itemId="risk"
-          label="Risk"
-          initialValues={{
-            active: 0,
-            title: null,
-            magnitude: ProblemMagnitudes.MAJOR,
-            originator: getUserOptions(user),
-            owner: getUserOptions(user),
-            // type: view(lenses.head._id, riskTypes),
-          }}
-          onSubmit={(values, callback) => {
-            const errors = validateRisk(values);
-            if (errors) return errors;
+const AddRiskItem = ({ organizationId, linkedTo, risks = [] }) => (
+  <Composer
+    components={[
+      /* eslint-disable react/no-children-prop */
+      <Query
+        query={Queries.CURRENT_USER_FULL_NAME}
+        fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
+        children={noop}
+      />,
+      <Mutation mutation={Mutations.UPDATE_KEY_PARTNER} children={noop} />,
+      <Mutation mutation={Mutations.CREATE_RISK} children={noop} />,
+      /* eslint-enable react/no-children-prop */
+    ]}
+  >
+    {([{ data: { user } }, updateKeyPartner, createRisk]) => (
+      <EntityManagerItem
+        component={ActivelyManageItem}
+        itemId="risk"
+        label="Risk"
+        initialValues={{
+          active: 0,
+          title: null,
+          magnitude: ProblemMagnitudes.MAJOR,
+          originator: getUserOptions(user),
+          owner: getUserOptions(user),
+          // type: view(lenses.head._id, riskTypes),
+        }}
+        onSubmit={(values, callback) => {
+          const {
+            active,
+            title,
+            description,
+            originator: { value: originatorId },
+            owner: { value: ownerId },
+            magnitude,
+            type: typeId,
+          } = values;
 
-            const {
-              title,
-              description,
-              originator: { value: originatorId },
-              owner: { value: ownerId },
-              magnitude,
-              type: typeId,
-            } = values;
+          const linkRisk = riskId => updateKeyPartner({
+            variables: {
+              input: {
+                _id: linkedTo._id,
+                riskIds: addRisk(riskId, risks),
+              },
+            },
+          }).then(callback);
 
-            return createRisk({
-              variables: {
-                input: {
-                  title,
-                  description,
-                  originatorId,
-                  ownerId,
-                  magnitude,
-                  typeId,
-                  organizationId,
-                },
+          if (active === 1) {
+            return linkRisk(values.risk.value);
+          }
+
+          const errors = validateRisk(values);
+          if (errors) return errors;
+
+          return createRisk({
+            variables: {
+              input: {
+                title,
+                description,
+                originatorId,
+                ownerId,
+                magnitude,
+                typeId,
+                organizationId,
               },
-            }).then(({ data: { createRisk: { risk } } }) => updateKeyPartner({
-              variables: {
-                input: {
-                  _id: linkedTo._id,
-                  riskIds: addRisk(risk._id, risks),
-                },
-              },
-            })).then(callback);
-          }}
-        >
-          <NewRiskCard {...{ organizationId, linkedTo, risks }} />
-        </EntityManagerItem>
-      )}
-    </Composer>
-  );
-};
+            },
+          }).then(({ data: { createRisk: { risk } } }) => linkRisk(risk._id));
+        }}
+      >
+        <NewRiskCard {...{ organizationId, linkedTo, risks }} />
+      </EntityManagerItem>
+    )}
+  </Composer>
+);
 
 AddRiskItem.propTypes = {
   organizationId: PropTypes.string.isRequired,
