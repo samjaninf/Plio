@@ -34,7 +34,13 @@ const ActivelyManageItem = ({
       <Icon name="question-circle" />
     </ListGroupItem>
     <BodyWrapper>
-      <EntityForm {...{ initialValues, onSubmit }}>
+      <EntityForm
+        {...{ initialValues, onSubmit }}
+        onSubmit={(values, form) => onSubmit(values, () => {
+          toggle();
+          form.reset();
+        })}
+      >
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <EntityCard {...{ isOpen }} onDelete={toggle}>

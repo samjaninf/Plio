@@ -28,6 +28,12 @@ const CanvasSchema = new SimpleSchema([
       type: String,
       allowedValues: Object.values(CanvasColors),
     },
+    riskIds: {
+      type: [String],
+      regEx: SimpleSchema.RegEx.Id,
+      optional: true,
+      defaultValue: [],
+    },
   },
 ]);
 

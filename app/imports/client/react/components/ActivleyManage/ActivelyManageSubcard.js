@@ -18,7 +18,6 @@ import {
   EntityManagerItem,
   ActivelyManageItem,
 } from '../../components';
-import NewRiskCard from '../../risks/components/NewRiskCard';
 import AddRiskItem from './AddRiskItem';
 
 const StyledCol = styled(Col)`
@@ -80,6 +79,11 @@ const ActivelyManageSubcard = ({ organizationId, entity }) => (
                   </EntityManagerItem>
                   <AddRiskItem
                     {...{ organizationId }}
+                    risks={entity.risks}
+                    linkedTo={{
+                      _id: entity._id,
+                      title: entity.title,
+                    }}
                     initialValues={{
                       active: 0,
                       title: null,
@@ -88,13 +92,7 @@ const ActivelyManageSubcard = ({ organizationId, entity }) => (
                       owner: getUserOptions(user),
                       // type: view(lenses.head._id, riskTypes),
                     }}
-                  >
-                    <NewRiskCard
-                      {...{ organizationId }}
-                      linkedTo={{ title: entity.title }}
-                      risks={entity.risks}
-                    />
-                  </AddRiskItem>
+                  />
                   <EntityManagerItem
                     component={ActivelyManageItem}
                     itemId="nonconformity"

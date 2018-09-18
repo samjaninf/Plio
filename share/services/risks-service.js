@@ -44,7 +44,7 @@ export default Object.assign({}, ProblemsService, {
 
     if (goalId) {
       Object.assign(args, { goalId });
-    } else {
+    } else if (standardsIds) {
       Object.assign(args, { standardsIds });
     }
 

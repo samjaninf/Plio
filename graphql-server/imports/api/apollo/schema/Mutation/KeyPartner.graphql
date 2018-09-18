@@ -21,6 +21,7 @@ input UpdateKeyPartnerInput {
   levelOfSpend: Int
   notes: String
   fileIds: [String]
+  riskIds: [String]
 }
 
 input DeleteKeyPartnerInput {
