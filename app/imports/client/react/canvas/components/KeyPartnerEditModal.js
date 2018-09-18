@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import { getUserOptions, lenses, noop } from 'plio-util';
-import { compose, pick, over, pathOr, repeat } from 'ramda';
+import { compose, pick, over, pathOr, repeat, isEmpty } from 'ramda';
 import { pure } from 'recompose';
 import diff from 'deep-diff';
 
@@ -60,78 +60,81 @@ const KeyPartnerEditModal = ({
           /* eslint-disable react/no-children-prop */
         ]}
       >
-        {([{ data, ...query }, updateKeyPartner, deleteKeyPartner]) => (
-          <EntityModalNext
-            {...{ isOpen, toggle }}
-            isEditMode
-            loading={query.loading}
-            error={query.error}
-            guidance="Key partner"
-            onDelete={() => {
-              const { title } = getKeyPartner(data);
-              swal.promise(
-                {
-                  text: `The key partner "${title}" will be deleted`,
-                  confirmButtonText: 'Delete',
-                  successTitle: 'Deleted!',
-                  successText: `The key partner "${title}" was deleted successfully.`,
-                },
-                () => deleteKeyPartner({
-                  variables: { input: { _id } },
-                  refetchQueries: [
-                    { query: Queries.CANVAS_PAGE, variables: { organizationId } },
-                  ],
-                }).then(toggle),
-              );
-            }}
-          >
-            <EntityModalForm
-              {...{ initialValues }}
-              validate={validateKeyPartner}
-              onSubmit={(values, form) => {
-                const currentValues = getInitialValues(data);
-                const isDirty = diff(values, currentValues);
-
-                if (!isDirty) return undefined;
-
-                const {
-                  title,
-                  originator,
-                  color,
-                  criticality,
-                  levelOfSpend,
-                  notes = '', // final form sends undefined value instead of an empty string
-                } = values;
-
-                return updateKeyPartner({
-                  variables: {
-                    input: {
-                      _id,
-                      title,
-                      notes,
-                      color,
-                      criticality,
-                      levelOfSpend,
-                      originatorId: originator.value,
-                    },
+        {([{ data, ...query }, updateKeyPartner, deleteKeyPartner]) => {
+          const keyPartner = getKeyPartner(data);
+          return (
+            <EntityModalNext
+              {...{ isOpen, toggle }}
+              isEditMode
+              loading={query.loading}
+              error={query.error}
+              guidance="Key partner"
+              onDelete={() => {
+                const { title } = keyPartner;
+                swal.promise(
+                  {
+                    text: `The key partner "${title}" will be deleted`,
+                    confirmButtonText: 'Delete',
+                    successTitle: 'Deleted!',
+                    successText: `The key partner "${title}" was deleted successfully.`,
                   },
-                }).then(noop).catch((err) => {
-                  form.reset(currentValues);
-                  throw err;
-                });
+                  () => deleteKeyPartner({
+                    variables: { input: { _id } },
+                    refetchQueries: [
+                      { query: Queries.CANVAS_PAGE, variables: { organizationId } },
+                    ],
+                  }).then(toggle),
+                );
               }}
             >
-              {({ handleSubmit }) => (
-                <Fragment>
-                  <EntityModalHeader label="Key partner" />
-                  <EntityModalBody>
-                    <KeyPartnerForm {...{ organizationId }} save={handleSubmit} />
-                    {_id && (
-                      <Fragment>
+              <EntityModalForm
+                {...{ initialValues }}
+                validate={validateKeyPartner}
+                onSubmit={(values, form) => {
+                  const currentValues = getInitialValues(data);
+                  const isDirty = diff(values, currentValues);
+
+                  if (!isDirty) return undefined;
+
+                  const {
+                    title,
+                    originator,
+                    color,
+                    criticality,
+                    levelOfSpend,
+                    notes = '', // final form sends undefined value instead of an empty string
+                  } = values;
+
+                  return updateKeyPartner({
+                    variables: {
+                      input: {
+                        _id,
+                        title,
+                        notes,
+                        color,
+                        criticality,
+                        levelOfSpend,
+                        originatorId: originator.value,
+                      },
+                    },
+                  }).then(noop).catch((err) => {
+                    form.reset(currentValues);
+                    throw err;
+                  });
+                }}
+              >
+                {({ handleSubmit }) => (
+                  <Fragment>
+                    <EntityModalHeader label="Key partner" />
+                    <EntityModalBody>
+                      <KeyPartnerForm {...{ organizationId }} save={handleSubmit} />
+                      {!isEmpty(keyPartner) && (
                         <ActivelyManageSubcard
                           {...{ organizationId }}
-                          entity={getKeyPartner(data)}
+                          entity={keyPartner}
                         />
+                      )}
+                      {_id && (
                         <CanvasFilesSubcard
                           {...{ organizationId }}
                           documentId={_id}
@@ -139,14 +142,14 @@ const KeyPartnerEditModal = ({
                           slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
                           documentType={CanvasSections.KEY_PARTNERS}
                         />
-                      </Fragment>
-                    )}
-                  </EntityModalBody>
-                </Fragment>
-              )}
-            </EntityModalForm>
-          </EntityModalNext>
-        )}
+                      )}
+                    </EntityModalBody>
+                  </Fragment>
+                )}
+              </EntityModalForm>
+            </EntityModalNext>
+          );
+        }}
       </Composer>
     )}
   </WithState>

@@ -26,6 +26,7 @@ const ActivelyManageItem = ({
   label,
   children,
   initialValues,
+  onSubmit,
 }) => (
   <Fragment>
     <ListGroupItem tag="a" onClick={toggle}>
@@ -33,7 +34,7 @@ const ActivelyManageItem = ({
       <Icon name="question-circle" />
     </ListGroupItem>
     <BodyWrapper>
-      <EntityForm {...{ initialValues }} onSubmit={console.log}>
+      <EntityForm {...{ initialValues, onSubmit }}>
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <EntityCard {...{ isOpen }} onDelete={toggle}>
@@ -51,6 +52,7 @@ ActivelyManageItem.propTypes = {
   toggle: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object,
 };
 

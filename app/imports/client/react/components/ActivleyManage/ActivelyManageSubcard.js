@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CardTitle, Col, CardText, ListGroup } from 'reactstrap';
 import { getUserOptions } from 'plio-util';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 // import { view } from 'ramda';
 
-import { Query as Queries } from '../../../graphql';
+import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { Styles, ApolloFetchPolicies } from '../../../../api/constants';
 import { ProblemMagnitudes } from '../../../../share/constants';
+import { validateRisk } from '../../../validation';
 import {
   Subcard,
   SubcardHeader,
@@ -37,10 +38,7 @@ const StyledCol = styled(Col)`
   }
 `;
 
-const ActivelyManageSubcard = ({
-  organizationId,
-  entity: { risks, title = '' },
-}) => (
+const ActivelyManageSubcard = ({ organizationId, entity }) => (
   <Query
     query={Queries.CURRENT_USER_FULL_NAME}
     fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
@@ -69,6 +67,7 @@ const ActivelyManageSubcard = ({
                     component={ActivelyManageItem}
                     itemId="keyGoal"
                     label="Key goal"
+                    onSubmit={console.log}
                   >
                     ActivelyManageItem
                   </EntityManagerItem>
@@ -76,30 +75,66 @@ const ActivelyManageSubcard = ({
                     component={ActivelyManageItem}
                     itemId="standard"
                     label="Standard"
+                    onSubmit={console.log}
                   >
                     ActivelyManageItem
                   </EntityManagerItem>
-                  <EntityManagerItem
-                    component={ActivelyManageItem}
-                    itemId="risk"
-                    label="Risk"
-                    initialValues={{
-                      active: 0,
-                      magnitude: ProblemMagnitudes.MAJOR,
-                      originator: getUserOptions(user),
-                      owner: getUserOptions(user),
-                      // type: view(lenses.head._id, riskTypes),
-                    }}
-                  >
-                    <NewRiskCard
-                      {...{ organizationId, risks }}
-                      linkedTo={{ title }}
-                    />
-                  </EntityManagerItem>
+                  <Mutation mutation={Mutations.CREATE_RISK}>
+                    {createRisk => (
+                      <EntityManagerItem
+                        component={ActivelyManageItem}
+                        itemId="risk"
+                        label="Risk"
+                        initialValues={{
+                          active: 0,
+                          title: null,
+                          magnitude: ProblemMagnitudes.MAJOR,
+                          originator: getUserOptions(user),
+                          owner: getUserOptions(user),
+                          // type: view(lenses.head._id, riskTypes),
+                        }}
+                        onSubmit={(values) => {
+                          const errors = validateRisk(values);
+                          if (errors) return errors;
+
+                          const {
+                            title,
+                            description,
+                            originator: { value: originatorId },
+                            owner: { value: ownerId },
+                            magnitude,
+                            type: typeId,
+                          } = values;
+
+                          return createRisk({
+                            variables: {
+                              input: {
+                                title,
+                                description,
+                                originatorId,
+                                ownerId,
+                                magnitude,
+                                typeId,
+                                organizationId,
+                                // entityId: entity._id,
+                              },
+                            },
+                          });
+                        }}
+                      >
+                        <NewRiskCard
+                          {...{ organizationId }}
+                          risks={entity.risks}
+                          linkedTo={{ title: entity.title }}
+                        />
+                      </EntityManagerItem>
+                    )}
+                  </Mutation>
                   <EntityManagerItem
                     component={ActivelyManageItem}
                     itemId="nonconformity"
                     label="Nonconformity"
+                    onSubmit={console.log}
                   >
                     ActivelyManageItem
                   </EntityManagerItem>
@@ -107,6 +142,7 @@ const ActivelyManageSubcard = ({
                     component={ActivelyManageItem}
                     itemId="potentialGain"
                     label="Potential gain"
+                    onSubmit={console.log}
                   >
                     ActivelyManageItem
                   </EntityManagerItem>
@@ -114,6 +150,7 @@ const ActivelyManageSubcard = ({
                     component={ActivelyManageItem}
                     itemId="lessonLearned"
                     label="Lesson learned"
+                    onSubmit={console.log}
                   >
                     ActivelyManageItem
                   </EntityManagerItem>
@@ -130,7 +167,7 @@ const ActivelyManageSubcard = ({
 ActivelyManageSubcard.propTypes = {
   organizationId: PropTypes.string.isRequired,
   entity: PropTypes.shape({
-    title: PropTypes.string,
+    title: PropTypes.string.isRequired,
     risks: PropTypes.array,
   }).isRequired,
 };
