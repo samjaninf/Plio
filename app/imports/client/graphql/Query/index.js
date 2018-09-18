@@ -49,6 +49,7 @@ import CUSTOMER_SEGMENTS_CHART from './CustomerSegmentsChart.graphql';
 import REVENUE_STREAMS_CHART from './RevenueStreamsChart.graphql';
 import REVENUE_STREAMS_PROFIT_CHART from './RevenueStreamsProfitChart.graphql';
 import KEY_PARTNERS_CHART from './KeyPartnersChart.graphql';
+import RISK_CARD from './RiskCard.graphql';
 
 export default {
   DASHBOARD_GOALS,
@@ -102,4 +103,5 @@ export default {
   REVENUE_STREAMS_CHART,
   REVENUE_STREAMS_PROFIT_CHART,
   KEY_PARTNERS_CHART,
+  RISK_CARD,
 };

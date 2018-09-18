@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
-import { append, map, prop, compose } from 'ramda';
-import { noop, getUserOptions } from 'plio-util';
+import { append, map, prop, compose, view } from 'ramda';
+import { noop, getUserOptions, lenses } from 'plio-util';
 
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
@@ -25,7 +25,8 @@ const AddRiskItem = ({ organizationId, linkedTo, risks = [] }) => (
     components={[
       /* eslint-disable react/no-children-prop */
       <Query
-        query={Queries.CURRENT_USER_FULL_NAME}
+        query={Queries.RISK_CARD}
+        variables={{ organizationId }}
         fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
         children={noop}
       />,
@@ -34,7 +35,16 @@ const AddRiskItem = ({ organizationId, linkedTo, risks = [] }) => (
       /* eslint-enable react/no-children-prop */
     ]}
   >
-    {([{ data: { user } }, updateKeyPartner, createRisk]) => (
+    {([
+      {
+        data: {
+          user,
+          riskTypes: { riskTypes = [] } = {},
+        },
+      },
+      updateKeyPartner,
+      createRisk,
+    ]) => (
       <EntityManagerItem
         component={ActivelyManageItem}
         itemId="risk"
@@ -45,7 +55,7 @@ const AddRiskItem = ({ organizationId, linkedTo, risks = [] }) => (
           magnitude: ProblemMagnitudes.MAJOR,
           originator: getUserOptions(user),
           owner: getUserOptions(user),
-          // type: view(lenses.head._id, riskTypes),
+          type: view(lenses.head._id, riskTypes),
         }}
         onSubmit={(values, callback) => {
           const {

@@ -1,0 +1,17 @@
+#import '../Fragment/RiskCard.graphql'
+
+query RisksCard($organizationId: ID!) {
+  user: me {
+    _id
+    profile {
+      fullName
+    }
+  }
+
+  riskTypes(organizationId: $organizationId) {
+    riskTypes {
+      _id
+      title
+    }
+  }
+}
