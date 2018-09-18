@@ -1,5 +1,5 @@
 import { loadOrganizationById, loadUserById, lenses } from 'plio-util';
-import { view } from 'ramda';
+import { view, map, flatten } from 'ramda';
 
 const {
   createdBy,
@@ -14,5 +14,14 @@ export default {
     updatedBy: loadUserById(view(updatedBy)),
     originator: loadUserById(view(originatorId)),
     organization: loadOrganizationById(view(organizationId)),
+    risks: async (root, args, context) => {
+      const { riskIds } = root;
+      const { loaders: { Risk: { byQuery } } } = context;
+
+      return byQuery.loadMany(map(riskId => ({
+        _id: riskId,
+        isDeleted: false,
+      }), riskIds)).then(flatten);
+    },
   },
 };
