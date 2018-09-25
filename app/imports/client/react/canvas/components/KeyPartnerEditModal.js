@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import { getUserOptions, lenses, noop } from 'plio-util';
-import { compose, pick, over, pathOr, repeat, isEmpty } from 'ramda';
+import { compose, pick, over, pathOr, repeat, isEmpty, path } from 'ramda';
 import { pure } from 'recompose';
 import diff from 'deep-diff';
 
@@ -20,6 +20,7 @@ import {
 import { WithState, Composer } from '../../helpers';
 import KeyPartnerForm from './KeyPartnerForm';
 import CanvasFilesSubcard from './CanvasFilesSubcard';
+import CanvasRisksSubcard from './CanvasRisksSubcard';
 import ActivelyManageSubcard from './ActivleyManage/ActivelyManageSubcard';
 
 const getKeyPartner = pathOr({}, repeat('keyPartner', 2));
@@ -129,10 +130,24 @@ const KeyPartnerEditModal = ({
                     <EntityModalBody>
                       <KeyPartnerForm {...{ organizationId }} save={handleSubmit} />
                       {!isEmpty(keyPartner) && (
-                        <ActivelyManageSubcard
-                          {...{ organizationId }}
-                          entity={keyPartner}
-                        />
+                        <Fragment>
+                          <ActivelyManageSubcard
+                            {...{ organizationId }}
+                            entity={keyPartner}
+                          />
+                          {/* TODO refactor it when value components will be merged */}
+                          {path(['risks', 'length'], keyPartner) && (
+                            <CanvasRisksSubcard
+                              {...{ organizationId }}
+                              risks={keyPartner.risks}
+                              linkedTo={{
+                                _id: keyPartner._id,
+                                title: keyPartner.title,
+                              }}
+                              onUpdate={updateKeyPartner}
+                            />
+                          )}
+                        </Fragment>
                       )}
                       {_id && (
                         <CanvasFilesSubcard
