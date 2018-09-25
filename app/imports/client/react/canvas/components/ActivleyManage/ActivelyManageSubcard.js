@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CardTitle, Col, CardText, ListGroup } from 'reactstrap';
 
-import { Styles } from '../../../../api/constants';
+import { Styles } from '../../../../../api/constants';
 import {
   Subcard,
   SubcardHeader,
@@ -12,9 +12,9 @@ import {
   CardBlock,
   EntityManager,
   EntityManagerItem,
-  ActivelyManageItem,
-} from '../../components';
+} from '../../../components';
 import AddRiskItem from './AddRiskItem';
+import ActivelyManageItem from './ActivelyManageItem';
 
 const StyledCol = styled(Col)`
   padding: 0 1.85rem;
@@ -111,6 +111,7 @@ const ActivelyManageSubcard = ({ organizationId, entity }) => (
 ActivelyManageSubcard.propTypes = {
   organizationId: PropTypes.string.isRequired,
   entity: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     risks: PropTypes.array,
   }).isRequired,

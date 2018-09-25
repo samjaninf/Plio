@@ -2,12 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-import { Mutation as Mutations } from '../../../graphql';
-import {
-  EntityManagerItem,
-  ActivelyManageItem,
-} from '../../components';
-import { NewRiskCard, EntityRiskFormContainer } from '../../risks/components';
+import { Mutation as Mutations } from '../../../../graphql';
+import { EntityManagerItem } from '../../../components';
+import { NewRiskCard, EntityRiskFormContainer } from '../../../risks/components';
+import ActivelyManageItem from './ActivelyManageItem';
 
 const AddRiskItem = ({ organizationId, linkedTo, risks = [] }) => (
   <Mutation mutation={Mutations.UPDATE_KEY_PARTNER}>

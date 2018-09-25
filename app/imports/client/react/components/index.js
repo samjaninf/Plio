@@ -14,7 +14,6 @@ export * from './MatchMaker';
 export * from './svg';
 export * from './EntityManager';
 export * from './Chart';
-export * from './ActivleyManage';
 
 export { default as CardBlock } from './CardBlock';
 export { default as InputGroupAddon } from './InputGroupAddon';

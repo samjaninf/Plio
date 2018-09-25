@@ -26,7 +26,12 @@ const EntityRiskFormContainer = ({
     components={[
       /* eslint-disable react/no-children-prop */
       <Query
-        query={Queries.RISK_CARD}
+        query={Queries.CURRENT_USER_FULL_NAME}
+        fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
+        children={noop}
+      />,
+      <Query
+        query={Queries.RISK_TYPE_LIST}
         variables={{ organizationId }}
         fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
         children={noop}
@@ -36,9 +41,9 @@ const EntityRiskFormContainer = ({
     ]}
   >
     {([
+      { data: { user } },
       {
         data: {
-          user,
           riskTypes: { riskTypes = [] } = {},
         },
       },
@@ -52,7 +57,7 @@ const EntityRiskFormContainer = ({
         owner: getUserOptions(user),
         type: view(lenses.head._id, riskTypes),
       },
-      onSubmit: (values, callback) => {
+      onSubmit: (values) => {
         const {
           active,
           title,
@@ -70,14 +75,14 @@ const EntityRiskFormContainer = ({
               riskIds: addRisk(riskId, risks),
             },
           },
-        }).then(callback);
+        });
 
         if (active === 1) {
           return linkToEntity(values.risk.value);
         }
 
         const errors = validateRisk(values);
-        if (errors) return errors;
+        if (errors) return new Promise((resolve, reject) => reject(errors));
 
         return createRisk({
           variables: {

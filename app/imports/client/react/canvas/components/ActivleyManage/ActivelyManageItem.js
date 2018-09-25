@@ -2,12 +2,13 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ListGroupItem, Form } from 'reactstrap';
+import { identity } from 'ramda';
 
 import {
   Icon,
   EntityForm,
   EntityCard,
-} from '../';
+} from '../../../components';
 
 const BodyWrapper = styled.div`
   .card-block {
@@ -35,11 +36,8 @@ const ActivelyManageItem = ({
     </ListGroupItem>
     <BodyWrapper>
       <EntityForm
-        {...{ initialValues, onSubmit }}
-        onSubmit={(values, form) => onSubmit(values, () => {
-          toggle();
-          form.reset();
-        })}
+        {...{ initialValues }}
+        onSubmit={values => onSubmit(values).then(toggle).catch(identity)}
       >
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>

@@ -16,11 +16,11 @@ import {
   EntityModalHeader,
   EntityModalBody,
   EntityModalForm,
-  ActivelyManageSubcard,
 } from '../../components';
 import { WithState, Composer } from '../../helpers';
 import KeyPartnerForm from './KeyPartnerForm';
 import CanvasFilesSubcard from './CanvasFilesSubcard';
+import ActivelyManageSubcard from './ActivleyManage/ActivelyManageSubcard';
 
 const getKeyPartner = pathOr({}, repeat('keyPartner', 2));
 const getInitialValues = compose(
