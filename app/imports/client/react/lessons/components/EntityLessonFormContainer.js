@@ -29,6 +29,8 @@ const EntityLessonFormContainer = ({
   >
     {([{ data: { user } }, createLesson]) => children({
       initialValues: {
+        title: '',
+        notes: '',
         owner: getUserOptions(user),
         date: moment(),
       },

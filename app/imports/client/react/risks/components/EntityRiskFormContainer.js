@@ -51,7 +51,7 @@ const EntityRiskFormContainer = ({
     ]) => children({
       initialValues: {
         active: 0,
-        title: null,
+        title: '',
         magnitude: ProblemMagnitudes.MAJOR,
         originator: getUserOptions(user),
         owner: getUserOptions(user),
