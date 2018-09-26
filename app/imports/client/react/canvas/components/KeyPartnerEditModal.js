@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import { getUserOptions, lenses, noop } from 'plio-util';
-import { compose, pick, over, pathOr, repeat, isEmpty } from 'ramda';
+import { compose, pick, over, pathOr, repeat, path } from 'ramda';
 import { pure } from 'recompose';
 import diff from 'deep-diff';
 
@@ -16,13 +16,15 @@ import {
   EntityModalHeader,
   EntityModalBody,
   EntityModalForm,
+  RenderSwitch,
 } from '../../components';
 import { WithState, Composer } from '../../helpers';
 import KeyPartnerForm from './KeyPartnerForm';
 import CanvasFilesSubcard from './CanvasFilesSubcard';
 import ActivelyManageSubcard from './ActivleyManage/ActivelyManageSubcard';
 
-const getKeyPartner = pathOr({}, repeat('keyPartner', 2));
+const keyPartnerPath = repeat('keyPartner', 2);
+const getKeyPartner = path(keyPartnerPath);
 const getInitialValues = compose(
   over(lenses.originator, getUserOptions),
   pick([
@@ -33,7 +35,7 @@ const getInitialValues = compose(
     'levelOfSpend',
     'notes',
   ]),
-  getKeyPartner,
+  pathOr({}, keyPartnerPath),
 );
 
 const KeyPartnerEditModal = ({
@@ -70,7 +72,7 @@ const KeyPartnerEditModal = ({
               error={query.error}
               guidance="Key partner"
               onDelete={() => {
-                const { title } = keyPartner;
+                const { title } = keyPartner || {};
                 swal.promise(
                   {
                     text: `The key partner "${title}" will be deleted`,
@@ -127,22 +129,28 @@ const KeyPartnerEditModal = ({
                   <Fragment>
                     <EntityModalHeader label="Key partner" />
                     <EntityModalBody>
-                      <KeyPartnerForm {...{ organizationId }} save={handleSubmit} />
-                      {!isEmpty(keyPartner) && (
-                        <ActivelyManageSubcard
-                          {...{ organizationId }}
-                          entity={keyPartner}
-                        />
-                      )}
-                      {_id && (
-                        <CanvasFilesSubcard
-                          {...{ organizationId }}
-                          documentId={_id}
-                          onUpdate={updateKeyPartner}
-                          slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
-                          documentType={CanvasTypes.KEY_PARTNER}
-                        />
-                      )}
+                      <RenderSwitch
+                        require={keyPartner}
+                        errorWhenMissing={noop}
+                        loading={query.loading}
+                        renderLoading={<KeyPartnerForm {...{ organizationId }} />}
+                      >
+                        {({ _id: documentId }) => (
+                          <Fragment>
+                            <KeyPartnerForm {...{ organizationId }} save={handleSubmit} />
+                            <ActivelyManageSubcard
+                              {...{ organizationId }}
+                              entity={keyPartner}
+                            />
+                            <CanvasFilesSubcard
+                              {...{ organizationId, documentId }}
+                              onUpdate={updateKeyPartner}
+                              slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
+                              documentType={CanvasTypes.KEY_PARTNER}
+                            />
+                          </Fragment>
+                        )}
+                      </RenderSwitch>
                     </EntityModalBody>
                   </Fragment>
                 )}
