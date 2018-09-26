@@ -1,37 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Mutation } from 'react-apollo';
 
-import { Mutation as Mutations } from '../../../../graphql';
 import { EntityManagerItem } from '../../../components';
 import { NewRiskCard, EntityRiskFormContainer } from '../../../risks/components';
 import ActivelyManageItem from './ActivelyManageItem';
 
-const AddRiskItem = ({ organizationId, linkedTo, risks = [] }) => (
-  <Mutation mutation={Mutations.UPDATE_KEY_PARTNER}>
-    {updateKeyPartner => (
-      <EntityRiskFormContainer
-        {...{ organizationId, risks }}
-        onUpdate={updateKeyPartner}
-        entityId={linkedTo._id}
+const AddRiskItem = ({
+  organizationId,
+  linkedTo,
+  onUpdate,
+  risks,
+}) => (
+  <EntityRiskFormContainer
+    {...{ organizationId, risks, onUpdate }}
+    entityId={linkedTo._id}
+  >
+    {props => (
+      <EntityManagerItem
+        component={ActivelyManageItem}
+        itemId="risk"
+        label="Risk"
+        {...props}
       >
-        {props => (
-          <EntityManagerItem
-            component={ActivelyManageItem}
-            itemId="risk"
-            label="Risk"
-            {...props}
-          >
-            <NewRiskCard {...{ organizationId, linkedTo, risks }} />
-          </EntityManagerItem>
-        )}
-      </EntityRiskFormContainer>
+        <NewRiskCard {...{ organizationId, linkedTo, risks }} />
+      </EntityManagerItem>
     )}
-  </Mutation>
+  </EntityRiskFormContainer>
 );
 
 AddRiskItem.propTypes = {
   organizationId: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
   risks: PropTypes.array,
   linkedTo: PropTypes.shape({
     _id: PropTypes.string.isRequired,

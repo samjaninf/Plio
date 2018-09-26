@@ -9,3 +9,4 @@ export { default as validateCustomerSegment } from './validateCustomerSegment';
 export { default as validateValueProposition } from './validateValueProposition';
 export { default as validateCustomerElement } from './validateCustomerElement';
 export { default as validateRisk } from './validateRisk';
+export { default as validateLesson } from './validateLesson';

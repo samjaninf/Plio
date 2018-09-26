@@ -146,6 +146,8 @@ const KeyPartnerEditModal = ({
                             <ActivelyManageSubcard
                               {...{ organizationId }}
                               entity={keyPartner}
+                              documentType={CanvasTypes.KEY_PARTNER}
+                              onUpdate={updateKeyPartner}
                             />
                             {risks.length ? (
                               <CanvasRisksSubcard
