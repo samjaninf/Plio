@@ -17,6 +17,7 @@ const LoadableBubbleChart = Loadable({
     yScaleLabels,
     xTitle,
     yTitle,
+    valueFormatter,
     ...props
   }) => (
     <Bubble
@@ -36,8 +37,8 @@ const LoadableBubbleChart = Loadable({
             },
             label({ xLabel, yLabel }) {
               return [
-                `${xTitle || BubbleDefaultOptions.X_TOOLTIP_LABEL}: ${xLabel}`,
-                `${yTitle || BubbleDefaultOptions.Y_TOOLTIP_LABEL}: ${yLabel}`,
+                `${xTitle || BubbleDefaultOptions.X_TOOLTIP_LABEL}: ${valueFormatter(xLabel)}`,
+                `${yTitle || BubbleDefaultOptions.Y_TOOLTIP_LABEL}: ${valueFormatter(yLabel)}`,
               ];
             },
           },

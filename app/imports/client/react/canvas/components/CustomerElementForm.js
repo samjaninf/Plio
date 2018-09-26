@@ -3,7 +3,7 @@ import React from 'react';
 import { FormGroup } from 'reactstrap';
 import { pure } from 'recompose';
 
-import { StringLimits } from '../../../../share/constants';
+import { StringLimits, CustomerElementStatuses } from '../../../../share/constants';
 import {
   CardBlock,
   FormField,
@@ -13,7 +13,7 @@ import {
 import CustomerElementStatusField from './CustomerElementStatusField';
 import ImportanceField from './ImportanceField';
 
-const CustomerElementForm = ({ save, status = 1 }) => (
+const CustomerElementForm = ({ save, status }) => (
   <CardBlock>
     <FormGroup>
       <InputField
@@ -44,6 +44,10 @@ const CustomerElementForm = ({ save, status = 1 }) => (
     </FormField>
   </CardBlock>
 );
+
+CustomerElementForm.defaultProps = {
+  status: CustomerElementStatuses.UNMATCHED,
+};
 
 CustomerElementForm.propTypes = {
   save: PropTypes.func,

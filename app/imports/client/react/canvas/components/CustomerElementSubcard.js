@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Card } from 'reactstrap';
 import { pick } from 'ramda';
 import { pure } from 'recompose';
@@ -24,7 +24,13 @@ const CustomerElementSubcard = ({
   <Card>
     <EntityForm
       {...{ isOpen, toggle, onDelete }}
-      label={customerElement.title}
+      label={(
+        <Fragment>
+          <strong>{customerElement.sequentialId}</strong>
+          {' '}
+          {customerElement.title}
+        </Fragment>
+      )}
       validate={validateCustomerElement}
       onSubmit={({ title, description = '', importance }) => onUpdate({
         variables: {
@@ -39,7 +45,9 @@ const CustomerElementSubcard = ({
       initialValues={getInitialValues(customerElement)}
       component={EntityCard}
     >
-      {({ handleSubmit }) => <CustomerElementForm save={handleSubmit} />}
+      {({ handleSubmit }) => (
+        <CustomerElementForm status={customerElement.status} save={handleSubmit} />
+      )}
     </EntityForm>
   </Card>
 );

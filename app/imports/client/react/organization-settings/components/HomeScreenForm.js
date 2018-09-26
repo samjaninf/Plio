@@ -16,8 +16,8 @@ import {
 
 const homeScreenOptions = [
   {
-    value: HomeScreenTypes.IMPLEMENTATION,
-    label: HomeScreenLabels[HomeScreenTypes.IMPLEMENTATION],
+    value: HomeScreenTypes.OPERATIONS,
+    label: HomeScreenLabels[HomeScreenTypes.OPERATIONS],
   },
   {
     value: HomeScreenTypes.CANVAS,
@@ -25,7 +25,7 @@ const homeScreenOptions = [
   },
 ];
 
-const getHomeScreenOption = (value = HomeScreenTypes.IMPLEMENTATION) => ({
+const getHomeScreenOption = (value = HomeScreenTypes.OPERATIONS) => ({
   value,
   label: HomeScreenLabels[value],
 });

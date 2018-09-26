@@ -28,6 +28,7 @@ const KeyActivitiesAddModal = ({
         {createKeyResource => (
           <EntityModalNext {...{ isOpen, toggle }}>
             <EntityModalForm
+              keepDirtyOnReinitialize
               initialValues={{
                 originator: getUserOptions(user),
                 title: '',

@@ -9,16 +9,10 @@ import {
   SubcardBody,
   Pull,
   CardBlock,
-  MatchMaker,
-  MatchMakerPane,
-  MatchMakerPie,
-  MatchMakerTopPieSlice,
-  MatchMakerBottomPieSlice,
-  MatchButton,
-  MatchMakerTabs,
 } from '../../components';
-import Benefits from './Benefits';
-import Features from './Features';
+import ValueComponentsPie from './ValueComponentsPie';
+import ValueComponentsMatcher from './ValueComponentsMatcher';
+import CustomerElementsMatch from './CustomerElementsMatch';
 
 const ValueComponentsSubcard = ({
   documentId,
@@ -26,6 +20,7 @@ const ValueComponentsSubcard = ({
   organizationId,
   benefits,
   features,
+  matchedTo,
 }) => (
   <Subcard>
     <SubcardHeader>
@@ -43,41 +38,18 @@ const ValueComponentsSubcard = ({
     <SubcardBody>
       <CardBlock>
         <Col xs={12} sm={12}>
-          <MatchMaker>
-            <MatchMakerPie square>
-              <MatchMakerTopPieSlice
-                label="Benefits"
-                text={`${benefits.length}, 0 matched`}
-              />
-              <MatchMakerBottomPieSlice
-                label="Features"
-                text={`${features.length}, 0 matched`}
-              />
-            </MatchMakerPie>
-            <MatchButton alignRight>Match</MatchButton>
-            <MatchMakerTabs>
-              <MatchMakerPane alignLeft>
-                <Benefits
-                  {...{
-                    documentId,
-                    documentType,
-                    organizationId,
-                    benefits,
-                  }}
-                />
-              </MatchMakerPane>
-              <MatchMakerPane alignRight>
-                <Features
-                  {...{
-                    documentId,
-                    documentType,
-                    organizationId,
-                    features,
-                  }}
-                />
-              </MatchMakerPane>
-            </MatchMakerTabs>
-          </MatchMaker>
+          <CustomerElementsMatch
+            {...{
+              benefits,
+              features,
+              organizationId,
+              documentId,
+              documentType,
+              matchedTo,
+            }}
+            renderPie={ValueComponentsPie}
+            renderMatcher={ValueComponentsMatcher}
+          />
         </Col>
       </CardBlock>
     </SubcardBody>
@@ -90,6 +62,10 @@ ValueComponentsSubcard.propTypes = {
   organizationId: PropTypes.string.isRequired,
   benefits: PropTypes.arrayOf(PropTypes.object).isRequired,
   features: PropTypes.arrayOf(PropTypes.object).isRequired,
+  matchedTo: PropTypes.shape({
+    needs: PropTypes.arrayOf(PropTypes.object),
+    wants: PropTypes.arrayOf(PropTypes.object),
+  }),
 };
 
 export default pure(ValueComponentsSubcard);

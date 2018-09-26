@@ -7,7 +7,7 @@ import { pure } from 'recompose';
 import diff from 'deep-diff';
 
 import { swal } from '../../../util';
-import { AWSDirectives, CanvasSections } from '../../../../share/constants';
+import { AWSDirectives, CanvasTypes } from '../../../../share/constants';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateCustomerRelationship } from '../../../validation';
@@ -125,7 +125,7 @@ const CustomerRelationshipEditModal = ({
                         documentId={_id}
                         onUpdate={updateCustomerRelationship}
                         slingshotDirective={AWSDirectives.CUSTOMER_RELATIONSHIP_FILES}
-                        documentType={CanvasSections.CUSTOMER_RELATIONSHIPS}
+                        documentType={CanvasTypes.CUSTOMER_RELATIONSHIP}
                       />
                     )}
                   </EntityModalBody>

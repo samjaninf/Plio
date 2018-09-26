@@ -17,6 +17,7 @@ import Benefit from './Benefit';
 import Feature from './Feature';
 import Need from './Need';
 import Want from './Want';
+import Relation from './Relation';
 
 const loaders = {
   User,
@@ -36,6 +37,7 @@ const loaders = {
   Feature,
   Need,
   Want,
+  Relation,
 };
 
 export const createLoaders = (ctx) => {

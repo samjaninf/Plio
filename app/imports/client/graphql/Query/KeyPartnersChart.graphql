@@ -3,7 +3,6 @@ query KeyPartnersChart($organizationId: ID!) {
     keyPartners {
       _id
       title
-      color
       criticality
       levelOfSpend
     }

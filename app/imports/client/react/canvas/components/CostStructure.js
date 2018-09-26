@@ -9,7 +9,7 @@ import CostStructureChartModal from './CostStructureChartModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const CostStructure = ({ organizationId }) => (
   <Query
@@ -21,7 +21,7 @@ const CostStructure = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Cost structure"
-        sectionName={CanvasSections.COST_STRUCTURE}
+        sectionName={CanvasSections[CanvasTypes.COST_LINE]}
         help={(
           <p>
             What are the main elements of operational expense

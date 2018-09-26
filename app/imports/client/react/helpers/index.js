@@ -28,3 +28,4 @@ export { default as withApolloPreloader } from './withApolloPreloader';
 export { default as WithState } from './WithState';
 export { default as renderComponent } from './renderComponent';
 export { default as Composer } from './Composer';
+export { default as withUpdateLastAccessedDate } from './withUpdateLastAccessedDate';

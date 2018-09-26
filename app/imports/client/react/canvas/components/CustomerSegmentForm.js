@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { mapEntitiesToOptions } from 'plio-util';
+import { getEntityOptions, mapEntitiesToOptions } from 'plio-util';
 import { pure } from 'recompose';
 
 import { swal } from '../../../util';
 import { Query } from '../../../graphql';
 import CanvasForm from './CanvasForm';
 import { FormField, ApolloSelectInputField, PercentInputField } from '../../components';
-import { OptionNone } from '../../../../api/constants';
+import { OptionNone, ApolloFetchPolicies } from '../../../../api/constants';
 
 const CustomerSegmentForm = ({
   organizationId,
+  matchedTo,
   save,
 }) => (
   <CanvasForm {...{ organizationId, save }}>
@@ -22,13 +23,19 @@ const CustomerSegmentForm = ({
         onChange={save}
         loadOptions={query => query({
           query: Query.VALUE_PROPOSITION_LIST,
-          variables: { organizationId },
-        }).then(({ data: { valuePropositions: { valuePropositions } } }) => ({
-          options: [
-            OptionNone,
-            ...mapEntitiesToOptions(valuePropositions),
-          ],
-        })).catch(swal.error)}
+          variables: { organizationId, isUnmatched: true },
+          // network only is needed because after matching an item
+          // the data would become inconsistent
+          fetchPolicy: ApolloFetchPolicies.NETWORK_ONLY,
+        }).then(({ data: { valuePropositions: { valuePropositions } } }) => {
+          const options = [OptionNone];
+
+          if (matchedTo) options.push(getEntityOptions(matchedTo));
+
+          options.push(...mapEntitiesToOptions(valuePropositions));
+
+          return { options };
+        }).catch(swal.error)}
       />
     </FormField>
     <FormField>
@@ -43,6 +50,10 @@ const CustomerSegmentForm = ({
 
 CustomerSegmentForm.propTypes = {
   organizationId: PropTypes.string.isRequired,
+  matchedTo: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }),
   save: PropTypes.func,
 };
 

@@ -82,7 +82,7 @@ const EntityRiskFormContainer = ({
         }
 
         const errors = validateRisk(values);
-        if (errors) return new Promise((resolve, reject) => reject(errors));
+        if (errors) return Promise.reject(errors);
 
         return createRisk({
           variables: {

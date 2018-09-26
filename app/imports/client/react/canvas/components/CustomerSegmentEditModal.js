@@ -7,7 +7,7 @@ import { pure } from 'recompose';
 import diff from 'deep-diff';
 
 import { swal } from '../../../util';
-import { AWSDirectives, CanvasSections, CanvasTypes } from '../../../../share/constants';
+import { AWSDirectives, CanvasTypes } from '../../../../share/constants';
 import { ApolloFetchPolicies, OptionNone } from '../../../../api/constants';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateCustomerSegment } from '../../../validation';
@@ -20,11 +20,10 @@ import {
   EntityModalHeader,
   EntityModalBody,
   EntityModalForm,
+  RenderSwitch,
 } from '../../components';
 
 const getCustomerSegment = pathOr({}, repeat('customerSegment', 2));
-const getNeeds = pathOr([], repeat('needs', 2));
-const getWants = pathOr([], repeat('wants', 2));
 const getInitialValues = compose(
   over(lenses.matchedTo, compose(defaultTo(OptionNone), getEntityOptions)),
   over(lenses.originator, getUserOptions),
@@ -52,7 +51,7 @@ const CustomerSegmentEditModal = ({
           /* eslint-disable react/no-children-prop */
           <Query
             query={Queries.CUSTOMER_SEGMENT_CARD}
-            variables={{ _id, organizationId }}
+            variables={{ _id }}
             skip={!isOpen}
             onCompleted={data => setState({ initialValues: getInitialValues(data) })}
             fetchPolicy={ApolloFetchPolicies.CACHE_AND_NETWORK}
@@ -60,10 +59,23 @@ const CustomerSegmentEditModal = ({
           />,
           <Mutation mutation={Mutations.UPDATE_CUSTOMER_SEGMENT} children={noop} />,
           <Mutation mutation={Mutations.DELETE_CUSTOMER_SEGMENT} children={noop} />,
+          <Mutation
+            mutation={Mutations.MATCH_CUSTOMER_SEGMENT}
+            refetchQueries={() => [{
+              query: Queries.VALUE_PROPOSITIONS,
+              variables: { organizationId },
+            }]}
+            children={noop}
+          />,
           /* eslint-disable react/no-children-prop */
         ]}
       >
-        {([{ data, ...query }, updateCustomerSegment, deleteCustomerSegment]) => (
+        {([
+          { data, ...query },
+          updateCustomerSegment,
+          deleteCustomerSegment,
+          matchCustomerSegment,
+        ]) => (
           <EntityModalNext
             {...{ isOpen, toggle }}
             isEditMode
@@ -93,9 +105,9 @@ const CustomerSegmentEditModal = ({
               validate={validateCustomerSegment}
               onSubmit={(values, form) => {
                 const currentValues = getInitialValues(data);
-                const isDirty = diff(values, currentValues);
+                const difference = diff(values, currentValues);
 
-                if (!isDirty) return undefined;
+                if (!difference) return undefined;
 
                 const {
                   title,
@@ -106,6 +118,22 @@ const CustomerSegmentEditModal = ({
                   notes = '',
                 } = values;
 
+                if (difference[0].path[0] === 'matchedTo') {
+                  return matchCustomerSegment({
+                    variables: {
+                      input: {
+                        _id,
+                        matchedTo: convertDocumentOptions({
+                          documentType: CanvasTypes.VALUE_PROPOSITION,
+                        }, matchedTo),
+                      },
+                    },
+                  }).then(noop).catch((err) => {
+                    form.reset(currentValues);
+                    throw err;
+                  });
+                }
+
                 return updateCustomerSegment({
                   variables: {
                     input: {
@@ -115,9 +143,6 @@ const CustomerSegmentEditModal = ({
                       color,
                       percentOfMarketSize,
                       originatorId: originator.value,
-                      matchedTo: convertDocumentOptions({
-                        documentType: CanvasTypes.VALUE_PROPOSITION,
-                      }, matchedTo),
                     },
                   },
                 }).then(noop).catch((err) => {
@@ -130,25 +155,42 @@ const CustomerSegmentEditModal = ({
                 <Fragment>
                   <EntityModalHeader label="Customer segment" />
                   <EntityModalBody>
-                    <CustomerSegmentForm {...{ organizationId }} save={handleSubmit} />
-                    {_id && (
-                      <Fragment>
-                        <CustomerInsightsSubcard
-                          {...{ organizationId }}
-                          documentId={_id}
-                          documentType={CanvasTypes.CUSTOMER_SEGMENT}
-                          needs={getNeeds(data)}
-                          wants={getWants(data)}
-                        />
-                        <CanvasFilesSubcard
-                          {...{ organizationId }}
-                          documentId={_id}
-                          onUpdate={updateCustomerSegment}
-                          slingshotDirective={AWSDirectives.CUSTOMER_SEGMENT_FILES}
-                          documentType={CanvasSections.CUSTOMER_SEGMENTS}
-                        />
-                      </Fragment>
-                    )}
+                    <RenderSwitch
+                      require={data.customerSegment && data.customerSegment.customerSegment}
+                      errorWhenMissing={noop}
+                      loading={query.loading}
+                      renderLoading={<CustomerSegmentForm {...{ organizationId }} />}
+                    >
+                      {({
+                        _id: documentId,
+                        needs = [],
+                        wants = [],
+                        matchedTo,
+                      }) => (
+                        <Fragment>
+                          <CustomerSegmentForm
+                            {...{ organizationId, matchedTo }}
+                            save={handleSubmit}
+                          />
+                          <CustomerInsightsSubcard
+                            {...{
+                              organizationId,
+                              needs,
+                              wants,
+                              documentId,
+                              matchedTo,
+                            }}
+                            documentType={CanvasTypes.CUSTOMER_SEGMENT}
+                          />
+                          <CanvasFilesSubcard
+                            {...{ organizationId, documentId }}
+                            onUpdate={updateCustomerSegment}
+                            slingshotDirective={AWSDirectives.CUSTOMER_SEGMENT_FILES}
+                            documentType={CanvasTypes.CUSTOMER_SEGMENT}
+                          />
+                        </Fragment>
+                      )}
+                    </RenderSwitch>
                   </EntityModalBody>
                 </Fragment>
               )}

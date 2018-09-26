@@ -3,14 +3,14 @@ fragment ValuePropositionCard on ValueProposition {
   title
   color
   notes
-  matchedTo {
-    _id
-    title
-  }
   originator {
     _id
     profile {
       fullName
     }
+  }
+  matchedTo {
+    _id
+    title
   }
 }

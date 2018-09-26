@@ -1,0 +1,6 @@
+fragment CustomerElementPresentation on CustomerElement {
+  _id
+  title
+  sequentialId
+  documentType
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { CardTitle, Col, CardText, ListGroup } from 'reactstrap';
+import { CardTitle, Col, CardText, ListGroup, FormText } from 'reactstrap';
 
 import { Styles } from '../../../../../api/constants';
 import {
@@ -38,9 +38,11 @@ const ActivelyManageSubcard = ({ organizationId, entity }) => (
       <CardTitle>
         Actively Manage
       </CardTitle>
-      <SubcardSubtitle className="text-muted">
-        Only by actively managing your canvas will you be able to translate
-        your business design into better business performance.
+      <SubcardSubtitle>
+        <FormText color="muted" tag="span">
+          Only by actively managing your canvas will you be able to translate
+          your business design into better business performance.
+        </FormText>
       </SubcardSubtitle>
     </SubcardHeader>
     <SubcardBody>

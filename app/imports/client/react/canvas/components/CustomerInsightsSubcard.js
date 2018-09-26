@@ -8,16 +8,10 @@ import {
   SubcardBody,
   Pull,
   CardBlock,
-  MatchMaker,
-  MatchMakerPane,
-  MatchMakerPie,
-  MatchMakerLeftPieSlice,
-  MatchMakerRightPieSlice,
-  MatchButton,
-  MatchMakerTabs,
 } from '../../components';
-import CustomerNeeds from './CustomerNeeds';
-import CustomerWants from './CustomerWants';
+import CustomerInsightsMatcher from './CustomerInsightsMatcher';
+import CustomerInsightsPie from './CustomerInsightsPie';
+import CustomerElementsMatch from './CustomerElementsMatch';
 
 const CustomerInsightsSubcard = ({
   organizationId,
@@ -25,6 +19,7 @@ const CustomerInsightsSubcard = ({
   documentType,
   needs,
   wants,
+  matchedTo,
 }) => (
   <Subcard>
     <SubcardHeader>
@@ -42,35 +37,18 @@ const CustomerInsightsSubcard = ({
     <SubcardBody>
       <CardBlock>
         <Col xs={12} sm={12}>
-          <MatchMaker>
-            <MatchMakerPie circle>
-              <MatchMakerLeftPieSlice label="Needs" text={`(${needs.length})`} />
-              <MatchMakerRightPieSlice label="Wants" text={`(${wants.length})`} />
-            </MatchMakerPie>
-            <MatchButton alignRight>Match</MatchButton>
-            <MatchMakerTabs>
-              <MatchMakerPane alignLeft>
-                <CustomerNeeds
-                  {...{
-                    organizationId,
-                    documentId,
-                    documentType,
-                    needs,
-                  }}
-                />
-              </MatchMakerPane>
-              <MatchMakerPane alignRight>
-                <CustomerWants
-                  {...{
-                    organizationId,
-                    documentId,
-                    documentType,
-                    wants,
-                  }}
-                />
-              </MatchMakerPane>
-            </MatchMakerTabs>
-          </MatchMaker>
+          <CustomerElementsMatch
+            {...{
+              needs,
+              wants,
+              organizationId,
+              documentId,
+              documentType,
+              matchedTo,
+            }}
+            renderPie={CustomerInsightsPie}
+            renderMatcher={CustomerInsightsMatcher}
+          />
         </Col>
       </CardBlock>
     </SubcardBody>
@@ -83,6 +61,10 @@ CustomerInsightsSubcard.propTypes = {
   documentType: PropTypes.string.isRequired,
   needs: PropTypes.arrayOf(PropTypes.object).isRequired,
   wants: PropTypes.arrayOf(PropTypes.object).isRequired,
+  matchedTo: PropTypes.shape({
+    benefits: PropTypes.arrayOf(PropTypes.object),
+    features: PropTypes.arrayOf(PropTypes.object),
+  }),
 };
 
 export default CustomerInsightsSubcard;

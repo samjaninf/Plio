@@ -46,3 +46,5 @@ export { default as EntityModal } from './EntityModal';
 export { default as RenderSwitch } from './RenderSwitch';
 export { default as ErrorPage } from './ErrorPage';
 export { default as NotFoundPage } from './NotFoundPage';
+export { default as EntityLabel } from './EntityLabel';
+export { default as Col } from './Col';

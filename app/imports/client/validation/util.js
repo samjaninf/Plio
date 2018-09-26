@@ -1,7 +1,10 @@
 import { FORM_ERROR } from 'final-form';
-import { forEachObjIndexed, curry, isNil } from 'ramda';
+import { forEachObjIndexed, curry, isNil, isEmpty, anyPass } from 'ramda';
 
-export const required = curry((label, value) => !isNil(value) ? undefined : `${label} required`);
+const isNilOrEmpty = anyPass([isNil, isEmpty]);
+
+export const required = curry((label, value) =>
+  isNilOrEmpty(value) ? `${label} required` : undefined);
 
 export const validate = rules => (values) => {
   const errors = new Set();

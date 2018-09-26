@@ -30,8 +30,10 @@ const propTypes = {
 };
 
 const StyledField = styled(Field)`
-  .card &.list-group-item {
+  .card .list-group &.list-group-item {
     padding: 1.25rem;
+    border-left: 0;
+    border-right: 0;
   }
 `;
 

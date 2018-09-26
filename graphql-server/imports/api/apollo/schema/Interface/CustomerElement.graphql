@@ -32,6 +32,8 @@ interface CustomerElement {
   title: String!
   description: String
   importance: Int!
+  # Note: currently status is not updated in the database, but is resolved virtually
   status: Int!
   linkedTo: [CustomerElementLinkedDocument!]!
+  documentType: String
 }

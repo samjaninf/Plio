@@ -1,0 +1,11 @@
+#import "../../Fragment/ValuePropositionRelations.graphql"
+
+mutation matchValueProposition($input: MatchValuePropositionInput!) {
+  matchValueProposition(input: $input) {
+    ...ValuePropositionRelations
+    matchedTo {
+      _id
+      title
+    }
+  }
+}

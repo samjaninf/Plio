@@ -4,14 +4,14 @@ fragment CustomerSegmentCard on CustomerSegment {
   color
   notes
   percentOfMarketSize
-  matchedTo {
-    _id
-    title
-  }
   originator {
     _id
     profile {
       fullName
     }
+  }
+  matchedTo {
+    _id
+    title
   }
 }

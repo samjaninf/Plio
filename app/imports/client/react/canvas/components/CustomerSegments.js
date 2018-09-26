@@ -9,7 +9,7 @@ import CustomerSegmentsChartModal from './CustomerSegmentsChartModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const CustomerSegments = ({ organizationId }) => (
   <Query
@@ -21,7 +21,7 @@ const CustomerSegments = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Customer segments"
-        sectionName={CanvasSections.CUSTOMER_SEGMENTS}
+        sectionName={CanvasSections[CanvasTypes.CUSTOMER_SEGMENT]}
         help={(
           <Fragment>
             <p>For whom are we creating value?</p>

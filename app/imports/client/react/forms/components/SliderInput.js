@@ -40,7 +40,12 @@ const Wrapper = styled.div`
   }
 `;
 
-const SliderInput = ({ leftLabel, rightLabel, ...rest }) => (
+const SliderInput = ({
+  leftLabel,
+  rightLabel,
+  tipFormatter,
+  ...rest
+}) => (
   <Wrapper>
     {leftLabel && (
       <Pull left>
@@ -50,7 +55,11 @@ const SliderInput = ({ leftLabel, rightLabel, ...rest }) => (
     <StyledSlider
       {...rest}
       handle={({ ref, ...handleProps }) => (
-        <SliderHandle id={rest.name} {...handleProps} />
+        <SliderHandle
+          id={rest.name}
+          tipFormatter={rest.tipFormatter}
+          {...{ tipFormatter, ...handleProps }}
+        />
       )}
     />
     {rightLabel && (
@@ -64,6 +73,7 @@ const SliderInput = ({ leftLabel, rightLabel, ...rest }) => (
 SliderInput.propTypes = {
   leftLabel: PropTypes.string,
   rightLabel: PropTypes.string,
+  tipFormatter: PropTypes.func,
 };
 
 export default SliderInput;

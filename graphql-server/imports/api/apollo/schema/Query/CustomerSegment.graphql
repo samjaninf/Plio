@@ -8,6 +8,6 @@ type CustomerSegmentQueryPayload {
 }
 
 type Query {
-  customerSegments(organizationId: ID!): CustomerSegmentsQueryPayload!
+  customerSegments(organizationId: ID!, isUnmatched: Boolean): CustomerSegmentsQueryPayload!
   customerSegment(_id: ID!): CustomerSegmentQueryPayload
 }

@@ -8,6 +8,6 @@ type ValuePropositionsQueryPayload {
 }
 
 type Query {
-  valuePropositions(organizationId: ID!): ValuePropositionsQueryPayload!
+  valuePropositions(organizationId: ID!, isUnmatched: Boolean): ValuePropositionsQueryPayload!
   valueProposition(_id: ID!): ValuePropositionsQueryPayload
 }

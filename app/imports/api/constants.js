@@ -293,6 +293,7 @@ export const DEFAULT_UPDATE_TIMEOUT = 1200;
 export const ApolloFetchPolicies = {
   CACHE_ONLY: 'cache-only',
   CACHE_AND_NETWORK: 'cache-and-network',
+  NETWORK_ONLY: 'network-only',
 };
 
 export const MilestoneStatusColors = {
@@ -337,6 +338,7 @@ export const Styles = {
     family: {
       segoe: {
         semibold: '"Segoe UI Semibold WestEuropean", "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif',
+        regular: '"Segoe UI Regular WestEuropean", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif',
       },
     },
   },
@@ -373,7 +375,7 @@ export const OptionNone = { label: 'None', value: null };
 
 export const CanvasDoughnutChartSize = {
   WIDTH: 566,
-  HEIGHT: 424,
+  HEIGHT: 566,
 };
 
 export const CanvasBubbleChartSize = {

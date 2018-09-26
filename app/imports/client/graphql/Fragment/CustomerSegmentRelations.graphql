@@ -1,0 +1,35 @@
+#import "./CustomerElementCard.graphql"
+#import "./CustomerElementPresentation.graphql"
+
+fragment CustomerSegmentRelations on CustomerSegment {
+  _id
+  needs {
+    benefits {
+      ...CustomerElementPresentation
+    }
+    features {
+      ...CustomerElementPresentation
+    }
+    ...CustomerElementPresentation
+    ...CustomerElementCard
+  }
+  wants {
+    benefits {
+      ...CustomerElementPresentation
+    }
+    features {
+      ...CustomerElementPresentation
+    }
+    ...CustomerElementPresentation
+    ...CustomerElementCard
+  }
+  matchedTo {
+    _id
+    features {
+      ...CustomerElementPresentation
+    }
+    benefits {
+      ...CustomerElementPresentation
+    }
+  }
+}

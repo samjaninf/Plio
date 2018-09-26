@@ -16,7 +16,6 @@ import {
   DocumentTypesPlural,
   AllDocumentTypes,
   WORKSPACE_DEFAULTS,
-  CanvasSections,
 } from '../constants';
 import {
   Actions,
@@ -36,6 +35,10 @@ import {
   CustomerSegments,
   CostLines,
   RevenueStreams,
+  Benefits,
+  Features,
+  Needs,
+  Wants,
 } from '../collections';
 
 export * from './actions';
@@ -95,32 +98,44 @@ export const getCollectionByDocType = (docType) => {
     case AllDocumentTypes.MILESTONE:
       return Milestones;
 
-    case CanvasSections.KEY_PARTNERS:
+    case AllDocumentTypes.KEY_PARTNER:
       return KeyPartners;
 
-    case CanvasSections.KEY_ACTIVITIES:
+    case AllDocumentTypes.KEY_ACTIVITY:
       return KeyActivities;
 
-    case CanvasSections.KEY_RESOURCES:
+    case AllDocumentTypes.KEY_RESOURCE:
       return KeyResources;
 
-    case CanvasSections.VALUE_PROPOSITIONS:
+    case AllDocumentTypes.VALUE_PROPOSITION:
       return ValuePropositions;
 
-    case CanvasSections.CUSTOMER_RELATIONSHIPS:
+    case AllDocumentTypes.CUSTOMER_RELATIONSHIP:
       return CustomerRelationships;
 
-    case CanvasSections.CHANNELS:
+    case AllDocumentTypes.CHANNEL:
       return Channels;
 
-    case CanvasSections.CUSTOMER_SEGMENTS:
+    case AllDocumentTypes.CUSTOMER_SEGMENT:
       return CustomerSegments;
 
-    case CanvasSections.COST_STRUCTURE:
+    case AllDocumentTypes.COST_LINE:
       return CostLines;
 
-    case CanvasSections.REVENUE_STREAMS:
+    case AllDocumentTypes.REVENUE_STREAM:
       return RevenueStreams;
+
+    case AllDocumentTypes.BENEFIT:
+      return Benefits;
+
+    case AllDocumentTypes.FEATURE:
+      return Features;
+
+    case AllDocumentTypes.NEED:
+      return Needs;
+
+    case AllDocumentTypes.WANT:
+      return Wants;
 
     default:
       return undefined;

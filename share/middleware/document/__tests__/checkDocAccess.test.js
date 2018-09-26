@@ -36,7 +36,7 @@ describe('checkDocAccess', () => {
 
     await expect(promise).resolves.toEqual(standard);
 
-    expect(config).toHaveBeenCalledTimes(2);
+    expect(config).toHaveBeenCalledTimes(1);
     expect(config).toHaveBeenCalledWith({}, { _id }, context);
   });
 });

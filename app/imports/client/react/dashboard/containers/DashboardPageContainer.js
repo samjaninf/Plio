@@ -1,10 +1,8 @@
 import { graphql } from 'react-apollo';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { lifecycle } from 'recompose';
-import moment from 'moment';
 
-import { Query, Mutation } from '../../../graphql';
-import { namedCompose, withApollo, withStore } from '../../helpers';
+import { Query } from '../../../graphql';
+import { namedCompose, withApollo, withStore, withUpdateLastAccessedDate } from '../../helpers';
 import DashboardPage from '../components/DashboardPage';
 import { getMetrics, getRouteName, getIconName, getMetricText } from '../helpers';
 
@@ -43,18 +41,5 @@ export default namedCompose('DashboardPageContainer')(
       }),
     }),
   }),
-  graphql(Mutation.UPDATE_ORGANIZATION_LAST_ACCESSED_DATE),
-  lifecycle({
-    componentDidMount() {
-      const {
-        mutate,
-        organization: { _id, lastAccessedDate },
-      } = this.props;
-
-      // limit to once a day
-      if (!lastAccessedDate || !moment().isSame(lastAccessedDate, 'day')) {
-        mutate({ variables: { input: { _id } } });
-      }
-    },
-  }),
+  withUpdateLastAccessedDate,
 )(DashboardPage);

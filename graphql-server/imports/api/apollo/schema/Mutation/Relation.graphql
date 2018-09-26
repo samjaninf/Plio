@@ -1,0 +1,14 @@
+input RelInput {
+  documentId: ID!
+  documentType: String!
+}
+
+input RelationInput {
+  rel1: RelInput!
+  rel2: RelInput!
+}
+
+type Mutation {
+  createRelation(input: RelationInput!): Boolean
+  deleteRelation(input: RelationInput!): Boolean
+}

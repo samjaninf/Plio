@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
+import styled from 'styled-components';
 import { lifecycle, defaultProps, compose } from 'recompose';
 
+import { Styles } from '../../../../api/constants';
 import { Collapse, CardBlock, Icon } from '../../components';
 
 const enhance = compose(
@@ -25,12 +27,17 @@ const enhance = compose(
   }),
 );
 
+const DefaultTag = styled.pre`
+  font-family: ${Styles.font.family.segoe.regular};
+  font-size: 100%;
+`;
+
 export const ErrorSection = ({
   errorText,
   size = '4',
   className,
   scroll, // eslint-disable-line no-unused-vars
-  tag: Tag = 'pre',
+  tag: Tag = DefaultTag,
   ...props
 }) => (
   <Collapse

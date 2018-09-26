@@ -1,16 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { Input } from 'reactstrap';
 import { pickNonInt } from 'plio-util';
 
 import { CustomerElementStatuses } from '../../../../share/constants';
+import FormControlStatic from '../../forms/components/FormControlStatic';
 
 const CustomerElementStatusField = ({ status, className, ...props }) => (
-  <Input
-    plaintext
+  <FormControlStatic
     className={cx(
-      'form-control-static',
       {
         'text-success': status === CustomerElementStatuses.MATCHED,
         'text-danger': status === CustomerElementStatuses.UNMATCHED,
@@ -20,7 +18,7 @@ const CustomerElementStatusField = ({ status, className, ...props }) => (
     {...props}
   >
     {CustomerElementStatuses[status]}
-  </Input>
+  </FormControlStatic>
 );
 
 CustomerElementStatusField.propTypes = {
