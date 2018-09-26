@@ -147,14 +147,16 @@ const KeyPartnerEditModal = ({
                               {...{ organizationId }}
                               entity={keyPartner}
                             />
-                            <CanvasRisksSubcard
-                              {...{ organizationId, risks }}
-                              onUpdate={updateKeyPartner}
-                              linkedTo={{
-                                _id: documentId,
-                                title,
-                              }}
-                            />
+                            {risks.length ? (
+                              <CanvasRisksSubcard
+                                {...{ organizationId, risks }}
+                                onUpdate={updateKeyPartner}
+                                linkedTo={{
+                                  _id: documentId,
+                                  title,
+                                }}
+                              />
+                            ) : null}
                             <CanvasFilesSubcard
                               {...{ organizationId, documentId }}
                               onUpdate={updateKeyPartner}
