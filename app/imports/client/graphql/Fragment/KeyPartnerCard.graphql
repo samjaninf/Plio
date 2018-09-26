@@ -1,4 +1,5 @@
 #import "./RiskCard.graphql"
+#import '../Fragment/LessonCard.graphql'
 
 fragment KeyPartnerCard on KeyPartner {
   _id
@@ -9,6 +10,9 @@ fragment KeyPartnerCard on KeyPartner {
   notes
   risks {
     ...RiskCard
+  }
+  lessons {
+    ...LessonCard
   }
   originator {
     _id

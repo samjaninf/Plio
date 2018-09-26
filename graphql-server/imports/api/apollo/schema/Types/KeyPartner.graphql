@@ -13,4 +13,5 @@ type KeyPartner implements BaseEntity, CanvasEntity {
   notes: String
   fileIds: [String]
   risks: [Risk]
+  lessons: [Lesson]
 }

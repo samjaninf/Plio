@@ -22,6 +22,7 @@ import { WithState, Composer } from '../../helpers';
 import KeyPartnerForm from './KeyPartnerForm';
 import CanvasFilesSubcard from './CanvasFilesSubcard';
 import CanvasRisksSubcard from './CanvasRisksSubcard';
+import CanvasLessonsSubcard from './CanvasLessonsSubcard';
 import ActivelyManageSubcard from './ActivleyManage/ActivelyManageSubcard';
 
 const keyPartnerPath = repeat('keyPartner', 2);
@@ -137,8 +138,8 @@ const KeyPartnerEditModal = ({
                         renderLoading={<KeyPartnerForm {...{ organizationId }} />}
                       >
                         {({
-                          _id: documentId,
                           risks = [],
+                          lessons = [],
                           title,
                         }) => (
                           <Fragment>
@@ -152,15 +153,20 @@ const KeyPartnerEditModal = ({
                             {risks.length ? (
                               <CanvasRisksSubcard
                                 {...{ organizationId, risks }}
+                                linkedTo={{ _id, title }}
                                 onUpdate={updateKeyPartner}
-                                linkedTo={{
-                                  _id: documentId,
-                                  title,
-                                }}
+                              />
+                            ) : null}
+                            {lessons.length ? (
+                              <CanvasLessonsSubcard
+                                {...{ organizationId, lessons }}
+                                linkedTo={{ _id, title }}
+                                documentType={CanvasTypes.KEY_PARTNER}
                               />
                             ) : null}
                             <CanvasFilesSubcard
-                              {...{ organizationId, documentId }}
+                              {...{ organizationId }}
+                              documentId={_id}
                               onUpdate={updateKeyPartner}
                               slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
                               documentType={CanvasTypes.KEY_PARTNER}

@@ -53,10 +53,10 @@ const ActivelyManageSubcard = ({
   },
   documentType,
   onUpdate,
-  ...rest
+  organizationId,
 }) => {
   const itemProps = {
-    ...rest,
+    organizationId,
     linkedTo: { _id, title },
   };
   return (
@@ -125,6 +125,7 @@ const ActivelyManageSubcard = ({
 };
 
 ActivelyManageSubcard.propTypes = {
+  organizationId: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   documentType: PropTypes.string.isRequired,
   entity: PropTypes.shape({

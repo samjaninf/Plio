@@ -23,5 +23,11 @@ export default {
         isDeleted: false,
       }), riskIds)).then(flatten);
     },
+    lessons: async (root, args, context) => {
+      const { _id: documentId } = root;
+      const { loaders: { Lesson: { byQuery } } } = context;
+
+      return byQuery.load({ documentId });
+    },
   },
 };
