@@ -42,7 +42,7 @@ const CanvasLayout = () => (
               {organization => (
                 <Fragment>
                   <MainHeader {...{ organization }} />
-                  <CanvasPage organizationId={organization._id} />
+                  <CanvasPage {...{ organization }} />
                 </Fragment>
               )}
             </RenderSwitch>

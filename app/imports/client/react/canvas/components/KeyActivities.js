@@ -8,7 +8,7 @@ import KeyActivityEditModal from './KeyActivityEditModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const KeyActivities = ({ organizationId }) => (
   <Query
@@ -20,7 +20,7 @@ const KeyActivities = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Key activities"
-        sectionName={CanvasSections.KEY_ACTIVITIES}
+        sectionName={CanvasSections[CanvasTypes.KEY_ACTIVITY]}
         help={(
           <p>What are the key activities we need to create our value propositions?</p>
         )}

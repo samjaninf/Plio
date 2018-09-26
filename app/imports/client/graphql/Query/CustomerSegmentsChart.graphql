@@ -1,10 +1,16 @@
+#import "../Fragment/CanvasSettings.graphql"
+
 query CustomerSegmentsChart($organizationId: ID!) {
   customerSegments(organizationId: $organizationId) {
     customerSegments {
       _id
       title
-      color
       percentOfMarketSize
+    }
+  }
+  canvasSettings(organizationId: $organizationId) {
+    canvasSettings {
+      ...CanvasSettings
     }
   }
 }

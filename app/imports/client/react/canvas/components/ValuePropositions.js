@@ -8,7 +8,7 @@ import ValuePropositionEditModal from './ValuePropositionEditModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const ValuePropositions = ({ organizationId }) => (
   <Query
@@ -20,7 +20,7 @@ const ValuePropositions = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Value propositions"
-        sectionName={CanvasSections.VALUE_PROPOSITIONS}
+        sectionName={CanvasSections[CanvasTypes.VALUE_PROPOSITION]}
         help={(
           <Fragment>
             {/* eslint-disable react/no-unescaped-entities */}

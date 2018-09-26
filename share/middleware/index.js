@@ -25,3 +25,4 @@ export * from './feature';
 export * from './need';
 export * from './want';
 export * from './files';
+export * from './relation';

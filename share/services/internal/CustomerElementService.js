@@ -45,9 +45,13 @@ export default {
 
     return collection.update(query, modifier);
   },
+
   async delete(args, context) {
     const { _id } = args;
-    const collection = this.collection(context);
+    const { services: { RelationService } } = context;
+    const collection = await this.collection(context);
+
+    await RelationService.deleteByDocumentId({ documentId: _id }, context);
 
     return collection.remove({ _id });
   },

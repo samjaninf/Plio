@@ -18,47 +18,60 @@ export const __closeDB = jest.fn(async () => {
   await mongoServer.stop();
 });
 
+export const __clearDB = jest.fn(async () => {
+  const collections = await db.collections();
+  return Promise.all(collections.map(collection => collection.remove()));
+});
+
 const Collection = jest.fn(function (name) {
   if (!db) return null;
 
   this.collection = db.collection(name);
 
+  this.insert = jest.fn(async function insert(doc, ...args) {
+    const writeDoc = { _id: faker.random.uuid(), ...doc };
+    const { insertedId } = await this.collection.insertOne(writeDoc, ...args);
+    return insertedId;
+  });
+
+  this.update = jest.fn(async function update(...args) {
+    const { result: { nModified } } = await this.collection.update(...args);
+    return nModified;
+  });
+
+  this.remove = jest.fn(async function remove(...args) {
+    const { deletedCount } = await this.collection.deleteMany(...args);
+    return deletedCount;
+  });
+
+  this.findOne = jest.fn(async function findOne(...args) {
+    return this.collection.findOne(...args);
+  });
+
+  this.find = jest.fn(function find(...args) {
+    const cursor = this.collection.find(...args);
+    return Object.assign({}, cursor, {
+      fetch: jest.fn(async () => cursor.toArray()),
+      count: jest.fn(async () => cursor.count()),
+    });
+  });
+
+  this.before = {
+    insert: jest.fn(),
+    update: jest.fn(),
+  };
+
+  this.after = {
+    insert: jest.fn(),
+    update: jest.fn(),
+  };
+
   return this;
 });
 
 Collection.prototype.attachSchema = jest.fn();
-Collection.prototype.insert = jest.fn(async function insert(doc, ...args) {
-  const writeDoc = { _id: faker.random.uuid(), ...doc };
-  const { insertedId } = await this.collection.insertOne(writeDoc, ...args);
-  return insertedId;
-});
-Collection.prototype.update = jest.fn(async function update(...args) {
-  const { result: { nModified } } = await this.collection.update(...args);
-  return nModified;
-});
-Collection.prototype.remove = jest.fn(async function remove(...args) {
-  const { deletedCount } = await this.collection.deleteMany(...args);
-  return deletedCount;
-});
-Collection.prototype.findOne = jest.fn(async function findOne(...args) {
-  return this.collection.findOne(...args);
-});
-Collection.prototype.find = jest.fn(function find(...args) {
-  const cursor = this.collection.find(...args);
-  return Object.assign({}, cursor, {
-    fetch: jest.fn(async () => cursor.toArray()),
-    count: jest.fn(async () => cursor.count()),
-  });
-});
 Collection.prototype.helpers = jest.fn();
-Collection.prototype.before = {
-  insert: jest.fn(),
-  update: jest.fn(),
-};
-Collection.prototype.after = {
-  insert: jest.fn(),
-  update: jest.fn(),
-};
+
 export const Mongo = { Collection };
 
 const RemoteCollectionDriver = jest.fn();

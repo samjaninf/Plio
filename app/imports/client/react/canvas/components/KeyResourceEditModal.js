@@ -7,7 +7,7 @@ import { pure } from 'recompose';
 import diff from 'deep-diff';
 
 import { swal } from '../../../util';
-import { AWSDirectives, CanvasSections } from '../../../../share/constants';
+import { AWSDirectives, CanvasTypes } from '../../../../share/constants';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateKeyResource } from '../../../validation';
@@ -125,7 +125,7 @@ const KeyResourceEditModal = ({
                         documentId={_id}
                         onUpdate={updateKeyResource}
                         slingshotDirective={AWSDirectives.KEY_RESOURCE_FILES}
-                        documentType={CanvasSections.KEY_RESOURCES}
+                        documentType={CanvasTypes.KEY_RESOURCE}
                       />
                     )}
                   </EntityModalBody>

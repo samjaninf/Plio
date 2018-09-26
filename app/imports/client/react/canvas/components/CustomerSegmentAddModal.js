@@ -28,6 +28,7 @@ const CustomerSegmentAddModal = ({
         {createCustomerSegment => (
           <EntityModalNext {...{ isOpen, toggle }}>
             <EntityModalForm
+              keepDirtyOnReinitialize
               initialValues={{
                 originator: getUserOptions(user),
                 title: '',

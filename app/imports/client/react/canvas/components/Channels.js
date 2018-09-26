@@ -8,7 +8,7 @@ import ChannelEditModal from './ChannelEditModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const Channels = ({ organizationId }) => (
   <Query
@@ -20,7 +20,7 @@ const Channels = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Channels"
-        sectionName={CanvasSections.CHANNELS}
+        sectionName={CanvasSections[CanvasTypes.CHANNEL]}
         help={(
           <Fragment>
             <p>Through which channels do each of our segments want to be reached?</p>

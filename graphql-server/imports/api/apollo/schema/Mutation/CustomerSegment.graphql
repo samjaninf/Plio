@@ -24,7 +24,6 @@ input UpdateCustomerSegmentInput {
   color: String
   percentOfMarketSize: Int
   notes: String
-  matchedTo: CustomerSegmentMatchedToInput
   fileIds: [String]
 }
 
@@ -32,8 +31,14 @@ input DeleteCustomerSegmentInput {
   _id: ID!
 }
 
+input MatchCustomerSegmentInput {
+  _id: ID!
+  matchedTo: CustomerSegmentMatchedToInput
+}
+
 type Mutation {
   createCustomerSegment(input: CreateCustomerSegmentInput!): CustomerSegmentPayload
   updateCustomerSegment(input: UpdateCustomerSegmentInput!): CustomerSegment
   deleteCustomerSegment(input: DeleteCustomerSegmentInput!): CustomerSegment
+  matchCustomerSegment(input: MatchCustomerSegmentInput!): CustomerSegment
 }

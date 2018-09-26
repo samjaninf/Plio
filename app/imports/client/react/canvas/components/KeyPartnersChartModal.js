@@ -2,28 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import { pure } from 'recompose';
-import { map } from 'ramda';
+import { map, addIndex } from 'ramda';
+
 
 import { Query as Queries } from '../../../graphql';
+import { Colors } from '../../../../share/constants';
 import { CanvasBubbleChartSize, CriticalityLabels } from '../../../../api/constants';
+import { getCriticalityValueLabel } from '../helpers';
 import {
   RenderSwitch,
   PreloaderPage,
-  EntityModalNext,
   EntityModalHeader,
   EntityModalBody,
   LoadableBubbleChart,
   CardBlock,
+  ChartModal,
 } from '../../components';
 
-const getChartData = map(({
+const palette = Object.values(Colors);
+
+const getChartData = addIndex(map)(({
   levelOfSpend,
   criticality,
-  color,
   title,
-}) => ({
+}, index) => ({
   data: [{ x: levelOfSpend, y: criticality }],
-  backgroundColor: color,
+  backgroundColor: palette[index % palette.length],
   label: title,
 }));
 
@@ -34,7 +38,7 @@ const KeyPartnersChartModal = ({ isOpen, toggle, organizationId }) => (
     skip={!isOpen}
   >
     {({ loading, error, data }) => (
-      <EntityModalNext
+      <ChartModal
         {...{ isOpen, toggle, error }}
         guidance="Key partners"
         noForm
@@ -56,13 +60,13 @@ const KeyPartnersChartModal = ({ isOpen, toggle, organizationId }) => (
                   xTitle="Spend"
                   yTitle="Criticality"
                   data={{ datasets: getChartData(keyPartners) }}
+                  valueFormatter={getCriticalityValueLabel}
                 />
               </CardBlock>
             )}
           </RenderSwitch>
         </EntityModalBody>
-
-      </EntityModalNext>
+      </ChartModal>
     )}
   </Query>
 );

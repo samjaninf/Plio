@@ -8,7 +8,7 @@ import CustomerRelationshipEditModal from './CustomerRelationshipEditModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const CustomerRelationships = ({ organizationId }) => (
   <Query
@@ -20,7 +20,7 @@ const CustomerRelationships = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Customer relationships"
-        sectionName={CanvasSections.CUSTOMER_RELATIONSHIPS}
+        sectionName={CanvasSections[CanvasTypes.CUSTOMER_RELATIONSHIP]}
         help={(
           <Fragment>
             <p>What type of relationship do you want with customers?</p>

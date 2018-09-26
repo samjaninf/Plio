@@ -34,3 +34,4 @@ export * from './benefits';
 export * from './features';
 export * from './needs';
 export * from './wants';
+export * from './relations';

@@ -27,6 +27,11 @@ import {
   RevenueStreams,
   ValuePropositions,
   CanvasSettings,
+  Benefits,
+  Features,
+  Needs,
+  Wants,
+  Relations,
 } from '../../share/collections';
 
 
@@ -431,4 +436,50 @@ ValuePropositions._ensureIndex({
 
 CanvasSettings._ensureIndex({
   organizationId: 1,
+});
+
+// Customer Elements
+
+Benefits._ensureIndex({
+  organizationId: 1,
+});
+
+Benefits._ensureIndex({
+  'linkedTo.documentId': 1,
+});
+
+Features._ensureIndex({
+  organizationId: 1,
+});
+
+Features._ensureIndex({
+  'linkedTo.documentId': 1,
+});
+
+Needs._ensureIndex({
+  organizationId: 1,
+});
+
+Needs._ensureIndex({
+  'linkedTo.documentId': 1,
+});
+
+Wants._ensureIndex({
+  organizationId: 1,
+});
+
+Wants._ensureIndex({
+  'linkedTo.documentId': 1,
+});
+
+// Relations
+
+Relations._ensureIndex({
+  'rel1.documentId': 1,
+  'rel2.documentType': 1,
+});
+
+Relations._ensureIndex({
+  'rel1.documentType': 1,
+  'rel2.documentId': 1,
 });

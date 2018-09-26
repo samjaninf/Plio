@@ -17,6 +17,7 @@ describe('Customer element service', () => {
 
     context = createContext({});
     CustomerElementService.collection = jest.fn(() => context.collections.Benefits);
+    context.services.RelationService.deleteByDocumentId = jest.fn(() => true);
   });
   afterAll(__closeDB);
 
@@ -77,5 +78,7 @@ describe('Customer element service', () => {
     const benefit = await context.collections.Benefits.findOne({ _id });
 
     expect(benefit).toBe(null);
+    expect(context.services.RelationService.deleteByDocumentId)
+      .toBeCalledWith({ documentId: _id }, context);
   });
 });

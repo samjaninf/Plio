@@ -7,7 +7,7 @@ import { pure } from 'recompose';
 import diff from 'deep-diff';
 
 import { swal } from '../../../util';
-import { AWSDirectives, CanvasSections } from '../../../../share/constants';
+import { AWSDirectives, CanvasTypes } from '../../../../share/constants';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateCostLine } from '../../../validation';
@@ -128,7 +128,7 @@ const CostLineEditModal = ({
                         documentId={_id}
                         onUpdate={updateCostLine}
                         slingshotDirective={AWSDirectives.COST_LINE_FILES}
-                        documentType={CanvasSections.COST_STRUCTURE}
+                        documentType={CanvasTypes.COST_LINE}
                       />
                     )}
                   </EntityModalBody>

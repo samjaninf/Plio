@@ -28,6 +28,7 @@ const ValuePropositionAddModal = ({
         {createValueProposition => (
           <EntityModalNext {...{ isOpen, toggle }}>
             <EntityModalForm
+              keepDirtyOnReinitialize
               initialValues={{
                 originator: getUserOptions(user),
                 title: '',

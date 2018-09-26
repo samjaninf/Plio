@@ -9,7 +9,7 @@ import RevenueStreamsChartModal from './RevenueStreamsChartModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const RevenueStreams = ({ organizationId }) => (
   <Query
@@ -21,7 +21,7 @@ const RevenueStreams = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Revenue streams"
-        sectionName={CanvasSections.REVENUE_STREAMS}
+        sectionName={CanvasSections[CanvasTypes.REVENUE_STREAM]}
         help={(
           <Fragment>
             <p>From which channels and segments?</p>

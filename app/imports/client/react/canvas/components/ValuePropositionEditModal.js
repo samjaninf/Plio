@@ -7,7 +7,7 @@ import { pure } from 'recompose';
 import diff from 'deep-diff';
 
 import { swal } from '../../../util';
-import { AWSDirectives, CanvasSections, CanvasTypes } from '../../../../share/constants';
+import { AWSDirectives, CanvasTypes } from '../../../../share/constants';
 import { ApolloFetchPolicies, OptionNone } from '../../../../api/constants';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateValueProposition } from '../../../validation';
@@ -20,11 +20,10 @@ import {
   EntityModalHeader,
   EntityModalBody,
   EntityModalForm,
+  RenderSwitch,
 } from '../../components';
 
 const getValueProposition = pathOr({}, repeat('valueProposition', 2));
-const getBenefits = pathOr([], repeat('benefits', 2));
-const getFeatures = pathOr([], repeat('features', 2));
 const getInitialValues = compose(
   over(lenses.matchedTo, compose(defaultTo(OptionNone), getEntityOptions)),
   over(lenses.originator, getUserOptions),
@@ -59,10 +58,23 @@ const ValuePropositionEditModal = ({
           />,
           <Mutation mutation={Mutations.UPDATE_VALUE_PROPOSITION} children={noop} />,
           <Mutation mutation={Mutations.DELETE_VALUE_PROPOSITION} children={noop} />,
+          <Mutation
+            mutation={Mutations.MATCH_VALUE_PROPOSITION}
+            refetchQueries={() => [{
+              query: Queries.CUSTOMER_SEGMENTS,
+              variables: { organizationId },
+            }]}
+            children={noop}
+          />,
           /* eslint-disable react/no-children-prop */
         ]}
       >
-        {([{ data, ...query }, updateValueProposition, deleteValueProposition]) => (
+        {([
+          { data, ...query },
+          updateValueProposition,
+          deleteValueProposition,
+          matchValueProposition,
+        ]) => (
           <EntityModalNext
             {...{ isOpen, toggle }}
             isEditMode
@@ -92,9 +104,9 @@ const ValuePropositionEditModal = ({
               validate={validateValueProposition}
               onSubmit={(values, form) => {
                 const currentValues = getInitialValues(data);
-                const isDirty = diff(values, currentValues);
+                const difference = diff(values, currentValues);
 
-                if (!isDirty) return undefined;
+                if (!difference) return undefined;
 
                 const {
                   title,
@@ -103,6 +115,22 @@ const ValuePropositionEditModal = ({
                   matchedTo,
                   notes = '',
                 } = values;
+
+                if (difference[0].path[0] === 'matchedTo') {
+                  return matchValueProposition({
+                    variables: {
+                      input: {
+                        _id,
+                        matchedTo: convertDocumentOptions({
+                          documentType: CanvasTypes.CUSTOMER_SEGMENT,
+                        }, matchedTo),
+                      },
+                    },
+                  }).then(noop).catch((err) => {
+                    form.reset(currentValues);
+                    throw err;
+                  });
+                }
 
                 return updateValueProposition({
                   variables: {
@@ -127,25 +155,42 @@ const ValuePropositionEditModal = ({
                 <Fragment>
                   <EntityModalHeader label="Value proposition" />
                   <EntityModalBody>
-                    <ValuePropositionForm {...{ organizationId }} save={handleSubmit} />
-                    {_id && (
-                      <Fragment>
-                        <ValueComponentsSubcard
-                          {...{ organizationId }}
-                          benefits={getBenefits(data)}
-                          features={getFeatures(data)}
-                          documentId={_id}
-                          documentType={CanvasTypes.VALUE_PROPOSITION}
-                        />
-                        <CanvasFilesSubcard
-                          {...{ organizationId }}
-                          documentId={_id}
-                          onUpdate={updateValueProposition}
-                          slingshotDirective={AWSDirectives.VALUE_PROPOSITION_FILES}
-                          documentType={CanvasSections.VALUE_PROPOSITIONS}
-                        />
-                      </Fragment>
-                    )}
+                    <RenderSwitch
+                      require={data.valueProposition && data.valueProposition.valueProposition}
+                      errorWhenMissing={noop}
+                      loading={query.loading}
+                      renderLoading={<ValuePropositionForm {...{ organizationId }} />}
+                    >
+                      {({
+                        _id: documentId,
+                        benefits = [],
+                        features = [],
+                        matchedTo,
+                      }) => (
+                        <Fragment>
+                          <ValuePropositionForm
+                            {...{ organizationId, matchedTo }}
+                            save={handleSubmit}
+                          />
+                          <ValueComponentsSubcard
+                            {...{
+                              organizationId,
+                              benefits,
+                              features,
+                              documentId,
+                              matchedTo,
+                            }}
+                            documentType={CanvasTypes.VALUE_PROPOSITION}
+                          />
+                          <CanvasFilesSubcard
+                            {...{ organizationId, documentId }}
+                            onUpdate={updateValueProposition}
+                            slingshotDirective={AWSDirectives.VALUE_PROPOSITION_FILES}
+                            documentType={CanvasTypes.VALUE_PROPOSITION}
+                          />
+                        </Fragment>
+                      )}
+                    </RenderSwitch>
                   </EntityModalBody>
                 </Fragment>
               )}

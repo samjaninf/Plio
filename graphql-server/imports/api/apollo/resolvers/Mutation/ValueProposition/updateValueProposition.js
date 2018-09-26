@@ -5,6 +5,7 @@ import {
   checkValuePropositionAccess,
   checkFilesAccess,
   valuePropositionUpdateAfterware,
+  checkValuePropositionMatchedToAccess,
 } from '../../../../../share/middleware';
 
 export const resolver = async (root, args, context) =>
@@ -14,6 +15,7 @@ export default applyMiddleware(
   checkLoggedIn(),
   flattenInput(),
   checkValuePropositionAccess(),
+  checkValuePropositionMatchedToAccess(),
   checkFilesAccess(),
   valuePropositionUpdateAfterware(),
 )(resolver);

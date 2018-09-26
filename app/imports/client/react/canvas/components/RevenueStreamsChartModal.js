@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import { pure } from 'recompose';
-import { pluck } from 'ramda';
+import { pluck, pathOr } from 'ramda';
+import { sortByIds, noop } from 'plio-util';
 
 import { WithState } from '../../helpers';
 import { Query as Queries } from '../../../graphql';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 import {
   RenderSwitch,
   PreloaderPage,
-  EntityModalNext,
   EntityModalHeader,
   EntityModalBody,
   SwitchView,
+  ChartModal,
 } from '../../components';
 import CanvasDoughnutChart from './CanvasDoughnutChart';
 
@@ -22,11 +24,20 @@ const chartTabs = {
   PERCENT_OF_PROFIT: 1,
 };
 
-const getChartData = (dataFieldName, revenueStreams) => ({
-  data: pluck(dataFieldName, revenueStreams),
-  labels: pluck('title', revenueStreams),
-  colors: pluck('color', revenueStreams),
-});
+const getChartData = (
+  dataFieldName,
+  {
+    revenueStreams: { revenueStreams },
+    canvasSettings: { canvasSettings },
+  },
+) => {
+  const order = pathOr([], [CanvasSections[CanvasTypes.REVENUE_STREAM], 'order'], canvasSettings);
+  const orderedRevenueStreams = sortByIds(order, revenueStreams);
+  return {
+    data: pluck(dataFieldName, orderedRevenueStreams),
+    labels: pluck('title', orderedRevenueStreams),
+  };
+};
 
 const StyledSwitchView = styled(SwitchView)`
   .form-group {
@@ -42,10 +53,11 @@ const RevenueStreamsChartModal = ({ isOpen, toggle, organizationId }) => (
     }}
   >
     {({ state, setState }) => (
-      <EntityModalNext
+      <ChartModal
         {...{ isOpen, toggle }}
         error={state.error}
         guidance="Revenue streams"
+        bodyHeight="calc(100vh - 185px)"
         noForm
       >
         <EntityModalHeader label="Revenue streams" />
@@ -68,12 +80,13 @@ const RevenueStreamsChartModal = ({ isOpen, toggle, organizationId }) => (
               {({ loading, data, error }) => (
                 <RenderSwitch
                   {...{ loading, error }}
+                  errorWhenMissing={noop}
                   require={data && data.revenueStreams}
                   renderLoading={<PreloaderPage />}
                 >
-                  {({ revenueStreams = [] }) => (
+                  {() => (
                     <CanvasDoughnutChart
-                      {...getChartData('percentOfRevenue', revenueStreams)}
+                      {...getChartData('percentOfRevenue', data)}
                       valueLabel="% of revenue"
                     />
                   )}
@@ -90,12 +103,13 @@ const RevenueStreamsChartModal = ({ isOpen, toggle, organizationId }) => (
               {({ loading, data, error }) => (
                 <RenderSwitch
                   {...{ loading, error }}
+                  errorWhenMissing={noop}
                   require={data && data.revenueStreams}
                   renderLoading={<PreloaderPage />}
                 >
-                  {({ revenueStreams }) => (
+                  {() => (
                     <CanvasDoughnutChart
-                      {...getChartData('percentOfProfit', revenueStreams)}
+                      {...getChartData('percentOfProfit', data)}
                       valueLabel="% of profit"
                     />
                   )}
@@ -104,7 +118,7 @@ const RevenueStreamsChartModal = ({ isOpen, toggle, organizationId }) => (
             </Query>
           </StyledSwitchView>
         </EntityModalBody>
-      </EntityModalNext>
+      </ChartModal>
     )}
   </WithState>
 );

@@ -7,7 +7,7 @@ import { compose, pick, over, pathOr, repeat } from 'ramda';
 import { pure } from 'recompose';
 
 import { swal } from '../../../util';
-import { AWSDirectives, CanvasSections } from '../../../../share/constants';
+import { AWSDirectives, CanvasTypes } from '../../../../share/constants';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateKeyActivity } from '../../../validation';
@@ -125,7 +125,7 @@ const KeyActivityEditModal = ({
                         documentId={_id}
                         onUpdate={updateKeyActivity}
                         slingshotDirective={AWSDirectives.KEY_ACTIVITY_FILES}
-                        documentType={CanvasSections.KEY_ACTIVITIES}
+                        documentType={CanvasTypes.KEY_ACTIVITY}
                       />
                     )}
                   </EntityModalBody>

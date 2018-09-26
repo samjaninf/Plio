@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 import curry from 'lodash.curry';
@@ -52,7 +54,7 @@ export class CheckedMethod extends ValidatedMethod {
     };
 
     props.run = function ({ ...args }) {
-      const userId = this.userId;
+      const { userId } = this;
 
       const res = props.check.call(this, collection =>
         (checker, err) => checkDocAndMembershipAndMore(collection, args._id, userId)(
@@ -76,7 +78,7 @@ export class MiddlewareMethod extends ValidatedMethod {
       const context = { userId };
       return applyMiddleware(...middleware)(
         (root, ...otherArgs) => props.run.apply(this, otherArgs),
-      )({}, args, context);
+      )(null, args, context);
     };
 
     super({ ...props, run, mixins });

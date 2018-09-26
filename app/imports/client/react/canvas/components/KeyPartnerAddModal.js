@@ -5,7 +5,7 @@ import { getUserOptions } from 'plio-util';
 import { Form } from 'reactstrap';
 import { pure } from 'recompose';
 
-import { CanvasColors, Criticality } from '../../../../share/constants';
+import { CanvasColors, CRITICALITY_DEFAULT } from '../../../../share/constants';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import {
   EntityModalNext,
@@ -24,12 +24,13 @@ const KeyPartnerAddModal = ({ isOpen, toggle, organizationId }) => (
         {createKeyPartner => (
           <EntityModalNext {...{ isOpen, toggle }}>
             <EntityModalForm
+              keepDirtyOnReinitialize
               initialValues={{
                 originator: getUserOptions(user),
                 title: '',
                 color: CanvasColors.INDIGO,
-                criticality: Criticality.DEFAULT,
-                levelOfSpend: Criticality.DEFAULT,
+                criticality: CRITICALITY_DEFAULT,
+                levelOfSpend: CRITICALITY_DEFAULT,
                 notes: '',
               }}
               onSubmit={(values) => {

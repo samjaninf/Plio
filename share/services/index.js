@@ -26,3 +26,4 @@ export { default as BenefitService } from './benefit-service';
 export { default as FeatureService } from './feature-service';
 export { default as NeedService } from './need-service';
 export { default as WantService } from './want-service';
+export { default as RelationService } from './relation-service';

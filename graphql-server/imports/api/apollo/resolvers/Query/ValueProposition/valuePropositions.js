@@ -3,10 +3,14 @@ import { checkLoggedIn, checkOrgMembership } from '../../../../../share/middlewa
 
 export const resolver = async (
   root,
-  { organizationId },
+  { organizationId, isUnmatched = false },
   { collections: { ValuePropositions } },
 ) => {
-  const cursor = ValuePropositions.find({ organizationId });
+  const query = { organizationId };
+
+  if (isUnmatched) Object.assign(query, { matchedTo: null });
+
+  const cursor = ValuePropositions.find(query);
 
   return {
     totalCount: cursor.count(),
