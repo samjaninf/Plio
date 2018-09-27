@@ -150,7 +150,7 @@ const KeyPartnerEditModal = ({
                               documentType={CanvasTypes.KEY_PARTNER}
                               onUpdate={updateKeyPartner}
                             />
-                            {risks.length ? (
+                            {!!risks.length && (
                               <CanvasRisksSubcard
                                 {...{ organizationId, risks }}
                                 linkedTo={{ _id, title }}
@@ -163,7 +163,7 @@ const KeyPartnerEditModal = ({
                                 linkedTo={{ _id, title }}
                                 documentType={CanvasTypes.KEY_PARTNER}
                               />
-                            ) : null}
+                            )}
                             <CanvasFilesSubcard
                               {...{ organizationId }}
                               documentId={_id}
