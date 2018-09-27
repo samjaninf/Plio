@@ -147,7 +147,7 @@ const KeyPartnerEditModal = ({
                               {...{ organizationId }}
                               entity={keyPartner}
                             />
-                            {risks.length ? (
+                            {!!risks.length && (
                               <CanvasRisksSubcard
                                 {...{ organizationId, risks }}
                                 onUpdate={updateKeyPartner}
@@ -156,7 +156,7 @@ const KeyPartnerEditModal = ({
                                   title,
                                 }}
                               />
-                            ) : null}
+                            )}
                             <CanvasFilesSubcard
                               {...{ organizationId, documentId }}
                               onUpdate={updateKeyPartner}
