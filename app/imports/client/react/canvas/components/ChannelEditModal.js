@@ -8,7 +8,7 @@ import diff from 'deep-diff';
 
 import { swal } from '../../../util';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { AWSDirectives, CanvasSections } from '../../../../share/constants';
+import { AWSDirectives, CanvasTypes } from '../../../../share/constants';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateChannel } from '../../../validation';
 import { WithState, Composer } from '../../helpers';
@@ -125,7 +125,7 @@ const ChannelEditModal = ({
                         documentId={_id}
                         onUpdate={updateChannel}
                         slingshotDirective={AWSDirectives.CHANNEL_FILES}
-                        documentType={CanvasSections.CHANNELS}
+                        documentType={CanvasTypes.CHANNEL}
                       />
                     )}
                   </EntityModalBody>

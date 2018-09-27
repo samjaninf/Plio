@@ -11,7 +11,7 @@ function postSignUpHook(userId, {
   profile: {
     organizationName,
     organizationTimezone = DEFAULT_ORG_TIMEZONE,
-    organizationHomeScreen = HomeScreenTypes.IMPLEMENTATION,
+    organizationHomeScreen = HomeScreenTypes.OPERATIONS,
   },
 }) {
   let organizationId;

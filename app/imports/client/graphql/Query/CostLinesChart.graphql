@@ -1,10 +1,16 @@
+#import "../Fragment/CanvasSettings.graphql"
+
 query CostLinesChart($organizationId: ID!) {
   costLines(organizationId: $organizationId) {
     costLines {
       _id
       title
-      color
       percentOfTotalCost
+    }
+  }
+  canvasSettings(organizationId: $organizationId) {
+    canvasSettings {
+      ...CanvasSettings
     }
   }
 }

@@ -1,0 +1,11 @@
+#import "../../Fragment/CustomerSegmentRelations.graphql"
+
+mutation matchCustomerSegment($input: MatchCustomerSegmentInput!) {
+  matchCustomerSegment(input: $input) {
+    ...CustomerSegmentRelations
+    matchedTo {
+      _id
+      title
+    }
+  }
+}

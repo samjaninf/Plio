@@ -1,5 +1,5 @@
-query CustomerSegmentList($organizationId: ID!) {
-  customerSegments(organizationId: $organizationId) {
+query CustomerSegmentList($organizationId: ID!, $isUnmatched: Boolean) {
+  customerSegments(organizationId: $organizationId, isUnmatched: $isUnmatched) {
     customerSegments {
       _id
       title

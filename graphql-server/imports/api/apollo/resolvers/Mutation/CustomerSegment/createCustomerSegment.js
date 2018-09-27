@@ -5,6 +5,7 @@ import {
   checkOrgMembership,
   checkPercentOfMarketSize,
   insertAfterware,
+  checkCustomerSegmentMatchedToAccess,
 } from '../../../../../share/middleware';
 
 export const resolver = async (root, args, context) =>
@@ -15,6 +16,7 @@ export default applyMiddleware(
   flattenInput(),
   checkOrgMembership(),
   checkPercentOfMarketSize(),
+  checkCustomerSegmentMatchedToAccess(),
   insertAfterware((root, args, { collections: { CustomerSegments } }) => ({
     collection: CustomerSegments,
     key: 'customerSegment',

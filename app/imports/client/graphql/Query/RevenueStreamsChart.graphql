@@ -1,10 +1,16 @@
+#import "../Fragment/CanvasSettings.graphql"
+
 query RevenueStreamsChart($organizationId: ID!) {
   revenueStreams(organizationId: $organizationId) {
     revenueStreams {
       _id
       title
-      color
       percentOfRevenue
+    }
+  }
+  canvasSettings(organizationId: $organizationId) {
+    canvasSettings {
+      ...CanvasSettings
     }
   }
 }

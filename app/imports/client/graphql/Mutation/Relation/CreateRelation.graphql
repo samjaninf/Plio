@@ -1,0 +1,3 @@
+mutation createRelation($input: RelationInput!) {
+  createRelation(input: $input)
+}

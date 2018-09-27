@@ -2,8 +2,14 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'reactstrap';
 import { Handle } from 'rc-slider';
+import { identity } from 'ramda';
 
-const SliderHandle = ({ dragging, id, ...rest }) => (
+const SliderHandle = ({
+  dragging,
+  id,
+  tipFormatter,
+  ...rest
+}) => (
   <Fragment>
     <Handle {...{ id, ...rest }} />
     <Tooltip
@@ -11,14 +17,19 @@ const SliderHandle = ({ dragging, id, ...rest }) => (
       isOpen={dragging}
       placement="top"
     >
-      {rest.value}
+      {tipFormatter(rest.value)}
     </Tooltip>
   </Fragment>
 );
 
+SliderHandle.defaultProps = {
+  tipFormatter: identity,
+};
+
 SliderHandle.propTypes = {
   dragging: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
+  tipFormatter: PropTypes.func,
 };
 
 export default SliderHandle;

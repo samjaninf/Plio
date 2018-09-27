@@ -1,0 +1,35 @@
+#import "./CustomerElementPresentation.graphql"
+#import "./CustomerElementCard.graphql"
+
+fragment ValuePropositionRelations on ValueProposition {
+  _id
+  benefits {
+    needs {
+      ...CustomerElementPresentation
+    }
+    wants {
+      ...CustomerElementPresentation
+    }
+    ...CustomerElementPresentation
+    ...CustomerElementCard
+  }
+  features {
+    needs {
+      ...CustomerElementPresentation
+    }
+    wants {
+      ...CustomerElementPresentation
+    }
+    ...CustomerElementPresentation
+    ...CustomerElementCard
+  }
+  matchedTo {
+    _id
+    needs {
+      ...CustomerElementPresentation
+    }
+    wants {
+      ...CustomerElementPresentation
+    }
+  }
+}

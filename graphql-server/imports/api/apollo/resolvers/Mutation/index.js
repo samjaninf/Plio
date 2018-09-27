@@ -19,6 +19,7 @@ import Benefit from './Benefit';
 import Feature from './Feature';
 import Need from './Need';
 import Want from './Want';
+import Relation from './Relation';
 
 export default {
   ...Goal,
@@ -42,4 +43,5 @@ export default {
   ...Feature,
   ...Need,
   ...Want,
+  ...Relation,
 };

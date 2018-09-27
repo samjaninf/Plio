@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { pure } from 'recompose';
 
+import { getCriticalityValueLabel } from '../helpers';
 import { FormField, SliderField } from '../../components';
 import { CriticalityLabels } from '../../../../api/constants';
 import CanvasForm from './CanvasForm';
@@ -22,6 +23,7 @@ const KeyPartnerForm = ({
         {...sliderLabels}
         name="criticality"
         onAfterChange={save}
+        tipFormatter={getCriticalityValueLabel}
       />
     </FormField>
     <FormField>
@@ -30,6 +32,7 @@ const KeyPartnerForm = ({
         {...sliderLabels}
         name="levelOfSpend"
         onAfterChange={save}
+        tipFormatter={getCriticalityValueLabel}
       />
     </FormField>
   </CanvasForm>

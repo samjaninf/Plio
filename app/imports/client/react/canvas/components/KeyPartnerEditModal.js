@@ -7,7 +7,7 @@ import { pure } from 'recompose';
 import diff from 'deep-diff';
 
 import { swal } from '../../../util';
-import { AWSDirectives, CanvasSections } from '../../../../share/constants';
+import { AWSDirectives, CanvasTypes } from '../../../../share/constants';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateKeyPartner } from '../../../validation';
@@ -134,7 +134,7 @@ const KeyPartnerEditModal = ({
                           documentId={_id}
                           onUpdate={updateKeyPartner}
                           slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
-                          documentType={CanvasSections.KEY_PARTNERS}
+                          documentType={CanvasTypes.KEY_PARTNER}
                         />
                       </Fragment>
                     )}

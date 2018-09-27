@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Query } from 'react-apollo';
 
+import { withUpdateLastAccessedDate } from '../../helpers';
 import Canvas from './Canvas';
 import CanvasRow from './CanvasRow';
 import CanvasCol from './CanvasCol';
@@ -17,7 +18,7 @@ import RevenueStreams from './RevenueStreams';
 import { Query as Queries } from '../../../graphql';
 import { RenderSwitch, PreloaderPage, ErrorPage } from '../../components';
 
-const CanvasPage = ({ organizationId }) => (
+const CanvasPage = ({ organization: { _id: organizationId } }) => (
   <Query query={Queries.CANVAS_PAGE} variables={{ organizationId }}>
     {({ error, loading }) => (
       <RenderSwitch
@@ -62,7 +63,9 @@ const CanvasPage = ({ organizationId }) => (
 );
 
 CanvasPage.propTypes = {
-  organizationId: PropTypes.string.isRequired,
+  organization: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+  }),
 };
 
-export default CanvasPage;
+export default withUpdateLastAccessedDate(CanvasPage);
