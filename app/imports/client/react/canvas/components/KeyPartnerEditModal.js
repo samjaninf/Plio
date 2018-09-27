@@ -147,6 +147,7 @@ const KeyPartnerEditModal = ({
                             <ActivelyManageSubcard
                               {...{ organizationId }}
                               entity={keyPartner}
+                              refetchQuery={Queries.KEY_PARTNER_CARD}
                               documentType={CanvasTypes.KEY_PARTNER}
                               onUpdate={updateKeyPartner}
                             />
@@ -156,10 +157,11 @@ const KeyPartnerEditModal = ({
                                 linkedTo={{ _id, title }}
                                 onUpdate={updateKeyPartner}
                               />
-                            ) : null}
-                            {lessons.length ? (
+                            )}
+                            {!!lessons.length && (
                               <CanvasLessonsSubcard
                                 {...{ organizationId, lessons }}
+                                refetchQuery={Queries.KEY_PARTNER_CARD}
                                 linkedTo={{ _id, title }}
                                 documentType={CanvasTypes.KEY_PARTNER}
                               />

@@ -54,6 +54,7 @@ const ActivelyManageSubcard = ({
   documentType,
   onUpdate,
   organizationId,
+  refetchQuery,
 }) => {
   const itemProps = {
     organizationId,
@@ -114,7 +115,7 @@ const ActivelyManageSubcard = ({
                 >
                   ActivelyManageItem
                 </EntityManagerItem>
-                <AddLessonItem {...{ documentType, ...itemProps }} />
+                <AddLessonItem {...{ documentType, refetchQuery, ...itemProps }} />
               </EntityManager>
             </ListGroup>
           </StyledCol>
@@ -128,6 +129,7 @@ ActivelyManageSubcard.propTypes = {
   organizationId: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   documentType: PropTypes.string.isRequired,
+  refetchQuery: PropTypes.object.isRequired,
   entity: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

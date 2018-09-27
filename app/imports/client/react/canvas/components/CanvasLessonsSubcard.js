@@ -8,9 +8,10 @@ const CanvasLessonsSubcard = ({
   lessons,
   linkedTo,
   documentType,
+  refetchQuery,
 }) => (
   <EntityLessonFormContainer
-    {...{ organizationId, documentType }}
+    {...{ organizationId, documentType, refetchQuery }}
     documentId={linkedTo._id}
   >
     {({ onSubmit, initialValues }) => (
@@ -32,6 +33,7 @@ CanvasLessonsSubcard.propTypes = {
   organizationId: PropTypes.string.isRequired,
   lessons: PropTypes.array.isRequired,
   documentType: PropTypes.string.isRequired,
+  refetchQuery: PropTypes.object.isRequired,
   linkedTo: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

@@ -5,9 +5,14 @@ import { EntityManagerItem } from '../../../components';
 import { LessonForm, EntityLessonFormContainer } from '../../../lessons';
 import ActivelyManageItem from './ActivelyManageItem';
 
-const AddLessonItem = ({ organizationId, linkedTo, documentType }) => (
+const AddLessonItem = ({
+  organizationId,
+  linkedTo,
+  documentType,
+  refetchQuery,
+}) => (
   <EntityLessonFormContainer
-    {...{ organizationId, documentType }}
+    {...{ organizationId, documentType, refetchQuery }}
     documentId={linkedTo._id}
   >
     {props => (
@@ -26,6 +31,7 @@ const AddLessonItem = ({ organizationId, linkedTo, documentType }) => (
 AddLessonItem.propTypes = {
   organizationId: PropTypes.string.isRequired,
   documentType: PropTypes.string.isRequired,
+  refetchQuery: PropTypes.object.isRequired,
   linkedTo: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

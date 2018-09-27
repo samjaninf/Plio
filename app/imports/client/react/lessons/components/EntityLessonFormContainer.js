@@ -13,6 +13,7 @@ const EntityLessonFormContainer = ({
   organizationId,
   documentId,
   documentType,
+  refetchQuery,
   children,
 }) => (
   <Composer
@@ -59,6 +60,9 @@ const EntityLessonFormContainer = ({
               },
             },
           },
+          refetchQueries: [
+            { query: refetchQuery, variables: { _id: documentId } },
+          ],
         });
       },
     })}
@@ -70,6 +74,7 @@ EntityLessonFormContainer.propTypes = {
   children: PropTypes.func.isRequired,
   documentId: PropTypes.string.isRequired,
   documentType: PropTypes.string.isRequired,
+  refetchQuery: PropTypes.object.isRequired,
 };
 
 export default EntityLessonFormContainer;
