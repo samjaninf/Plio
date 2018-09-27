@@ -138,6 +138,7 @@ const KeyPartnerEditModal = ({
                         renderLoading={<KeyPartnerForm {...{ organizationId }} />}
                       >
                         {({
+                          _id: documentId,
                           risks = [],
                           lessons = [],
                           title,
@@ -154,7 +155,7 @@ const KeyPartnerEditModal = ({
                             {!!risks.length && (
                               <CanvasRisksSubcard
                                 {...{ organizationId, risks }}
-                                linkedTo={{ _id, title }}
+                                linkedTo={{ _id: documentId, title }}
                                 onUpdate={updateKeyPartner}
                               />
                             )}
@@ -162,13 +163,12 @@ const KeyPartnerEditModal = ({
                               <CanvasLessonsSubcard
                                 {...{ organizationId, lessons }}
                                 refetchQuery={Queries.KEY_PARTNER_CARD}
-                                linkedTo={{ _id, title }}
+                                linkedTo={{ _id: documentId, title }}
                                 documentType={CanvasTypes.KEY_PARTNER}
                               />
                             )}
                             <CanvasFilesSubcard
-                              {...{ organizationId }}
-                              documentId={_id}
+                              {...{ organizationId, documentId }}
                               onUpdate={updateKeyPartner}
                               slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
                               documentType={CanvasTypes.KEY_PARTNER}
