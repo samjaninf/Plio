@@ -1,0 +1,9 @@
+type FeaturePayload {
+  feature: Feature
+}
+
+type Mutation {
+  createFeature(input: CreateCustomerElementInput!): FeaturePayload
+  updateFeature(input: UpdateCustomerElementInput!): Feature
+  deleteFeature(input: DeleteCustomerElementInput!): Feature
+}

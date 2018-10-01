@@ -4,10 +4,11 @@ import { Query } from 'react-apollo';
 import { pure } from 'recompose';
 
 import KeyResourceAddModal from './KeyResourceAddModal';
+import KeyResourceEditModal from './KeyResourceEditModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const KeyResources = ({ organizationId }) => (
   <Query
@@ -19,13 +20,23 @@ const KeyResources = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Key resources"
-        sectionName={CanvasSections.KEY_RESOURCES}
+        sectionName={CanvasSections[CanvasTypes.KEY_RESOURCE]}
         help={(
           <p>What key resources do our key activities require?</p>
         )}
         items={keyResources}
         renderModal={({ isOpen, toggle }) => (
           <KeyResourceAddModal {...{ isOpen, toggle, organizationId }} />
+        )}
+        renderEditModal={({ isOpen, toggle, _id }) => (
+          <KeyResourceEditModal
+            {...{
+              isOpen,
+              toggle,
+              organizationId,
+              _id,
+            }}
+          />
         )}
       />
     )}

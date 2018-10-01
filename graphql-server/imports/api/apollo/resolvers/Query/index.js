@@ -17,6 +17,10 @@ import CostLine from './CostLine';
 import RevenueStream from './RevenueStream';
 import Channel from './Channel';
 import CanvasSettings from './CanvasSettings';
+import Benefit from './Benefit';
+import Feature from './Feature';
+import Need from './Need';
+import Want from './Want';
 
 export default {
   ...User,
@@ -38,4 +42,8 @@ export default {
   ...RevenueStream,
   ...Channel,
   ...CanvasSettings,
+  ...Benefit,
+  ...Feature,
+  ...Need,
+  ...Want,
 };

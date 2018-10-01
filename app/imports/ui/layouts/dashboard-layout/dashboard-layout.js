@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
 
 import { OrgSubs } from '/imports/startup/client/subsmanagers';
+import MainHeaderWithApollo from
+  '../../../client/react/main-header/components/MainHeaderWithApollo';
 
 Template.Dashboard_Layout.viewmodel({
   mixin: 'organization',
@@ -20,4 +22,5 @@ Template.Dashboard_Layout.viewmodel({
       ]);
     },
   ],
+  MainHeaderWithApollo: () => MainHeaderWithApollo,
 });

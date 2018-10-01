@@ -1,0 +1,39 @@
+union CustomerElementLinkedDocument = ValueProposition | CustomerSegment
+
+input CustomerElementLinkedToInput {
+  documentId: ID!
+  documentType: String!
+}
+
+input CreateCustomerElementInput {
+  organizationId: ID!
+  title: String!
+  description: String
+  importance: Int!
+  linkedTo: [CustomerElementLinkedToInput!]!
+}
+
+input UpdateCustomerElementInput {
+  _id: ID!
+  title: String
+  description: String
+  importance: Int
+}
+
+input DeleteCustomerElementInput {
+  _id: ID!
+}
+
+interface CustomerElement {
+  _id: ID!
+  organization: Organization!
+  serialNumber: Int!
+  sequentialId: String!
+  title: String!
+  description: String
+  importance: Int!
+  # Note: currently status is not updated in the database, but is resolved virtually
+  status: Int!
+  linkedTo: [CustomerElementLinkedDocument!]!
+  documentType: String
+}

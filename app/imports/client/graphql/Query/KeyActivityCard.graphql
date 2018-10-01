@@ -1,0 +1,9 @@
+#import "../Fragment/KeyActivityCard.graphql"
+
+query KeyActivityCard($_id: ID!) {
+  keyActivity(_id: $_id) {
+    keyActivity {
+      ...KeyActivityCard
+    }
+  }
+}

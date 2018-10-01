@@ -1,11 +1,17 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-import { BaseEntitySchema, OrganizationIdSchema, idSchemaDoc } from './schemas';
+import {
+  BaseEntitySchema,
+  OrganizationIdSchema,
+  idSchemaDoc,
+  FileIdsSchema,
+} from './schemas';
 import { StringLimits, CanvasColors } from '../constants';
 
 const CanvasSchema = new SimpleSchema([
   BaseEntitySchema,
   OrganizationIdSchema,
+  FileIdsSchema,
   {
     title: {
       type: String,

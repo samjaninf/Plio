@@ -60,6 +60,7 @@ const EntityModal = ({
       active: true,
       dirty: true,
     }}
+    keepDirtyOnReinitialize
   >
     {({
       handleSubmit,

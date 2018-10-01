@@ -1,0 +1,5 @@
+mutation deleteCustomerRelationship($input: DeleteCustomerRelationshipInput!) {
+  deleteCustomerRelationship(input: $input) {
+    _id
+  }
+}

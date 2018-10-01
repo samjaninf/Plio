@@ -3,6 +3,11 @@ type RevenueStreamsQueryPayload {
   revenueStreams: [RevenueStream]
 }
 
+type RevenueStreamQueryPayload {
+  revenueStream: RevenueStream
+}
+
 type Query {
   revenueStreams(organizationId: ID!): RevenueStreamsQueryPayload
+  revenueStream(_id: ID!): RevenueStreamQueryPayload
 }

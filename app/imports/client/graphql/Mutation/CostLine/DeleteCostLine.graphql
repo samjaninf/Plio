@@ -1,0 +1,5 @@
+mutation deleteCostLine($input: DeleteCostLineInput!) {
+  deleteCostLine(input: $input) {
+    _id
+  }
+}

@@ -128,7 +128,7 @@ export const SelectWrapper = styled.div`
         border-radius: 0 4px 0 0;
       }
     }
-    &.has-value.is-open {
+    &.is-open {
       .Select-input:before {
         content: '';
       }
@@ -137,7 +137,7 @@ export const SelectWrapper = styled.div`
   ${({ type }) => type === 'creatable' ? css`
     .Select-menu-outer {
       max-height: none;
-      &:after {
+      .Select-menu:after {
         content: 'Start typing...';
         display: block;
         padding: 8px 10px;

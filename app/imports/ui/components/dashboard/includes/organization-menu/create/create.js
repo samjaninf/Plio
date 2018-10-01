@@ -1,9 +1,6 @@
 import { Template } from 'meteor/templating';
-import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { Organizations } from '/imports/share/collections/organizations.js';
-import { insert } from '/imports/api/organizations/methods.js';
-
+import { insert } from '../../../../../../api/organizations/methods.js';
 
 Template.Organizations_Create.viewmodel({
   mixin: ['modal', 'router'],
@@ -13,13 +10,11 @@ Template.Organizations_Create.viewmodel({
 
     this.modal().callMethod(insert, { name, timezone, currency }, this.onAfterInsert.bind(this));
   },
-  onAfterInsert(err, _id) {
+  onAfterInsert(err, organizationId) {
     if (!err) {
+      const { onCreateOrg } = this;
+      if (onCreateOrg) onCreateOrg(organizationId);
       this.modal().close();
-
-      const org = Organizations.findOne({ _id });
-
-      !!org && this.goToDashboard(org.serialNumber);
     }
   },
   getData() {

@@ -1,0 +1,5 @@
+mutation deleteKeyResource($input: DeleteKeyResourceInput!) {
+  deleteKeyResource(input: $input) {
+    _id
+  }
+}

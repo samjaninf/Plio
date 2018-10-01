@@ -1,0 +1,5 @@
+mutation deleteValueProposition($input: DeleteValuePropositionInput!) {
+  deleteValueProposition(input: $input) {
+    _id
+  }
+}

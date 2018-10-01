@@ -1,3 +1,5 @@
+/* global toastr */
+
 import { Meteor } from 'meteor/meteor';
 import { Slingshot } from 'meteor/edgee:slingshot';
 
@@ -5,7 +7,7 @@ import {
   insert as insertFile,
   updateProgress,
   updateUrl,
-} from '/imports/api/files/methods';
+} from '../../../api/files/methods';
 import UploadsStore from './uploads-store.js';
 
 
@@ -34,7 +36,8 @@ export default class UploadService {
     }
 
     if (file.size > this.maxFileSize) {
-      toastr.error(`${file.name} size exceeds the allowed maximum of ${this.maxFileSize / 1024 / 1024} MB`);
+      toastr.error(`${file.name} size exceeds the allowed maximum` +
+        `of ${this.maxFileSize / 1024 / 1024} MB`);
       return;
     }
 
@@ -49,13 +52,13 @@ export default class UploadService {
 
   _beforeInsert(file) {
     const beforeInsertHook = this.hooks.beforeInsert;
-    beforeInsertHook && beforeInsertHook();
+    if (beforeInsertHook) beforeInsertHook();
 
     this._insert(file);
   }
 
   _insert(file) {
-    const name = file.name;
+    const { name } = file;
 
     insertFile.call({
       name,
@@ -73,7 +76,7 @@ export default class UploadService {
     this._subscribe(fileId, {
       onReady: () => {
         const afterInsertHook = this.hooks.afterInsert;
-        afterInsertHook && afterInsertHook(fileId);
+        if (afterInsertHook) afterInsertHook(fileId);
 
         this._upload(file, fileId);
       },
@@ -99,15 +102,16 @@ export default class UploadService {
     }
 
     if (url) {
+      // eslint-disable-next-line no-param-reassign
       url = encodeURI(url);
     }
 
     const afterUploadHook = this.hooks.afterUpload;
-    afterUploadHook && afterUploadHook(fileId, url);
+    if (afterUploadHook) afterUploadHook(fileId, url);
 
     updateUrl.call({ _id: fileId, url });
 
-    updateProgress.call({ _id: fileId, progress: 1 }, (err, res) => {
+    updateProgress.call({ _id: fileId, progress: 1 }, () => {
       UploadsStore.removeUploader(fileId);
 
       // if file document is needed after UploadService finished its job,
@@ -126,7 +130,7 @@ export default class UploadService {
 
   _stopSubscription(fileId) {
     const fileSub = this._fileSubscriptions[fileId];
-    fileSub && fileSub.stop();
+    if (fileSub) fileSub.stop();
     delete this._fileSubscriptions[fileId];
   }
 }

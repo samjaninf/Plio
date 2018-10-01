@@ -1,15 +1,19 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
-import { OrganizationSettingsHelp } from '/imports/api/help-messages.js';
+import { mergeDeepLeft } from 'ramda';
+import { OrganizationSettingsHelp } from '../../../../../../api/help-messages.js';
 import {
   setName,
   setTimezone,
   setDefaultCurrency,
   createOrganizationTransfer,
   cancelOrganizationTransfer,
-} from '/imports/api/organizations/methods.js';
-import { ALERT_AUTOHIDE_TIME } from '/imports/api/constants';
-import { getEmail } from '/imports/api/users/helpers';
+} from '../../../../../../api/organizations/methods.js';
+import { ALERT_AUTOHIDE_TIME } from '../../../../../../api/constants';
+import { getEmail } from '../../../../../../api/users/helpers';
+import { swal } from '../../../../../../client/util';
+import { client, updateOrganizationFragment } from '../../../../../../client/apollo';
+import { Fragment } from '../../../../../../client/graphql';
 
 Template.OrgSettings_MainSettings.viewmodel({
   mixin: ['modal', 'organization', 'callWithFocusCheck', 'user', 'router', 'getChildrenData'],
@@ -31,7 +35,18 @@ Template.OrgSettings_MainSettings.viewmodel({
     this.callWithFocusCheck(e, () => {
       const _id = this.organizationId();
 
-      this.modal().callMethod(setName, { _id, name });
+      this.modal().callMethod(setName, { _id, name }, (err) => {
+        if (!err) {
+          updateOrganizationFragment(
+            mergeDeepLeft({ name }),
+            {
+              id: _id,
+              fragment: Fragment.ORGANIZATION,
+            },
+            client,
+          );
+        }
+      });
     });
   },
   updateTimezone({ timezone }) {
@@ -57,7 +72,8 @@ Template.OrgSettings_MainSettings.viewmodel({
 
     swal({
       title: 'Are you sure?',
-      text: `Invitation to become an owner of "${name}" organization will be sent to ${newOwnerName}`,
+      text: `Invitation to become an owner of "${name}" ` +
+        `organization will be sent to ${newOwnerName}`,
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Transfer',

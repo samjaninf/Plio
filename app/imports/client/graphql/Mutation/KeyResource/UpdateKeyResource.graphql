@@ -1,0 +1,7 @@
+#import "../../Fragment/KeyResourceCard.graphql"
+
+mutation updateKeyResource($input: UpdateKeyResourceInput!) {
+  updateKeyResource(input: $input) {
+    ...KeyResourceCard
+  }
+}

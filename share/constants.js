@@ -118,6 +118,11 @@ export const CollectionNames = {
   CUSTOMER_SEGMENTS: 'CustomerSegments',
   REVENUE_STREAMS: 'RevenueStreams',
   CANVAS_SETTINGS: 'CanvasSettings',
+  BENEFITS: 'Benefits',
+  FEATURES: 'Features',
+  NEEDS: 'Needs',
+  WANTS: 'Wants',
+  RELATIONS: 'Relations',
 };
 
 export const DefaultRiskTypes = [
@@ -305,6 +310,17 @@ export const ProblemsStatuses = {
   [ProblemIndexes.DELETED]: 'Deleted',
 };
 
+export const Abbreviations = {
+  GOAL: 'KG',
+  LESSON: 'LL',
+  NONCONFORMITY: 'NC',
+  POTENTIAL_GAIN: 'PG',
+  BENEFIT: 'BE',
+  FEATURE: 'FE',
+  NEED: 'NE',
+  WANT: 'WA',
+};
+
 export const ProblemTypes = {
   NON_CONFORMITY: 'non-conformity',
   RISK: 'risk',
@@ -323,12 +339,45 @@ export const CanvasTypes = {
   REVENUE_STREAM: 'revenue-stream',
 };
 
+export const CanvasSections = {
+  [CanvasTypes.KEY_PARTNER]: 'keyPartners',
+  [CanvasTypes.KEY_ACTIVITY]: 'keyActivities',
+  [CanvasTypes.KEY_RESOURCE]: 'keyResources',
+  [CanvasTypes.VALUE_PROPOSITION]: 'valuePropositions',
+  [CanvasTypes.CUSTOMER_RELATIONSHIP]: 'customerRelationships',
+  [CanvasTypes.CHANNEL]: 'channels',
+  [CanvasTypes.CUSTOMER_SEGMENT]: 'customerSegments',
+  [CanvasTypes.COST_LINE]: 'costStructure',
+  [CanvasTypes.REVENUE_STREAM]: 'revenueStreams',
+};
+
+export const UploaderMetaIdNames = {
+  [CanvasTypes.KEY_PARTNER]: 'keyPartnerId',
+  [CanvasTypes.KEY_ACTIVITY]: 'keyActivityId',
+  [CanvasTypes.KEY_RESOURCE]: 'keyResourceId',
+  [CanvasTypes.VALUE_PROPOSITION]: 'valuePropositionId',
+  [CanvasTypes.CUSTOMER_RELATIONSHIP]: 'customerRelationshipId',
+  [CanvasTypes.CHANNEL]: 'channelId',
+  [CanvasTypes.CUSTOMER_SEGMENT]: 'customerSegmentId',
+  [CanvasTypes.COST_LINE]: 'costLineId',
+  [CanvasTypes.REVENUE_STREAM]: 'revenueStreamId',
+};
+
+export const CustomerElementTypes = {
+  BENEFIT: Abbreviations.BENEFIT,
+  FEATURE: Abbreviations.FEATURE,
+  NEED: Abbreviations.NEED,
+  WANT: Abbreviations.WANT,
+};
+
 export const DocumentTypes = {
   STANDARD: 'standard',
   GOAL: 'goal',
   MILESTONE: 'milestone',
   ...ProblemTypes,
   ...ActionTypes,
+  ...CanvasTypes,
+  ...CustomerElementTypes,
 };
 
 export const DocumentTypesPlural = {
@@ -402,7 +451,7 @@ export const StringLimits = {
     max: 120,
   },
   description: {
-    max: 240,
+    max: 500,
   },
   url: {
     min: 1,
@@ -693,6 +742,15 @@ export const HomeScreenTitlesTypes = {
   WORK_INBOX: 'workInbox',
 };
 
+export const HomeScreenTitlesTypesLabels = {
+  [HomeScreenTitlesTypes.STANDARDS]: 'Standards',
+  [HomeScreenTitlesTypes.RISKS]: 'Risk register',
+  [HomeScreenTitlesTypes.NON_CONFORMITIES]: 'Nonconformities',
+  [HomeScreenTitlesTypes.WORK_INBOX]: 'Work inbox',
+};
+
+export const HOME_SCREEN_TITLES = 'homeScreenTitles';
+
 export const EmailsForPlioReporting = [
   'steve.ives@pliohub.com',
   'mike@jssolutionsdev.com',
@@ -850,14 +908,6 @@ export const MilestoneStatuses = {
   4: 'Completed',
 };
 
-// fill in other stuff
-export const Abbreviations = {
-  GOAL: 'KG',
-  LESSON: 'LL',
-  NONCONFORMITY: 'NC',
-  POTENTIAL_GAIN: 'PG',
-};
-
 export const AWSDirectives = {
   DISCUSSION_FILES: 'discussionFiles',
   USER_AVATARS: 'userAvatars',
@@ -870,27 +920,71 @@ export const AWSDirectives = {
   ROOT_CAUSE_ANALYSIS_FILES: 'rootCauseAnalysisFiles',
   HELP_DOC_FILES: 'helpDocFiles',
   GOAL_FILES: 'goalFiles',
+  KEY_PARTNER_FILES: 'keyPartnerFiles',
+  KEY_ACTIVITY_FILES: 'keyActivityFiles',
+  KEY_RESOURCE_FILES: 'keyResourceFiles',
+  VALUE_PROPOSITION_FILES: 'valuePropositionFiles',
+  CUSTOMER_RELATIONSHIP_FILES: 'customerRelationshipFiles',
+  CHANNEL_FILES: 'channelFiles',
+  CUSTOMER_SEGMENT_FILES: 'customerSegmentFiles',
+  COST_LINE_FILES: 'costLineFiles',
+  REVENUE_STREAM_FILES: 'revenueStreamFiles',
 };
+
+export const CRITICALITY_DEFAULT = 30;
 
 export const Criticality = {
-  LOW: 1,
-  MEDIUM: 2,
-  HIGH: 3,
-  VERY_HIGH: 4,
+  VERY_LOW: 1,
+  LOW: 2,
+  MEDIUM: 3,
+  HIGH: 4,
+  VERY_HIGH: 5,
 };
 
-export const LevelOfSpend = { ...Criticality };
+export const CriticalityLevels = {
+  [Criticality.VERY_LOW]: {
+    label: 'Very low',
+    max: 20,
+  },
+  [Criticality.LOW]: {
+    label: 'Low',
+    max: 40,
+  },
+  [Criticality.MEDIUM]: {
+    label: 'Medium',
+    max: 60,
+  },
+  [Criticality.HIGH]: {
+    label: 'High',
+    max: 80,
+  },
+  [Criticality.VERY_HIGH]: {
+    label: 'Very high',
+    max: 100,
+  },
+};
 
 export const CanvasColors = { ...Colors };
 
-export const CanvasSections = {
-  KEY_PARTNERS: 'keyPartners',
-  KEY_ACTIVITIES: 'keyActivities',
-  KEY_RESOURCES: 'keyResources',
-  VALUE_PROPOSITIONS: 'valuePropositions',
-  CUSTOMER_RELATIONSHIPS: 'customerRelationships',
-  CHANNELS: 'channels',
-  CUSTOMER_SEGMENTS: 'customerSegments',
-  COST_STRUCTURE: 'costStructure',
-  REVENUE_STREAMS: 'revenueStreams',
+export const MAX_TOTAL_PERCENT = 100;
+
+export const CustomerElementStatuses = {
+  UNMATCHED: 1,
+  MATCHED: 2,
+  1: 'Unmatched',
+  2: 'Matched',
 };
+
+export const ImportanceValues = [1, 2, 3, 4, 5];
+
+export const HomeScreenTypes = {
+  OPERATIONS: 'operations',
+  CANVAS: 'canvas',
+};
+
+export const HomeScreenLabels = {
+  [HomeScreenTypes.OPERATIONS]: 'Operations view',
+  [HomeScreenTypes.CANVAS]: 'Canvas view',
+};
+
+export const DEFAULT_ORG_TIMEZONE = 'Europe/London';

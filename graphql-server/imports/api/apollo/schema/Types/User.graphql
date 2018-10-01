@@ -15,6 +15,7 @@ type User {
   # User status (online/offline/away)
   status: String
   statusConnection: String
+  isPlioUser: Boolean
 }
 
 type UserEmail {

@@ -10,3 +10,8 @@ export { default as CustomerSegmentSchema } from './customer-segment-schema';
 export { default as RevenueStreamSchema } from './revenue-stream-schema';
 export { default as ChannelSchema } from './channel-schema';
 export { default as CanvasSettingsSchema } from './canvas-settings-schema';
+export { default as BenefitSchema } from './benefit-schema';
+export { default as FeatureSchema } from './feature-schema';
+export { default as NeedSchema } from './need-schema';
+export { default as WantSchema } from './want-schema';
+export { default as RelationSchema } from './relation-schema';

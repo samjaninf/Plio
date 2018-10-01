@@ -1,9 +1,6 @@
 import { Template } from 'meteor/templating';
-import { FlowRouter } from 'meteor/kadira:flow-router';
-import { Meteor } from 'meteor/meteor';
 
-import { deleteOrganization } from '/imports/api/organizations/methods';
-
+import { deleteOrganization } from '../../../../../../../api/organizations/methods';
 
 Template.OrgSettings_OrgDeletion.viewmodel({
   mixin: 'modal',
@@ -13,8 +10,9 @@ Template.OrgSettings_OrgDeletion.viewmodel({
   },
   afterDelete(err) {
     if (!err) {
+      const { onDeleteOrg } = this.parent().parent();
+      if (onDeleteOrg) onDeleteOrg();
       this.modal().close();
-      Meteor.defer(() => FlowRouter.go('hello'));
     }
   },
 });

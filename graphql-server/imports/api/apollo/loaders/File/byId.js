@@ -1,5 +1,3 @@
-import DataLoader from 'dataloader';
-import { Files } from '../../../../share/collections';
+import { createByIdLoader } from '../util';
 
-export default () => new DataLoader(async ids =>
-  Promise.all(ids.map(_id => Files.findOne({ _id }))));
+export default ({ collections: { Files } }) => createByIdLoader(Files);

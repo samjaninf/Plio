@@ -1,0 +1,9 @@
+fragment CustomerSegmentPresentation on CustomerSegment {
+  _id
+  title
+  color
+  matchedTo {
+    _id
+    title
+  }
+}

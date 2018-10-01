@@ -1,5 +1,5 @@
-query ValuePropositionList($organizationId: ID!) {
-  valuePropositions(organizationId: $organizationId) {
+query ValuePropositionList($organizationId: ID!, $isUnmatched: Boolean) {
+  valuePropositions(organizationId: $organizationId, isUnmatched: $isUnmatched) {
     valuePropositions {
       _id
       title

@@ -12,6 +12,23 @@ input CreateRevenueStreamInput {
   notes: String
 }
 
+input UpdateRevenueStreamInput {
+  _id: ID!
+  title: String
+  originatorId: ID
+  color: String
+  percentOfRevenue: Int
+  percentOfProfit: Int
+  notes: String
+  fileIds: [String]
+}
+
+input DeleteRevenueStreamInput {
+  _id: ID!
+}
+
 type Mutation {
   createRevenueStream(input: CreateRevenueStreamInput!): RevenueStreamPayload
+  updateRevenueStream(input: UpdateRevenueStreamInput!): RevenueStream
+  deleteRevenueStream(input: DeleteRevenueStreamInput!): RevenueStream
 }

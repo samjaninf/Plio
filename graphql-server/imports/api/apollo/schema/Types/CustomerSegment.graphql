@@ -1,9 +1,3 @@
-type CustomerSegmentMatchedTo {
-  documentId: ID!
-  # could be union in the future
-  document: ValueProposition
-}
-
 type CustomerSegment implements BaseEntity, CanvasEntity {
   _id: ID!
   organization: Organization!
@@ -14,6 +8,10 @@ type CustomerSegment implements BaseEntity, CanvasEntity {
   title: String!
   originator: User!
   color: String!
+  percentOfMarketSize: Int!
   notes: String
-  matchedTo: CustomerSegmentMatchedTo
+  matchedTo: ValueProposition
+  needs: [Need]
+  wants: [Want]
+  fileIds: [String]
 }

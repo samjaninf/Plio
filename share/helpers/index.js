@@ -26,6 +26,19 @@ import {
   Discussions,
   Goals,
   Milestones,
+  KeyPartners,
+  KeyActivities,
+  KeyResources,
+  ValuePropositions,
+  CustomerRelationships,
+  Channels,
+  CustomerSegments,
+  CostLines,
+  RevenueStreams,
+  Benefits,
+  Features,
+  Needs,
+  Wants,
 } from '../collections';
 
 export * from './actions';
@@ -84,6 +97,45 @@ export const getCollectionByDocType = (docType) => {
 
     case AllDocumentTypes.MILESTONE:
       return Milestones;
+
+    case AllDocumentTypes.KEY_PARTNER:
+      return KeyPartners;
+
+    case AllDocumentTypes.KEY_ACTIVITY:
+      return KeyActivities;
+
+    case AllDocumentTypes.KEY_RESOURCE:
+      return KeyResources;
+
+    case AllDocumentTypes.VALUE_PROPOSITION:
+      return ValuePropositions;
+
+    case AllDocumentTypes.CUSTOMER_RELATIONSHIP:
+      return CustomerRelationships;
+
+    case AllDocumentTypes.CHANNEL:
+      return Channels;
+
+    case AllDocumentTypes.CUSTOMER_SEGMENT:
+      return CustomerSegments;
+
+    case AllDocumentTypes.COST_LINE:
+      return CostLines;
+
+    case AllDocumentTypes.REVENUE_STREAM:
+      return RevenueStreams;
+
+    case AllDocumentTypes.BENEFIT:
+      return Benefits;
+
+    case AllDocumentTypes.FEATURE:
+      return Features;
+
+    case AllDocumentTypes.NEED:
+      return Needs;
+
+    case AllDocumentTypes.WANT:
+      return Wants;
 
     default:
       return undefined;

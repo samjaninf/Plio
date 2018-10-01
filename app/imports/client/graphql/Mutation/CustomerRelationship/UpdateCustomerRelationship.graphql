@@ -1,0 +1,7 @@
+#import "../../Fragment/CustomerRelationshipCard.graphql"
+
+mutation updateCustomerRelationship($input: UpdateCustomerRelationshipInput!) {
+  updateCustomerRelationship(input: $input) {
+    ...CustomerRelationshipCard
+  }
+}

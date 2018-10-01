@@ -10,7 +10,13 @@ type CountsQueryPayload {
   workInbox: CountType
 }
 
+type OrganizationsPayload {
+  totalCount: Int
+  organizations: [Organization]
+}
+
 type Query {
   organization(_id: ID, serialNumber: Int): Organization
   counts(organizationId: ID!): CountsQueryPayload
+  organizations: OrganizationsPayload
 }

@@ -11,4 +11,5 @@ type KeyPartner implements BaseEntity, CanvasEntity {
   criticality: Int!
   levelOfSpend: Int!
   notes: String
+  fileIds: [String]
 }

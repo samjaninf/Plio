@@ -3,9 +3,15 @@ import { Accounts } from 'meteor/accounts-base';
 import ApolloClient from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { BatchHttpLink } from 'apollo-link-batch-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
+
+import introspectionQueryResultData from '../../../fragmentTypes.json';
 
 const GRAPHQL_URL = Meteor.settings.public.graphql.url;
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData,
+});
 
 const httpLink = new BatchHttpLink({ uri: GRAPHQL_URL });
 const meteorAccountsLink = new ApolloLink((operation, forward) => {
@@ -18,7 +24,9 @@ const meteorAccountsLink = new ApolloLink((operation, forward) => {
 });
 
 const link = meteorAccountsLink.concat(httpLink);
-const cache = new InMemoryCache().restore(window.__APOLLO_STATE__);
+const cache = new InMemoryCache({
+  fragmentMatcher,
+}).restore(window.__APOLLO_STATE__);
 
 const client = new ApolloClient({
   link,

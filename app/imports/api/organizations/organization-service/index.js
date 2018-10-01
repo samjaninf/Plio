@@ -48,7 +48,11 @@ const OrganizationService = {
   collection: Organizations,
 
   insert({
-    name, timezone, currency, ownerId,
+    name,
+    timezone,
+    currency,
+    ownerId,
+    homeScreenType,
   }) {
     const serialNumber = generateSerialNumber(this.collection, {}, 100);
 
@@ -67,6 +71,7 @@ const OrganizationService = {
       timezone,
       currency,
       serialNumber,
+      homeScreenType,
       users: [{
         userId: ownerId,
         role: UserMembership.ORG_OWNER,

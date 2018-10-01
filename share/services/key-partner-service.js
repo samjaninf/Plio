@@ -27,6 +27,7 @@ export default {
     criticality,
     levelOfSpend,
     notes,
+    fileIds,
   }, { userId, collections: { KeyPartners } }) {
     const query = { _id };
     const modifier = {
@@ -37,10 +38,14 @@ export default {
         criticality,
         levelOfSpend,
         notes,
+        fileIds,
         updatedBy: userId,
       },
     };
 
     return KeyPartners.update(query, modifier);
+  },
+  async delete({ _id }, { collections: { KeyPartners } }) {
+    return KeyPartners.remove({ _id });
   },
 };

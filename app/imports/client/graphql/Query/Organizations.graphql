@@ -1,0 +1,9 @@
+query Organizations {
+  organizations {
+    organizations {
+      _id
+      name
+      serialNumber
+    }
+  }
+}

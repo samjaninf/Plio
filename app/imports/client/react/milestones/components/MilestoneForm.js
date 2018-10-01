@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { Label } from 'reactstrap';
 import styled from 'styled-components';
 import { renameKeys } from 'plio-util';
 
@@ -15,9 +14,10 @@ import {
 import MilestoneSymbol from './MilestoneSymbol';
 import { MilestoneStatuses } from '../../../../share/constants';
 
-const StyledLabel = styled(Label)`
+const StatusField = styled.span`
   display: flex;
   align-items: center;
+  padding: .375rem 0;
 `;
 
 const StyledSpan = styled.span`
@@ -59,10 +59,10 @@ const MilestoneForm = ({
     {!!status && (
       <FormField>
         Status
-        <StyledLabel>
+        <StatusField>
           <MilestoneSymbol {...{ status, color }} />
           <StyledSpan>{MilestoneStatuses[status]}</StyledSpan>
-        </StyledLabel>
+        </StatusField>
       </FormField>
     )}
     <FormField>

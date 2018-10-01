@@ -3,13 +3,13 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import FilesService from './files-service';
-import { Files } from '/imports/share/collections/files';
-import { RequiredSchema } from '/imports/share/schemas/files-schema';
+import { Files } from '../../share/collections/files';
+import { RequiredSchema } from '../../share/schemas/files-schema';
 import {
   IdSchema, UrlSchema,
   ProgressSchema, ErrorSchema,
-} from '/imports/share/schemas/schemas';
-import { checkOrgMembership, checkDocExistance } from '/imports/api/checkers';
+} from '../../share/schemas/schemas';
+import { checkOrgMembership, checkDocExistance } from '../../api/checkers';
 
 const onUpdateCheck = ({ _id, userId }) => {
   if (!userId) {
@@ -18,7 +18,9 @@ const onUpdateCheck = ({ _id, userId }) => {
 
   const { organizationId } = checkDocExistance(Files, { _id });
 
-  checkOrgMembership(userId, organizationId);
+  if (Meteor.isServer) {
+    checkOrgMembership(userId, organizationId);
+  }
   return true;
 };
 
@@ -28,14 +30,15 @@ export const insert = new ValidatedMethod({
   validate: RequiredSchema.validator(),
 
   run(args) {
-    const userId = this.userId;
+    const { userId } = this;
 
     if (!userId) {
       throw new Meteor.Error(403, 'Unauthorized user cannot create files');
     }
 
-    checkOrgMembership(userId, args.organizationId);
-
+    if (Meteor.isServer) {
+      checkOrgMembership(userId, args.organizationId);
+    }
     return FilesService.insert(args);
   },
 });
@@ -46,7 +49,7 @@ export const updateProgress = new ValidatedMethod({
   validate: new SimpleSchema([IdSchema, ProgressSchema]).validator(),
 
   run({ _id, progress }) {
-    const userId = this.userId;
+    const { userId } = this;
 
     onUpdateCheck({ _id, userId });
     return FilesService.update({ _id, progress });
@@ -59,7 +62,7 @@ export const updateUrl = new ValidatedMethod({
   validate: new SimpleSchema([IdSchema, UrlSchema]).validator(),
 
   run({ _id, url }) {
-    const userId = this.userId;
+    const { userId } = this;
 
     onUpdateCheck({ _id, userId });
     return FilesService.update({ _id, url, status: 'completed' });
@@ -72,7 +75,7 @@ export const terminateUploading = new ValidatedMethod({
   validate: new SimpleSchema([IdSchema, ErrorSchema]).validator(),
 
   run({ _id }) {
-    const userId = this.userId;
+    const { userId } = this;
 
     onUpdateCheck({ _id, userId });
     return FilesService.update({ _id, status: 'failed' });
@@ -85,7 +88,7 @@ export const remove = new ValidatedMethod({
   validate: IdSchema.validator(),
 
   run({ _id }) {
-    const userId = this.userId;
+    const { userId } = this;
 
     onUpdateCheck({ _id, userId });
 

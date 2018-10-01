@@ -8,9 +8,10 @@ const renderColorPicker = ({ input, onChange, ...rest }) => (
   <ColorPicker
     {...{ ...input, ...rest }}
     onChange={(color) => {
-      input.onChange(color.hex.toUpperCase());
+      const hex = color.hex.toUpperCase();
+      input.onChange(hex);
       if (onChange) {
-        onChange(color);
+        onChange({ ...color, hex });
       }
     }}
   />

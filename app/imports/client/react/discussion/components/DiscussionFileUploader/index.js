@@ -3,10 +3,10 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { compose, withProps, withState, lifecycle } from 'recompose';
-import { InputGroupButton } from 'reactstrap';
 
 import UploadService from '/imports/ui/utils/uploads/UploadService';
 
+import { InputGroupButton } from '../../../components';
 import FileUploader from '../../../components/FileUploader';
 
 const enhance = compose(
@@ -44,7 +44,7 @@ const enhance = compose(
 );
 
 const DiscussionFileUploader = enhance(({ setAttachments }) => (
-  <InputGroupButton className="file-uploader">
+  <InputGroupButton className="file-uploader" addonType="prepend">
     <FileUploader onChange={setAttachments} />
   </InputGroupButton>
 ));

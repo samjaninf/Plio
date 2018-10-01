@@ -1,0 +1,5 @@
+mutation deleteKeyActivity($input: DeleteKeyActivityInput!) {
+  deleteKeyActivity(input: $input) {
+    _id
+  }
+}

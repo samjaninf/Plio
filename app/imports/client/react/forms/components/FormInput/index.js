@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { withHandlers } from 'recompose';
 import cx from 'classnames';
-import { Input, InputGroupAddon } from 'reactstrap';
+import { Input } from 'reactstrap';
 
 import ClearField from '../../../fields/read/components/ClearField';
 import { onHandleBlur, onHandleClear } from './handlers';
+import { InputGroupAddon } from '../../../components';
 
 const enhance = withHandlers({ onHandleBlur, onHandleClear });
 
@@ -30,7 +31,7 @@ const FormInput = enhance(({
       onClick={e => onClear(e, textInput)}
     >
       {addon ? (
-        <InputGroupAddon>{addon}</InputGroupAddon>
+        <InputGroupAddon addonType="prepend">{addon}</InputGroupAddon>
       ) : children}
       <Input
         innerRef={(input) => {

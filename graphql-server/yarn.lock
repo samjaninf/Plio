@@ -1376,6 +1376,10 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
 
+"plio-util@https://github.com/Pliohub/plio-util.git#I1241-redesign-header":
+  version "0.2.2"
+  resolved "https://github.com/Pliohub/plio-util.git#b2683b6e6d36b34855cc6ca6c9174601327f51bc"
+
 "plio-util@https://github.com/Pliohub/plio-util.git#devel":
   version "0.2.2"
   resolved "https://github.com/Pliohub/plio-util.git#c1f27b849b6893c260ee466901182cfb44c5f12b"

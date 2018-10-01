@@ -1,0 +1,17 @@
+#import "../Fragment/CanvasSettings.graphql"
+
+query KeyPartnersChart($organizationId: ID!) {
+  keyPartners(organizationId: $organizationId) {
+    keyPartners {
+      _id
+      title
+      criticality
+      levelOfSpend
+    }
+  }
+  canvasSettings(organizationId: $organizationId) {
+    canvasSettings {
+      ...CanvasSettings
+    }
+  }
+}

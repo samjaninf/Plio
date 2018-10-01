@@ -10,6 +10,21 @@ input CreateCustomerRelationshipInput {
   notes: String
 }
 
+input UpdateCustomerRelationshipInput {
+  _id: ID!
+  title: String
+  originatorId: ID
+  color: String
+  notes: String
+  fileIds: [String]
+}
+
+input DeleteCustomerRelationshipInput {
+  _id: ID!
+}
+
 type Mutation {
   createCustomerRelationship(input: CreateCustomerRelationshipInput!): CustomerRelationshipPayload
+  updateCustomerRelationship(input: UpdateCustomerRelationshipInput!): CustomerRelationship
+  deleteCustomerRelationship(input: DeleteCustomerRelationshipInput!): CustomerRelationship
 }

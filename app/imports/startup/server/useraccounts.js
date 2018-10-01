@@ -1,20 +1,27 @@
+import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
+import { AccountsTemplates } from 'meteor/useraccounts:core';
 
-import OrganizationService from '/imports/api/organizations/organization-service';
-import { OrgOwnerRoles } from '/imports/share/constants';
-import { ORG_EnsureNameIsUnique } from '/imports/api/checkers';
+import OrganizationService from '../../api/organizations/organization-service';
+import { OrgOwnerRoles, HomeScreenTypes, DEFAULT_ORG_TIMEZONE } from '../../share/constants';
+// eslint-disable-next-line camelcase
+import { ORG_EnsureNameIsUnique } from '../../api/checkers';
 
-function postSignUpHook(userId, info) {
-  const orgName = info.profile.organizationName || 'My Organization';
-  const orgTimezone = info.profile.organizationTimezone || 'Europe/London';
-
-  let orgId;
+function postSignUpHook(userId, {
+  profile: {
+    organizationName,
+    organizationTimezone = DEFAULT_ORG_TIMEZONE,
+    organizationHomeScreen = HomeScreenTypes.OPERATIONS,
+  },
+}) {
+  let organizationId;
   try {
-    ORG_EnsureNameIsUnique({ name: orgName });
+    ORG_EnsureNameIsUnique({ name: organizationName });
 
-    orgId = OrganizationService.insert({
-      name: orgName,
-      timezone: orgTimezone,
+    organizationId = OrganizationService.insert({
+      name: organizationName,
+      timezone: organizationTimezone,
+      homeScreenType: organizationHomeScreen,
       ownerId: userId,
     });
   } catch (err) {
@@ -22,13 +29,14 @@ function postSignUpHook(userId, info) {
     throw err;
   }
 
-  Roles.addUsersToRoles(userId, OrgOwnerRoles, orgId);
+  Roles.addUsersToRoles(userId, OrgOwnerRoles, organizationId);
 
   Meteor.users.update({
     _id: userId,
   }, {
     $unset: {
       'profile.organizationName': '',
+      'profile.organizationHomeScreen': '',
       'profile.organizationTimezone': '',
     },
   });

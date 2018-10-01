@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormGroup, InputGroup, InputGroupButton } from 'reactstrap';
+import { FormGroup, InputGroup } from 'reactstrap';
 
-import Button from '../../../components/Buttons/Button';
-import Icon from '../../../components/Icons/Icon';
+import { Button, Icon, InputGroupButton } from '../../../components';
 import Mention from '../../../components/Mention';
 
 const MessagesForm = ({
@@ -16,7 +15,7 @@ const MessagesForm = ({
           <InputGroup>
             {children}
 
-            <Mention dropup {...{ value, setValue, users }}>
+            <Mention direction="up" {...{ value, setValue, users }}>
               <Mention.Input
                 placeholder="Add a comment"
                 name="message"
@@ -25,7 +24,7 @@ const MessagesForm = ({
               <Mention.Menu />
             </Mention>
 
-            <InputGroupButton>
+            <InputGroupButton addonType="append">
               <Button type="submit" color="secondary" component="button">
                 <Icon name="angle-right" />
               </Button>

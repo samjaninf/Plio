@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import Random from 'meteor/random';
+import { Random } from 'meteor/random';
 
 import { Risks } from '../collections';
 import { ProblemTypes } from '../constants';

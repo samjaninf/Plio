@@ -12,7 +12,7 @@ export default (config = () => ({})) => async (next, root, args, context) => {
   } = await config(root, args, context);
   /* eslint-enable prefer-const */
 
-  invariant(entity || collection, 'collection is required');
+  invariant(entity || collection, 'entity or collection is required');
 
   if (!entity) {
     if (!query) {

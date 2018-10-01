@@ -1,0 +1,5 @@
+mutation deleteBenefit($input: DeleteCustomerElementInput!) {
+  deleteBenefit(input: $input) {
+    _id
+  }
+}

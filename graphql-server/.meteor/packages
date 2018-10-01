@@ -26,3 +26,4 @@ dburles:collection-helpers
 matb33:collection-hooks@0.9.0-rc.4
 alanning:roles
 force-ssl@1.1.0
+ostrio:meteor-root

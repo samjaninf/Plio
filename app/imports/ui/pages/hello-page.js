@@ -3,11 +3,13 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import moment from 'moment-timezone';
 
-import { Organizations } from '/imports/share/collections/organizations';
-import { remove } from '/imports/api/users/methods';
-import { OrgCurrencies } from '/imports/share/constants';
-import { getSelectedOrgSerialNumber } from '/imports/api/helpers';
+import { swal } from '../../client/util';
+import { Organizations } from '../../share/collections/organizations';
+import { remove } from '../../api/users/methods';
+import { OrgCurrencies } from '../../share/constants';
+import { getSelectedOrgSerialNumber, setSelectedOrgSerialNumber } from '../../api/helpers';
 import { createOrgQueryWhereUserIsMember } from '../../share/mongo/queries';
+import { ALERT_AUTOHIDE_TIME } from '../../api/constants';
 
 
 Template.HelloPage.viewmodel({
@@ -21,18 +23,15 @@ Template.HelloPage.viewmodel({
           const query = createOrgQueryWhereUserIsMember(currentUser._id);
           const selectedOrganizationSerialNumber = getSelectedOrgSerialNumber();
           const serialNumber = parseInt(selectedOrganizationSerialNumber, 10);
-          const orgExists = !!Organizations.findOne({ ...query, serialNumber });
+          const organization = Organizations.findOne({ ...query, serialNumber });
 
-          if (serialNumber && orgExists) {
-            this.goToDashboard(serialNumber);
+          if (serialNumber && organization) {
+            this.goToHomePageOfOrg(organization);
           } else {
             const org = Organizations.findOne(query);
             if (org) {
-              localStorage.setItem(
-                `${Meteor.userId()}: selectedOrganizationSerialNumber`,
-                org.serialNumber,
-              );
-              this.goToDashboard(org.serialNumber);
+              setSelectedOrgSerialNumber(org.serialNumber);
+              this.goToHomePageOfOrg(org);
             }
           }
         } else {

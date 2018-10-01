@@ -1,8 +1,9 @@
+/* global toastr */
+
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import { Meteor } from 'meteor/meteor';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
-import { toastr } from 'meteor/chrismbeckett:toastr';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { $ } from 'meteor/jquery';

@@ -1,0 +1,9 @@
+#import "../Fragment/KeyResourceCard.graphql"
+
+query KeyResourceCard($_id: ID!) {
+  keyResource(_id: $_id) {
+    keyResource {
+      ...KeyResourceCard
+    }
+  }
+}

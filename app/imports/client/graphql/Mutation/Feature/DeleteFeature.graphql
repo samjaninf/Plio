@@ -1,0 +1,5 @@
+mutation deleteFeature($input: DeleteCustomerElementInput!) {
+  deleteFeature(input: $input) {
+    _id
+  }
+}

@@ -1,3 +1,5 @@
+export const APP_VERSION = '0.3.40';
+
 export const DEFAULT_POLLING_INTERVAL_FOR_COUNTER = 5000; // 5 sec
 export const ALERT_AUTOHIDE_TIME = 1500;
 
@@ -290,6 +292,8 @@ export const DEFAULT_UPDATE_TIMEOUT = 1200;
 
 export const ApolloFetchPolicies = {
   CACHE_ONLY: 'cache-only',
+  CACHE_AND_NETWORK: 'cache-and-network',
+  NETWORK_ONLY: 'network-only',
 };
 
 export const MilestoneStatusColors = {
@@ -334,12 +338,18 @@ export const Styles = {
     family: {
       segoe: {
         semibold: '"Segoe UI Semibold WestEuropean", "Segoe UI Semibold", "Segoe WP Semibold", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif',
+        regular: '"Segoe UI Regular WestEuropean", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif',
       },
     },
   },
   color: {
     blue: '#0078d7',
     muted: '#818a91',
+    lightBlue: '#00BCF2',
+    hoverLightBlue: '#59daff',
+    white: '#fff',
+    lightGrey: '#eee',
+    darkGrey: '#373a3c',
   },
 };
 /* eslint-enable max-len */
@@ -350,4 +360,29 @@ export const GraphQLTypenames = {
   MUTATION: 'Mutation',
   CANVAS_SETTINGS: 'CanvasSettings',
   CANVAS_SECTION_SETTINGS: 'CanvasSectionSettings',
+  ORGANIZATION: 'Organization',
+};
+
+export const RouteNames = {
+  CANVAS: 'canvas',
+  DASHBOARD: 'dashboardPage',
+  CUSTOMERS: 'customers',
+  HELLO: 'hello',
+};
+
+export const OptionNone = { label: 'None', value: null };
+
+export const CanvasDoughnutChartSize = {
+  WIDTH: 566,
+  HEIGHT: 566,
+};
+
+export const CanvasBubbleChartSize = {
+  WIDTH: 566,
+  HEIGHT: 566,
+};
+
+export const CriticalityLabels = {
+  LOW: 'Low',
+  HIGH: 'High',
 };

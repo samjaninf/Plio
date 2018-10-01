@@ -1,0 +1,5 @@
+mutation deleteCustomerSegment($input: DeleteCustomerSegmentInput!) {
+  deleteCustomerSegment(input: $input) {
+    _id
+  }
+}

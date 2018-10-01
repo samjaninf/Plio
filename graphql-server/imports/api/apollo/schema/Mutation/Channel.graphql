@@ -10,6 +10,21 @@ input CreateChannelInput {
   notes: String
 }
 
+input UpdateChannelInput {
+  _id: ID!
+  title: String
+  originatorId: ID
+  color: String
+  notes: String
+  fileIds: [String]
+}
+
+input DeleteChannelInput {
+  _id: ID!
+}
+
 type Mutation {
   createChannel(input: CreateChannelInput!): ChannelPayload
+  updateChannel(input: UpdateChannelInput!): Channel
+  deleteChannel(input: DeleteChannelInput!): Channel
 }

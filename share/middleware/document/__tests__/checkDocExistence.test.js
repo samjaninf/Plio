@@ -24,7 +24,7 @@ describe('checkDocExistence', () => {
   it('throws if no collection provided', async () => {
     const promise = checkDocExistence()(identity, {}, {}, context);
 
-    await expect(promise).rejects.toEqual(new Error('collection is required'));
+    await expect(promise).rejects.toEqual(new Error('entity or collection is required'));
   });
 
   it('throws if no entity found', async () => {

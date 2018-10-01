@@ -30,3 +30,8 @@ export * from './value-propositions';
 export * from './customer-segments';
 export * from './revenue-streams';
 export * from './canvas-settings';
+export * from './benefits';
+export * from './features';
+export * from './needs';
+export * from './wants';
+export * from './relations';

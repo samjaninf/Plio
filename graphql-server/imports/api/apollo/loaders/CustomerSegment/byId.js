@@ -1,4 +1,3 @@
-import DataLoader from 'dataloader';
+import { createByIdLoader } from '../util';
 
-export default ({ collections: { CustomerSegments } }) => new DataLoader(async ids =>
-  CustomerSegments.find({ _id: { $in: ids } }).fetch());
+export default ({ collections: { CustomerSegments } }) => createByIdLoader(CustomerSegments);

@@ -6,6 +6,7 @@ import {
   ReminderTimeUnits, DocumentTypes, AnalysisStatuses,
   ReviewStatuses, SystemName, StringLimits,
   StandardStatuses, TimeUnits, ProblemMagnitudes,
+  HomeScreenTypes,
 } from '../../constants';
 
 export { default as WorkspaceDefaultsSchema } from './workspace-defaults';
@@ -556,4 +557,10 @@ export const issueNumberSchema = new SimpleSchema({
 export const pwdSchemaObj = {
   type: String,
   regEx: /^[A-Fa-f0-9]{64}$/,
+};
+
+export const homeScreenTypeSchemaObj = {
+  type: String,
+  optional: true,
+  allowedValues: Object.values(HomeScreenTypes),
 };

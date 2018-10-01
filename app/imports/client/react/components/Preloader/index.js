@@ -1,16 +1,25 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { mapProps } from 'recompose';
+import { withProps } from 'recompose';
 
 import Icon from '../Icons/Icon';
 import { getSizeClassName } from './constants';
 import { transsoc } from '../../../../api/helpers';
 
-const enhance = mapProps(transsoc({ className: getSizeClassName }));
+const enhance = withProps(transsoc({ iconClassName: getSizeClassName }));
 
-const Preloader = enhance(({ size = 1, ...other }) => (
-  <span>
-    <Icon name="circle-o-notch spin fw" margin="bottom" {...{ ...other, size }} />
+const Preloader = enhance(({
+  className,
+  iconClassName,
+  size = 1,
+  ...other
+}) => (
+  <span {...{ className }}>
+    <Icon
+      name="circle-o-notch spin fw"
+      margin="bottom"
+      {...{ ...other, size, className: iconClassName }}
+    />
     <br />
   </span>
 ));

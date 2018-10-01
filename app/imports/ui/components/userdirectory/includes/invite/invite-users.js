@@ -31,7 +31,7 @@ Template.UserDirectory_InviteUsers.viewmodel({
 
     return this.modal().callMethod(inviteMultipleUsersByEmail, args, (err, res) => {
       if (!err) {
-        const { name: organizationName = 'organization' } = this.organization();
+        const { organizationName = 'organization' } = this.data();
         const { invitedEmails = [], addedEmails = [] } = res;
         const invitedEmailsText = invitedEmails.length
           // eslint-disable-next-line max-len

@@ -5,6 +5,9 @@ import styled from 'styled-components';
 
 const StyledReactstrapModalBody = styled(ReactstrapModalBody)`
   padding: 0;
+  & > .preloader {
+    padding-top: 10%;
+  }
 `;
 
 const ModalBody = ({ children, ...props }) => (

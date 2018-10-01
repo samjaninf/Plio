@@ -1,5 +1,6 @@
 import { Blaze } from 'meteor/blaze';
 import { Template } from 'meteor/templating';
+import { _ } from 'meteor/underscore';
 
 import { Organizations } from '/imports/share/collections/organizations';
 import { updateUserSettings } from '/imports/api/organizations/methods';
@@ -8,6 +9,9 @@ import { createOrgQueryWhereUserIsMember } from '../../../../../share/mongo/quer
 Template.UserPreferences_DailyRecap.viewmodel({
   mixin: ['modal', 'collapse'],
   userId: '',
+  onCreated(template) {
+    template.subscribe('currentUserOrganizations');
+  },
   orgsCount() {
     return _(this.orgsData()).filter(doc => doc.sendDailyRecap).length;
   },

@@ -1,0 +1,7 @@
+#import "../../Fragment/ValuePropositionCard.graphql"
+
+mutation updateValueProposition($input: UpdateValuePropositionInput!) {
+  updateValueProposition(input: $input) {
+    ...ValuePropositionCard
+  }
+}

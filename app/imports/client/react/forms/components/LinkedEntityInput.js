@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { InputGroup, InputGroupAddon, Input } from 'reactstrap';
+import { InputGroup, Input } from 'reactstrap';
 import { pure } from 'recompose';
 import styled from 'styled-components';
+
+import { InputGroupAddon } from '../../components';
 
 const StyledInputGroup = styled(InputGroup)`
   & > .clearable-field-container {
@@ -17,7 +19,7 @@ const LinkedEntityInput = ({ sequentialId, component: Component = Input, ...prop
 
   return (
     <StyledInputGroup>
-      <InputGroupAddon>
+      <InputGroupAddon addonType="prepend">
         {sequentialId}
       </InputGroupAddon>
       {input}

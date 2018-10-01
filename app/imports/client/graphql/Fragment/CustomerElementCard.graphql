@@ -1,0 +1,7 @@
+fragment CustomerElementCard on CustomerElement {
+  _id
+  title
+  description
+  importance
+  status
+}

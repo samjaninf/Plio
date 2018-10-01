@@ -9,4 +9,5 @@ type KeyResource implements BaseEntity, CanvasEntity {
   originator: User!
   color: String!
   notes: String
+  fileIds: [String]
 }

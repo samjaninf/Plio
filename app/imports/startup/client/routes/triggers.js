@@ -11,14 +11,17 @@ FlowRouter.triggers.enter([
     const { oldRoute: { path: prevPath } = {} } = context;
 
     if (prevPath) {
-      const [,, prevRoute] = prevPath.match(/(:orgSerialNumber\/)([A-Za-z-]+)/) || [];
-      const [,, route] = path.match(/(\d+\/)([A-Za-z-]+)/) || [];
+      const [,, prevRoute] = prevPath.match(/(:orgSerialNumber\/)?([A-Za-z-]+)/) || [];
+      const [,, route] = path.match(/(\d+\/)?([A-Za-z-]+)/) || [];
       switch (prevRoute) {
         case 'standards':
         case 'risks':
+        case 'canvas':
           switch (route) {
             case 'work-inbox':
             case 'non-conformities':
+            case 'users':
+            case 'login':
               ReactDOM.unmountComponentAtNode(document.getElementById('app'));
               BlazeLayout.reset();
               break;
@@ -26,10 +29,12 @@ FlowRouter.triggers.enter([
           }
           break;
         case 'work-inbox':
+        case 'hello':
           switch (route) {
             case 'standards':
             case 'risks':
             case 'non-conformities':
+            case 'canvas':
               BlazeLayout.reset();
               break;
             default: noop();

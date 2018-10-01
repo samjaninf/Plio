@@ -3,6 +3,11 @@ type KeyResourcesQueryPayload {
   keyResources: [KeyResource]
 }
 
+type KeyResourceQueryPayload {
+  keyResource: KeyResource
+}
+
 type Query {
   keyResources(organizationId: ID!): KeyResourcesQueryPayload
+  keyResource(_id: ID!): KeyResourceQueryPayload
 }

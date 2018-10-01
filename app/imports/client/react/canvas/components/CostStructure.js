@@ -4,10 +4,12 @@ import { Query } from 'react-apollo';
 import { pure } from 'recompose';
 
 import CostLineAddModal from './CostLineAddModal';
+import CostLineEditModal from './CostLineEditModal';
+import CostStructureChartModal from './CostStructureChartModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const CostStructure = ({ organizationId }) => (
   <Query
@@ -19,7 +21,7 @@ const CostStructure = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Cost structure"
-        sectionName={CanvasSections.COST_STRUCTURE}
+        sectionName={CanvasSections[CanvasTypes.COST_LINE]}
         help={(
           <p>
             What are the main elements of operational expense
@@ -30,6 +32,19 @@ const CostStructure = ({ organizationId }) => (
         items={costLines}
         renderModal={({ isOpen, toggle }) => (
           <CostLineAddModal {...{ isOpen, toggle, organizationId }} />
+        )}
+        renderEditModal={({ isOpen, toggle, _id }) => (
+          <CostLineEditModal
+            {...{
+              isOpen,
+              toggle,
+              organizationId,
+              _id,
+            }}
+          />
+        )}
+        renderChartModal={({ isOpen, toggle }) => (
+          <CostStructureChartModal {...{ isOpen, toggle, organizationId }} />
         )}
       />
     )}

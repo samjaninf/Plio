@@ -1,0 +1,5 @@
+mutation deleteKeyPartner($input: DeleteKeyPartnerInput!) {
+  deleteKeyPartner(input: $input) {
+    _id
+  }
+}

@@ -17,11 +17,13 @@ export default (config = () => ({})) => async (next, root, args, context) => {
 
   invariant(serialNumber || organizationId, 'organizationId or serialNumber is required');
 
+  const query = {};
+
+  if (serialNumber) Object.assign(query, { serialNumber });
+  else Object.assign(query, { _id: organizationId });
+
   const organization = await Organizations.findOne({
-    $or: [
-      { serialNumber },
-      { _id: organizationId },
-    ],
+    ...query,
     ...createOrgQueryWhereUserIsMember(userId),
   });
 

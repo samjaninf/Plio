@@ -1,0 +1,7 @@
+#import "../../Fragment/ChannelCard.graphql"
+
+mutation updateChannel($input: UpdateChannelInput!) {
+  updateChannel(input: $input) {
+    ...ChannelCard
+  }
+}

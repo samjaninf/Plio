@@ -17,6 +17,10 @@ import CostLine from './CostLine.graphql';
 import RevenueStream from './RevenueStream.graphql';
 import Channel from './Channel.graphql';
 import CanvasSettings from './CanvasSettings.graphql';
+import Benefit from './Benefit.graphql';
+import Feature from './Feature.graphql';
+import Need from './Need.graphql';
+import Want from './Want.graphql';
 
 export default [
   User,
@@ -38,4 +42,8 @@ export default [
   RevenueStream,
   Channel,
   CanvasSettings,
+  Benefit,
+  Feature,
+  Need,
+  Want,
 ];

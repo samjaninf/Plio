@@ -3,15 +3,15 @@ import React from 'react';
 import { _ } from 'meteor/underscore';
 import { Dropdown } from 'reactstrap';
 
-import { searchByRegex, createSearchRegex, propEq, omitC } from '/imports/api/helpers';
+import { searchByRegex, createSearchRegex, propEq, omitC } from '../../../../api/helpers';
+import { MENTION_REGEX } from '../../../../share/mentions';
 import Input from './Input';
 import Menu from './Menu';
-import { MENTION_REGEX } from '/imports/share/mentions';
 
 const propTypes = {
   value: PropTypes.string.isRequired,
   setValue: PropTypes.func.isRequired,
-  dropup: PropTypes.bool,
+  direction: Dropdown.propTypes.direction,
   className: PropTypes.string,
   children: PropTypes.node,
   users: PropTypes.arrayOf(PropTypes.shape({
@@ -34,7 +34,7 @@ class Mention extends React.Component {
   }
 
   onInputChange(e) {
-    const value = e.target.value;
+    const { value } = e.target;
     const prevValue = this.props.value;
 
     this.props.setValue(value);
@@ -94,7 +94,9 @@ class Mention extends React.Component {
           return React.cloneElement(child, {
             onChange: this.onInputChange,
             value: this.props.value,
-            innerRef: input => (this.input = input),
+            innerRef: (input) => {
+              this.input = input;
+            },
           });
         case Menu:
           return this.state.users.length ? React.cloneElement(child, {
@@ -110,7 +112,7 @@ class Mention extends React.Component {
 
     return (
       <Dropdown
-        dropup={this.props.dropup}
+        direction={this.props.direction}
         isOpen={this.state.isOpen}
         toggle={this.toggle}
         className={this.props.className}

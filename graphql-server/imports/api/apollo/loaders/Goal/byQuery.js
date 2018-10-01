@@ -1,4 +1,9 @@
 import { createQueryLoader } from '../util';
 
-// TODO: use dataloader's prime on byId loader
-export default ({ collections: { Goals } }) => createQueryLoader(Goals);
+export default ({ collections: { Goals } }, getLoaders) => createQueryLoader(Goals, (goals) => {
+  const { Goal: { byId } } = getLoaders();
+
+  goals.forEach(goal => byId.prime(goal._id, goal));
+
+  return goals;
+});

@@ -3,6 +3,8 @@ import {
   checkLoggedIn,
   flattenInput,
   checkOrgMembership,
+  checkPercentOfRevenue,
+  checkPercentOfProfit,
   insertAfterware,
 } from '../../../../../share/middleware';
 
@@ -13,8 +15,10 @@ export default applyMiddleware(
   checkLoggedIn(),
   flattenInput(),
   checkOrgMembership(),
-  insertAfterware({
-    collection: 'RevenueStreams',
+  checkPercentOfRevenue(),
+  checkPercentOfProfit(),
+  insertAfterware((root, args, { collections: { RevenueStreams } }) => ({
+    collection: RevenueStreams,
     key: 'revenueStream',
-  }),
+  })),
 )(resolver);

@@ -8,7 +8,7 @@ import { pathOr } from 'ramda';
 
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { ApolloFetchPolicies, GraphQLTypenames } from '../../../../api/constants';
-import { WithToggle } from '../../helpers';
+import { WithToggle, WithState } from '../../helpers';
 import CanvasSection from './CanvasSection';
 import CanvasSectionHeading from './CanvasSectionHeading';
 import CanvasAddButton from './CanvasAddButton';
@@ -20,6 +20,7 @@ import CanvasSectionHelp from './CanvasSectionHelp';
 import CanvasSectionItems from './CanvasSectionItems';
 import CanvasSectionItem from './CanvasSectionItem';
 import CanvasSquareIcon from './CanvasSquareIcon';
+import CanvasLinkedItem from './CanvasLinkedItem';
 
 const CanvasBlock = ({
   label,
@@ -27,12 +28,14 @@ const CanvasBlock = ({
   items,
   renderModal,
   renderEditModal,
+  renderChartModal,
   goals,
   standards,
   risks,
   nonConformities,
   organizationId,
   sectionName,
+  chartButtonIcon,
 }) => {
   const isEmpty = !items.length;
 
@@ -85,22 +88,42 @@ const CanvasBlock = ({
                       })
                     )}
                   >
-                    {items && sortByIds(
-                      pathOr([], [sectionName, 'order'], canvasSettings),
-                      items,
-                    ).map(item => (
-                      <WithToggle key={item._id}>
-                        {itemToggleState => (
-                          <Fragment>
-                            {renderEditModal && renderEditModal({ ...itemToggleState, item })}
-                            <CanvasSectionItem onClick={itemToggleState.toggle} data-id={item._id}>
-                              <CanvasSquareIcon color={item.color} />
-                              <span>{item.title}</span>
+                    <WithState initialState={{ _id: null }}>
+                      {({ state, setState }) => (
+                        <Fragment>
+                          {renderEditModal && renderEditModal({
+                            _id: state._id,
+                            isOpen: !!state._id,
+                            toggle: () => setState({ _id: null }),
+                          })}
+                          {items && sortByIds(
+                            pathOr([], [sectionName, 'order'], canvasSettings),
+                            items,
+                          ).map((({
+                            _id,
+                            color,
+                            title,
+                            matchedTo,
+                          }) => (
+                            <CanvasSectionItem
+                              key={_id}
+                              data-id={_id}
+                              onClick={() => setState({ _id })}
+                            >
+                              <CanvasSquareIcon color={color} />
+                              <span>
+                                {title}
+                                {matchedTo && (
+                                  <CanvasLinkedItem>
+                                    {matchedTo.title}
+                                  </CanvasLinkedItem>
+                                )}
+                              </span>
                             </CanvasSectionItem>
-                          </Fragment>
-                        )}
-                      </WithToggle>
-                    ))}
+                          )))}
+                        </Fragment>
+                      )}
+                    </WithState>
                   </CanvasSectionItems>
                 )}
               </Mutation>
@@ -155,9 +178,16 @@ const CanvasBlock = ({
                 )}
               </ButtonGroup>
             </CanvasSectionFooterLabels>
-            {/* TODO: render icon dynamically
-            there should be a modal for chart too */}
-            <CanvasChartButton icon="th-large" />
+            {renderChartModal && !isEmpty && (
+              <WithToggle>
+                {chartModalState => (
+                  <Fragment>
+                    {renderChartModal(chartModalState)}
+                    <CanvasChartButton icon={chartButtonIcon} onClick={chartModalState.toggle} />
+                  </Fragment>
+                )}
+              </WithToggle>
+            )}
           </CanvasSectionFooter>
         </CanvasSection>
       )}
@@ -170,6 +200,7 @@ CanvasBlock.defaultProps = {
   standards: [],
   risks: [],
   nonConformities: [],
+  chartButtonIcon: 'pie-chart',
 };
 
 CanvasBlock.propTypes = {
@@ -183,7 +214,9 @@ CanvasBlock.propTypes = {
     color: PropTypes.string.isRequired,
   })).isRequired,
   renderModal: PropTypes.func.isRequired,
-  renderEditModal: PropTypes.func.isRequired,
+  renderEditModal: PropTypes.func,
+  renderChartModal: PropTypes.func,
+  chartButtonIcon: PropTypes.string,
   goals: PropTypes.arrayOf(PropTypes.shape({
     sequentialId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

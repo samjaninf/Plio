@@ -1,0 +1,8 @@
+type FeaturesQueryPayload {
+  features: [Feature]
+  totalCount: Int
+}
+
+type Query {
+  features(organizationId: ID!): FeaturesQueryPayload
+}

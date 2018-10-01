@@ -1,0 +1,7 @@
+#import "../../Fragment/CostLineCard.graphql"
+
+mutation updateCostLine($input: UpdateCostLineInput!) {
+  updateCostLine(input: $input) {
+    ...CostLineCard
+  }
+}

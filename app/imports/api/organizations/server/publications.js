@@ -45,7 +45,11 @@ Meteor.publish('invitationInfo', function (invitationId) {
       'users.userId': invitedUserId,
     }, {
       limit: 1,
-      fields: { name: 1, serialNumber: 1 },
+      fields: {
+        name: 1,
+        serialNumber: 1,
+        homeScreenType: 1,
+      },
     }),
   ];
 });
@@ -56,6 +60,7 @@ Meteor.publish('currentUserOrganizations', function () {
       fields: {
         name: 1,
         serialNumber: 1,
+        homeScreenType: 1,
         'users.userId': 1,
         'users.role': 1,
         'users.isRemoved': 1,
@@ -94,6 +99,7 @@ Meteor.publish('currentUserOrganizationBySerialNumber', function (serialNumber) 
     updatedBy: 1,
     lastAccessedDate: 1,
     transfer: 1,
+    homeScreenType: 1,
     [WORKSPACE_DEFAULTS]: 1,
   };
 

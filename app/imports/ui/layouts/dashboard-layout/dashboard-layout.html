@@ -1,19 +1,25 @@
 <template name="Dashboard_Layout">
-  {{> Dashboard_Header}}
-  <div class="content no-flex scroll">
-    <div class="container">
-      <div class="row">
-        <div class="content-cards col-sm-12">
-          {{#if isReady}}
-            {{#with organization}}
-              {{> Template.dynamic template=content}}
-              {{> Dashboard_Footer}}
+  <div>
+    {{#if organization}}
+      <div>
+        {{> React component=MainHeaderWithApollo organization=organization isDashboard=true}}
+      </div>
+    {{/if}}
+    <div class="content no-flex scroll">
+      <div class="container">
+        <div class="row">
+          <div class="content-cards col-sm-12">
+            {{#if isReady}}
+              {{#with organization}}
+                {{> Template.dynamic template=content}}
+                {{> Dashboard_Footer}}
+              {{else}}
+                {{> NotFoundPage subject="organization" subjectId=organizationSerialNumber}}
+              {{/with}}
             {{else}}
-              {{> NotFoundPage subject="organization" subjectId=organizationSerialNumber}}
-            {{/with}}
-          {{else}}
-            {{> PreloaderPage}}
-          {{/if}}
+              {{> PreloaderPage}}
+            {{/if}}
+          </div>
         </div>
       </div>
     </div>

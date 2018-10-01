@@ -1,0 +1,8 @@
+type NeedsQueryPayload {
+  needs: [Need]
+  totalCount: Int
+}
+
+type Query {
+  needs(organizationId: ID!): NeedsQueryPayload
+}

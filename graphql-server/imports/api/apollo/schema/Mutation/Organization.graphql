@@ -1,7 +1,3 @@
-type OrganizationPayload {
-  organization: Organization
-}
-
 input UpdateOrganizationWorkspaceDefaultsInput {
   _id: ID!
   displayUsers: Int
@@ -16,7 +12,13 @@ input UpdateOrganizationLastAccessedDateInput {
   _id: ID!
 }
 
+input UpdateOrganizationInput {
+  _id: ID!
+  homeScreenType: String
+}
+
 type Mutation {
-  updateOrganizationWorkspaceDefaults(input: UpdateOrganizationWorkspaceDefaultsInput!): OrganizationPayload
-  updateOrganizationLastAccessedDate(input: UpdateOrganizationLastAccessedDateInput!): OrganizationPayload
+  updateOrganizationWorkspaceDefaults(input: UpdateOrganizationWorkspaceDefaultsInput!): Organization
+  updateOrganizationLastAccessedDate(input: UpdateOrganizationLastAccessedDateInput!): Organization
+  updateOrganization(input: UpdateOrganizationInput!): Organization
 }

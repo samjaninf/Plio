@@ -1,10 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { AccountsTemplates } from 'meteor/useraccounts:core';
 
-import { Organizations } from '/imports/share/collections/organizations';
+import { Organizations } from '../../share/collections/organizations';
 import { acceptInvitation } from '../../api/organizations/methods';
-import { showError } from '/imports/api/helpers';
+import { showError } from '../../api/helpers';
 
 
 Template.AcceptInvitationPage.viewmodel({
@@ -55,14 +56,13 @@ Template.AcceptInvitationPage.viewmodel({
       };
 
       const userEmail = this.userEmail();
-      const orgSerialNumber = this.organization().serialNumber;
 
-      acceptInvitation.call(args, (err, res) => {
+      acceptInvitation.call(args, (err) => {
         if (err) {
           showError(err.reason);
           AccountsTemplates.setDisabled(false);
         } else {
-          this._loginUserWithPassword(userEmail, userData, orgSerialNumber);
+          this._loginUserWithPassword(userEmail, userData, this.organization());
         }
       });
     } else {
@@ -71,12 +71,12 @@ Template.AcceptInvitationPage.viewmodel({
     }
   },
 
-  _loginUserWithPassword(email, userData, orgSerialNumber) {
+  _loginUserWithPassword(email, userData, organization) {
     Meteor.loginWithPassword({ email }, userData.password, (err) => {
       if (err) {
         showError(err.reason);
       } else {
-        this.goToDashboard(orgSerialNumber.toString());
+        this.goToHomePageOfOrg(organization);
       }
     });
   },

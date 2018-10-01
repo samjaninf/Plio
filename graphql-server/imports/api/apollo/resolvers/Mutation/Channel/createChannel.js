@@ -13,8 +13,8 @@ export default applyMiddleware(
   checkLoggedIn(),
   flattenInput(),
   checkOrgMembership(),
-  insertAfterware({
-    collection: 'Channels',
+  insertAfterware((root, args, { collections: { Channels } }) => ({
+    collection: Channels,
     key: 'channel',
-  }),
+  })),
 )(resolver);

@@ -17,7 +17,11 @@ const configureSlingshot = () => {
     nonConformityFilesDir, riskFilesDir,
     actionFilesDir, rootCauseAnalysisFilesDir,
     discussionFilesDir, helpDocsFilesDir,
-    goalFilesDir,
+    goalFilesDir, keyPartnerFilesDir,
+    revenueStreamFilesDir, keyActivityFilesDir,
+    keyResourceFilesDir, valuePropositionFilesDir,
+    customerRelationshipFilesDir, channelFilesDir,
+    customerSegmentFilesDir, costLineFilesDir,
   } = Meteor.settings.AWSS3Bucket;
 
   const contentDisposition = (file) => {
@@ -196,6 +200,123 @@ const configureSlingshot = () => {
           organizationId,
           goalFilesDir,
           goalId,
+          createFileName(file),
+        );
+      },
+    },
+    [AWSDirectives.KEY_PARTNER_FILES]: {
+      contentDisposition,
+      key(file, metaContext) {
+        const { organizationId, keyPartnerId } = metaContext;
+        return createPath(
+          'uploads',
+          organizationId,
+          keyPartnerFilesDir,
+          keyPartnerId,
+          createFileName(file),
+        );
+      },
+    },
+    [AWSDirectives.KEY_ACTIVITY_FILES]: {
+      contentDisposition,
+      key(file, metaContext) {
+        const { organizationId, keyActivityId } = metaContext;
+        return createPath(
+          'uploads',
+          organizationId,
+          keyActivityFilesDir,
+          keyActivityId,
+          createFileName(file),
+        );
+      },
+    },
+    [AWSDirectives.KEY_RESOURCE_FILES]: {
+      contentDisposition,
+      key(file, metaContext) {
+        const { organizationId, keyResourceId } = metaContext;
+        return createPath(
+          'uploads',
+          organizationId,
+          keyResourceFilesDir,
+          keyResourceId,
+          createFileName(file),
+        );
+      },
+    },
+    [AWSDirectives.VALUE_PROPOSITION_FILES]: {
+      contentDisposition,
+      key(file, metaContext) {
+        const { organizationId, valuePropositionId } = metaContext;
+        return createPath(
+          'uploads',
+          organizationId,
+          valuePropositionFilesDir,
+          valuePropositionId,
+          createFileName(file),
+        );
+      },
+    },
+    [AWSDirectives.CUSTOMER_RELATIONSHIP_FILES]: {
+      contentDisposition,
+      key(file, metaContext) {
+        const { organizationId, customerRelationshipId } = metaContext;
+        return createPath(
+          'uploads',
+          organizationId,
+          customerRelationshipFilesDir,
+          customerRelationshipId,
+          createFileName(file),
+        );
+      },
+    },
+    [AWSDirectives.CHANNEL_FILES]: {
+      contentDisposition,
+      key(file, metaContext) {
+        const { organizationId, channelId } = metaContext;
+        return createPath(
+          'uploads',
+          organizationId,
+          channelFilesDir,
+          channelId,
+          createFileName(file),
+        );
+      },
+    },
+    [AWSDirectives.CUSTOMER_SEGMENT_FILES]: {
+      contentDisposition,
+      key(file, metaContext) {
+        const { organizationId, customerSegmentId } = metaContext;
+        return createPath(
+          'uploads',
+          organizationId,
+          customerSegmentFilesDir,
+          customerSegmentId,
+          createFileName(file),
+        );
+      },
+    },
+    [AWSDirectives.COST_LINE_FILES]: {
+      contentDisposition,
+      key(file, metaContext) {
+        const { organizationId, costLineId } = metaContext;
+        return createPath(
+          'uploads',
+          organizationId,
+          costLineFilesDir,
+          costLineId,
+          createFileName(file),
+        );
+      },
+    },
+    [AWSDirectives.REVENUE_STREAM_FILES]: {
+      contentDisposition,
+      key(file, metaContext) {
+        const { organizationId, revenueStreamId } = metaContext;
+        return createPath(
+          'uploads',
+          organizationId,
+          revenueStreamFilesDir,
+          revenueStreamId,
           createFileName(file),
         );
       },

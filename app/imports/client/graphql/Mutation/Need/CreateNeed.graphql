@@ -1,0 +1,9 @@
+#import "../../Fragment/CustomerElementCard.graphql"
+
+mutation createNeed($input: CreateCustomerElementInput!) {
+  createNeed(input: $input) {
+    need {
+      ...CustomerElementCard
+    }
+  }
+}

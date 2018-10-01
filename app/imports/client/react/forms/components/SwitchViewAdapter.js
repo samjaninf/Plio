@@ -16,6 +16,7 @@ const SwitchViewAdapter = ({
       input.onChange(idx);
       if (onChange) onChange(idx);
     }}
+    asField
   >
     {children}
   </SwitchView>

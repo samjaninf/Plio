@@ -1,9 +1,3 @@
-type ValuePropositionMatchedTo {
-  documentId: ID!
-  # could be union in future
-  document: CustomerSegment
-}
-
 type ValueProposition implements BaseEntity, CanvasEntity {
   _id: ID!
   organization: Organization!
@@ -15,5 +9,8 @@ type ValueProposition implements BaseEntity, CanvasEntity {
   originator: User!
   color: String!
   notes: String
-  matchedTo: ValuePropositionMatchedTo
+  matchedTo: CustomerSegment
+  benefits: [Benefit]
+  features: [Feature]
+  fileIds: [String]
 }

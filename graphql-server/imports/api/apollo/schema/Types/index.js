@@ -21,6 +21,10 @@ import ValueProposition from './ValueProposition.graphql';
 import CustomerSegment from './CustomerSegment.graphql';
 import RevenueStream from './RevenueStream.graphql';
 import CanvasSettings from './CanvasSettings.graphql';
+import Benefit from './Benefit.graphql';
+import Feature from './Feature.graphql';
+import Need from './Need.graphql';
+import Want from './Want.graphql';
 
 export default [
   User,
@@ -46,4 +50,8 @@ export default [
   CustomerSegment,
   RevenueStream,
   CanvasSettings,
+  Benefit,
+  Feature,
+  Need,
+  Want,
 ];

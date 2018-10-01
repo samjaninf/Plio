@@ -4,6 +4,7 @@ import {
   flattenInput,
   checkOrgMembership,
   insertAfterware,
+  checkValuePropositionMatchedToAccess,
 } from '../../../../../share/middleware';
 
 export const resolver = async (root, args, context) =>
@@ -13,8 +14,9 @@ export default applyMiddleware(
   checkLoggedIn(),
   flattenInput(),
   checkOrgMembership(),
-  insertAfterware({
-    collection: 'ValuePropositions',
+  checkValuePropositionMatchedToAccess(),
+  insertAfterware((root, args, { collections: { ValuePropositions } }) => ({
+    collection: ValuePropositions,
     key: 'valueProposition',
-  }),
+  })),
 )(resolver);

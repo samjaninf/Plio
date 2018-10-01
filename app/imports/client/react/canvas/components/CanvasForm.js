@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { noop } from 'plio-util';
 import { pure } from 'recompose';
 
 import { StringLimits } from '../../../../share/constants';
@@ -13,7 +12,7 @@ import {
   TextareaField,
 } from '../../components';
 
-const CanvasForm = ({ organizationId, children, save = noop }) => (
+const CanvasForm = ({ organizationId, children, save }) => (
   <CardBlock>
     <FormField>
       Title
@@ -21,7 +20,7 @@ const CanvasForm = ({ organizationId, children, save = noop }) => (
         name="title"
         placeholder="Title"
         maxLength={StringLimits.title.max}
-        onBlur={e => save({ title: e.target.value })}
+        onBlur={save}
       />
     </FormField>
     <FormField>
@@ -30,14 +29,14 @@ const CanvasForm = ({ organizationId, children, save = noop }) => (
         {...{ organizationId }}
         name="originator"
         placeholder="Originator"
-        onChange={originator => save({ originator })}
+        onChange={save}
       />
     </FormField>
     <FormField>
       Color
       <ColorPickerField
         name="color"
-        onChange={color => save({ color })}
+        onChange={save}
       />
     </FormField>
     {children}
@@ -46,7 +45,7 @@ const CanvasForm = ({ organizationId, children, save = noop }) => (
       <TextareaField
         name="notes"
         placeholder="Notes"
-        onBlur={e => save({ notes: e.target.value })}
+        onBlur={save}
       />
     </FormField>
   </CardBlock>

@@ -1,4 +1,6 @@
 #import "../Fragment/CanvasSettings.graphql"
+#import "../Fragment/CustomerSegmentPresentation.graphql"
+#import "../Fragment/ValuePropositionPresentation.graphql"
 
 query CanvasPage($organizationId: ID!) {
   canvasSettings(organizationId: $organizationId) {
@@ -29,9 +31,7 @@ query CanvasPage($organizationId: ID!) {
   }
   valuePropositions(organizationId: $organizationId) {
     valuePropositions {
-      _id
-      title
-      color
+      ...ValuePropositionPresentation
     }
   }
   customerRelationships(organizationId: $organizationId) {
@@ -43,9 +43,7 @@ query CanvasPage($organizationId: ID!) {
   }
   customerSegments(organizationId: $organizationId) {
     customerSegments {
-      _id
-      title
-      color
+      ...CustomerSegmentPresentation
     }
   }
   costLines(organizationId: $organizationId) {

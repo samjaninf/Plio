@@ -1,0 +1,9 @@
+#import "../Fragment/RevenueStreamCard.graphql"
+
+query RevenueStreamCard($_id: ID!) {
+  revenueStream(_id: $_id) {
+    revenueStream {
+      ...RevenueStreamCard
+    }
+  }
+}

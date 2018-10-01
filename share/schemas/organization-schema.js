@@ -11,6 +11,7 @@ import {
   BaseEntitySchema, ReminderTimePeriodSchema,
   TimezoneSchema, TimePeriodSchema,
   idSchemaDoc, WorkspaceDefaultsSchema,
+  homeScreenTypeSchemaObj,
 } from './schemas';
 
 export const HomeTitlesSchema = new SimpleSchema({
@@ -355,6 +356,7 @@ const OrganizationSchema = new SimpleSchema([
         return undefined;
       },
     },
+    homeScreenType: homeScreenTypeSchemaObj,
   },
 ]);
 

@@ -30,7 +30,7 @@ const CanvasLabel = ({
     <WithToggle>
       {({ isOpen, toggle }) => children ? (
         <ButtonDropdown
-          dropup
+          direction="up"
           group={false}
           color="secondary"
           size="sm"

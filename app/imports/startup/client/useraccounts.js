@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
-
+import { FlowRouter } from 'meteor/kadira:flow-router';
+import { AccountsTemplates } from 'meteor/useraccounts:core';
 
 AccountsTemplates.configure({
   texts: {
@@ -21,13 +22,15 @@ AccountsTemplates.configure({
       pwdChanged: 'info.passwordChanged',
       pwdReset: 'info.passwordReset',
       pwdSet: 'info.passwordReset',
-      signUpVerifyEmail: 'Successful Registration! Please check your email and follow the instructions.',
-      verificationEmailSent: "A new email has been sent to you. If the email doesn't show up in your inbox, be sure to check your spam folder.",
+      signUpVerifyEmail:
+        'Successful Registration! Please check your email and follow the instructions.',
+      verificationEmailSent: 'A new email has been sent to you. If the email doesn\'t ' +
+        'show up in your inbox, be sure to check your spam folder.',
     },
   },
 });
 
-const email = AccountsTemplates.removeField('email');
+AccountsTemplates.removeField('email');
 const password = AccountsTemplates.removeField('password');
 
 AccountsTemplates.addField({
@@ -78,7 +81,10 @@ AccountsTemplates.addField({
 });
 
 AccountsTemplates.configure({
-  preSignUpHook(password, info) {
+  preSignUpHook(userPassword, info) {
+    /* eslint-disable no-param-reassign */
+    info.profile.organizationHomeScreen = FlowRouter.getQueryParam('type');
     info.profile.organizationTimezone = moment.tz.guess();
+    /* eslint-disable no-param-reassign */
   },
 });

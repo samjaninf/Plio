@@ -1,4 +1,3 @@
-import DataLoader from 'dataloader';
+import { createByIdLoader } from '../util';
 
-export default ({ collections: { RiskTypes } }) => new DataLoader(async ids =>
-  RiskTypes.find({ _id: { $in: ids } }).fetch());
+export default ({ collections: { RiskTypes } }) => createByIdLoader(RiskTypes);

@@ -1,25 +1,34 @@
-import { Organizations } from '../collections';
 import { getWorkspaceDefaultsUpdater } from '../helpers';
 
 export default {
-  collection: Organizations,
-
-  async updateWorkspaceDefaults({ _id, ...workspaceDefaults }) {
-    return this.set({
-      _id,
-      ...getWorkspaceDefaultsUpdater(workspaceDefaults),
-    });
+  async updateWorkspaceDefaults(
+    { _id, ...workspaceDefaults },
+    { userId, collections: { Organizations } },
+  ) {
+    const query = { _id };
+    const modifier = {
+      $set: {
+        ...getWorkspaceDefaultsUpdater(workspaceDefaults),
+        updatedBy: userId,
+      },
+    };
+    return Organizations.update(query, modifier);
   },
 
-  async set({ _id, ...args }) {
-    return this.update({ _id }, { $set: args });
-  },
+  async update({
+    _id,
+    homeScreenType,
+    lastAccessedDate,
+  }, { userId, collections: { Organizations } }) {
+    const query = { _id };
+    const modifier = {
+      $set: {
+        homeScreenType,
+        lastAccessedDate,
+        updatedBy: userId,
+      },
+    };
 
-  async update(query, modifier, options) {
-    await this.collection.update(query, modifier, options);
-
-    const organization = await this.collection.findOne(query);
-
-    return { organization };
+    return Organizations.update(query, modifier);
   },
 };

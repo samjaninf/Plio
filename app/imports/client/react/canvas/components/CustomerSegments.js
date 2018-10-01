@@ -4,10 +4,12 @@ import { Query } from 'react-apollo';
 import { pure } from 'recompose';
 
 import CustomerSegmentAddModal from './CustomerSegmentAddModal';
+import CustomerSegmentEditModal from './CustomerSegmentEditModal';
+import CustomerSegmentsChartModal from './CustomerSegmentsChartModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const CustomerSegments = ({ organizationId }) => (
   <Query
@@ -19,7 +21,7 @@ const CustomerSegments = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Customer segments"
-        sectionName={CanvasSections.CUSTOMER_SEGMENTS}
+        sectionName={CanvasSections[CanvasTypes.CUSTOMER_SEGMENT]}
         help={(
           <Fragment>
             <p>For whom are we creating value?</p>
@@ -29,6 +31,19 @@ const CustomerSegments = ({ organizationId }) => (
         items={customerSegments}
         renderModal={({ isOpen, toggle }) => (
           <CustomerSegmentAddModal {...{ isOpen, toggle, organizationId }} />
+        )}
+        renderEditModal={({ isOpen, toggle, _id }) => (
+          <CustomerSegmentEditModal
+            {...{
+              isOpen,
+              toggle,
+              organizationId,
+              _id,
+            }}
+          />
+        )}
+        renderChartModal={({ isOpen, toggle }) => (
+          <CustomerSegmentsChartModal {...{ isOpen, toggle, organizationId }} />
         )}
       />
     )}

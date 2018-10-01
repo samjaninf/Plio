@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Query } from 'react-apollo';
 
+import { withUpdateLastAccessedDate } from '../../helpers';
 import Canvas from './Canvas';
 import CanvasRow from './CanvasRow';
 import CanvasCol from './CanvasCol';
@@ -15,14 +16,15 @@ import CustomerSegments from './CustomerSegments';
 import CostStructure from './CostStructure';
 import RevenueStreams from './RevenueStreams';
 import { Query as Queries } from '../../../graphql';
-import { RenderSwitch, PreloaderPage } from '../../components';
+import { RenderSwitch, PreloaderPage, ErrorPage } from '../../components';
 
-const CanvasPage = ({ organizationId }) => (
+const CanvasPage = ({ organization: { _id: organizationId } }) => (
   <Query query={Queries.CANVAS_PAGE} variables={{ organizationId }}>
     {({ error, loading }) => (
       <RenderSwitch
         {...{ error, loading }}
         renderLoading={<PreloaderPage />}
+        renderError={queryError => <ErrorPage error={queryError} />}
       >
         <div className="content scroll">
           <Canvas>
@@ -61,7 +63,9 @@ const CanvasPage = ({ organizationId }) => (
 );
 
 CanvasPage.propTypes = {
-  organizationId: PropTypes.string.isRequired,
+  organization: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+  }),
 };
 
-export default CanvasPage;
+export default withUpdateLastAccessedDate(CanvasPage);

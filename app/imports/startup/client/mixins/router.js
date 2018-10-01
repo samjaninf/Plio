@@ -1,7 +1,18 @@
+import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { ViewModel } from 'meteor/manuel:viewmodel';
 import invoke from 'lodash.invoke';
 
+import { RouteNames } from '../../../api/constants';
+import { HomeScreenTypes } from '../../../share/constants';
+
 export default {
+  goToHomePageOfOrg({ serialNumber, homeScreenType }) {
+    const params = { orgSerialNumber: serialNumber };
+    const routeName = homeScreenType === HomeScreenTypes.CANVAS ?
+      RouteNames.CANVAS : RouteNames.DASHBOARD;
+    FlowRouter.withReplaceState(() => FlowRouter.go(routeName, params));
+  },
   goToDashboard(orgSerialNumber) {
     const params = { orgSerialNumber };
     FlowRouter.withReplaceState(() => {
@@ -41,13 +52,6 @@ export default {
     FlowRouter.withReplaceState(() => {
       FlowRouter.go('workInbox', params, queryParams);
     });
-  },
-  goToDefaultWorkItem(
-    list = 'WorkInbox_List',
-    getRouteOptions = '_findWorkItemForFilter',
-    redirectHandler = 'goToWorkItem',
-  ) {
-    return redirectToDefaultDocument.call(this, list, getRouteOptions, redirectHandler);
   },
   goToRisk(urlItemId, withQueryParams = true) {
     const params = { urlItemId, orgSerialNumber: this.organizationSerialNumber() };

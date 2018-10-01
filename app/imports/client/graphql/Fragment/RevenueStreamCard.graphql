@@ -1,0 +1,14 @@
+fragment RevenueStreamCard on RevenueStream {
+  _id
+  title
+  color
+  notes
+  percentOfRevenue
+  percentOfProfit
+  originator {
+    _id
+    profile {
+      fullName
+    }
+  }
+}

@@ -1,0 +1,9 @@
+#import "../Fragment/ChannelCard.graphql"
+
+query ChannelCard($_id: ID!) {
+  channel(_id: $_id) {
+    channel {
+      ...ChannelCard
+    }
+  }
+}

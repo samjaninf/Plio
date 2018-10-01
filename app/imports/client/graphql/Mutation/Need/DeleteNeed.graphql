@@ -1,0 +1,5 @@
+mutation deleteNeed($input: DeleteCustomerElementInput!) {
+  deleteNeed(input: $input) {
+    _id
+  }
+}

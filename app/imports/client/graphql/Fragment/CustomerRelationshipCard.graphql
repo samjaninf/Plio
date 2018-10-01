@@ -1,0 +1,12 @@
+fragment CustomerRelationshipCard on CustomerRelationship {
+  _id
+  title
+  color
+  notes
+  originator {
+    _id
+    profile {
+      fullName
+    }
+  }
+}

@@ -4,10 +4,11 @@ import { Query } from 'react-apollo';
 import { pure } from 'recompose';
 
 import ValuePropositionAddModal from './ValuePropositionAddModal';
+import ValuePropositionEditModal from './ValuePropositionEditModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const ValuePropositions = ({ organizationId }) => (
   <Query
@@ -19,7 +20,7 @@ const ValuePropositions = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Value propositions"
-        sectionName={CanvasSections.VALUE_PROPOSITIONS}
+        sectionName={CanvasSections[CanvasTypes.VALUE_PROPOSITION]}
         help={(
           <Fragment>
             {/* eslint-disable react/no-unescaped-entities */}
@@ -31,6 +32,16 @@ const ValuePropositions = ({ organizationId }) => (
         items={valuePropositions}
         renderModal={({ isOpen, toggle }) => (
           <ValuePropositionAddModal {...{ isOpen, toggle, organizationId }} />
+        )}
+        renderEditModal={({ isOpen, toggle, _id }) => (
+          <ValuePropositionEditModal
+            {...{
+              isOpen,
+              toggle,
+              organizationId,
+              _id,
+            }}
+          />
         )}
       />
     )}

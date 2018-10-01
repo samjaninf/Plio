@@ -3,6 +3,11 @@ type ValuePropositionsQueryPayload {
   valuePropositions: [ValueProposition]
 }
 
+type ValuePropositionsQueryPayload {
+  valueProposition: ValueProposition
+}
+
 type Query {
-  valuePropositions(organizationId: ID!): ValuePropositionsQueryPayload!
+  valuePropositions(organizationId: ID!, isUnmatched: Boolean): ValuePropositionsQueryPayload!
+  valueProposition(_id: ID!): ValuePropositionsQueryPayload
 }

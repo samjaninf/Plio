@@ -40,8 +40,8 @@ const GoalMilestonesSubcard = ({
         )}
       />
     )}
-    renderNewEntity={props => (
-      <MilestoneForm {...{ ...props, linkedTo }} />
+    renderNewEntity={() => (
+      <MilestoneForm {...{ linkedTo }} />
     )}
     {...{
       milestones,

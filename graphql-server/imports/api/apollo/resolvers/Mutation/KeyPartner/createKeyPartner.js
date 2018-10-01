@@ -13,8 +13,8 @@ export default applyMiddleware(
   checkLoggedIn(),
   flattenInput(),
   checkOrgMembership(),
-  insertAfterware({
-    collection: 'KeyPartners',
+  insertAfterware((root, args, { collections: { KeyPartners } }) => ({
+    collection: KeyPartners,
     key: 'keyPartner',
-  }),
+  })),
 )(resolver);

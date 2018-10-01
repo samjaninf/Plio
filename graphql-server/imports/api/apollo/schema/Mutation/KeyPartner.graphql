@@ -20,9 +20,15 @@ input UpdateKeyPartnerInput {
   criticality: Int
   levelOfSpend: Int
   notes: String
+  fileIds: [String]
+}
+
+input DeleteKeyPartnerInput {
+  _id: ID!
 }
 
 type Mutation {
   createKeyPartner(input: CreateKeyPartnerInput!): KeyPartnerPayload
   updateKeyPartner(input: UpdateKeyPartnerInput!): KeyPartner
+  deleteKeyPartner(input: DeleteKeyPartnerInput!): KeyPartner
 }

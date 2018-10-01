@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
-import { UserRoles } from '/imports/share/constants.js';
+import { UserRoles } from '../../../share/constants.js';
 
 export default {
   canInviteUsers(organizationId) {
@@ -13,6 +13,7 @@ export default {
         organizationId,
       );
     }
+    return false;
   },
   canCreateAndEditStandards(organizationId) {
     const userId = Meteor.userId();
@@ -24,16 +25,6 @@ export default {
         organizationId,
       );
     }
-  },
-  canEditOrgSettings(organizationId) {
-    const userId = Meteor.userId();
-
-    if (userId && organizationId) {
-      return Roles.userIsInRole(
-        userId,
-        UserRoles.CHANGE_ORG_SETTINGS,
-        organizationId,
-      );
-    }
+    return false;
   },
 };

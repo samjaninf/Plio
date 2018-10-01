@@ -1,17 +1,21 @@
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { AccountsTemplates } from 'meteor/useraccounts:core';
 
 // Simply 'inherites' helpers from AccountsTemplates
 Template.atForm.helpers(AccountsTemplates.atFormHelpers);
 
 Template.atForm.helpers({
   showForgotPasswordLink() {
-    return !!AccountsTemplates.options.showForgotPasswordLink && FlowRouter.getRouteName() === 'signIn';
+    return !!AccountsTemplates.options.showForgotPasswordLink &&
+      FlowRouter.getRouteName() === 'signIn';
   },
 });
 
 Template.atForm.events({
-  'focusout input#at-field-email': function (e, tpl) {
-    const email = e.target.value;
+  'focusout input#at-field-email': function (event, templateInstance) {
+    const email = event.target.value;
 
     if (!email.length) return;
 
@@ -19,7 +23,7 @@ Template.atForm.events({
     const match = email.match(regex);
     const orgName = match ? match[1] : null;
 
-    if (orgName) { tpl.$('input#at-field-companyName').val(orgName); }
+    if (orgName) { templateInstance.$('input#at-field-companyName').val(orgName); }
   },
 });
 

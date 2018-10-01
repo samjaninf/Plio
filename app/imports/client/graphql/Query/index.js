@@ -33,7 +33,22 @@ import CURRENT_USER_FULL_NAME from './CurrentUserFullName.graphql';
 import VALUE_PROPOSITION_LIST from './ValuePropositionList.graphql';
 import CUSTOMER_SEGMENT_LIST from './CustomerSegmentList.graphql';
 import KEY_PARTNER_CARD from './KeyPartnerCard.graphql';
+import REVENUE_STREAM_CARD from './RevenueStreamCard.graphql';
+import COST_LINE_CARD from './CostLineCard.graphql';
+import CHANNEL_CARD from './ChannelCard.graphql';
+import CUSTOMER_RELATIONSHIP_CARD from './CustomerRelationshipCard.graphql';
+import KEY_RESOURCE_CARD from './KeyResourceCard.graphql';
+import KEY_ACTIVITY_CARD from './KeyActivityCard.graphql';
+import CUSTOMER_SEGMENT_CARD from './CustomerSegmentCard.graphql';
+import VALUE_PROPOSITION_CARD from './ValuePropositionCard.graphql';
 import CANVAS_SETTINGS from './CanvasSettings.graphql';
+import ORGANIZATIONS_MENU from './OrganizationsMenu.graphql';
+import ORGANIZATIONS from './Organizations.graphql';
+import COST_LINES_CHART from './CostLinesChart.graphql';
+import CUSTOMER_SEGMENTS_CHART from './CustomerSegmentsChart.graphql';
+import REVENUE_STREAMS_CHART from './RevenueStreamsChart.graphql';
+import REVENUE_STREAMS_PROFIT_CHART from './RevenueStreamsProfitChart.graphql';
+import KEY_PARTNERS_CHART from './KeyPartnersChart.graphql';
 
 export default {
   DASHBOARD_GOALS,
@@ -71,5 +86,20 @@ export default {
   VALUE_PROPOSITION_LIST,
   CUSTOMER_SEGMENT_LIST,
   KEY_PARTNER_CARD,
+  REVENUE_STREAM_CARD,
+  CHANNEL_CARD,
+  CUSTOMER_RELATIONSHIP_CARD,
+  COST_LINE_CARD,
+  KEY_RESOURCE_CARD,
+  KEY_ACTIVITY_CARD,
+  CUSTOMER_SEGMENT_CARD,
+  VALUE_PROPOSITION_CARD,
   CANVAS_SETTINGS,
+  ORGANIZATIONS_MENU,
+  ORGANIZATIONS,
+  COST_LINES_CHART,
+  CUSTOMER_SEGMENTS_CHART,
+  REVENUE_STREAMS_CHART,
+  REVENUE_STREAMS_PROFIT_CHART,
+  KEY_PARTNERS_CHART,
 };

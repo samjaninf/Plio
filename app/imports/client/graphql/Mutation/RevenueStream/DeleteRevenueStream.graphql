@@ -1,0 +1,5 @@
+mutation deleteRevenueStream($input: DeleteRevenueStreamInput!) {
+  deleteRevenueStream(input: $input) {
+    _id
+  }
+}

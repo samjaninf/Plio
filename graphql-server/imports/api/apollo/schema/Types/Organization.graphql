@@ -20,6 +20,7 @@ type Organization implements BaseEntity {
   homeScreenTitles: HomeScreenTitles
   lastAccessedDate: DateTime
   workflowDefaults: WorkflowDefaults
+  homeScreenType: String
 }
 
 type WorkspaceDefaults {

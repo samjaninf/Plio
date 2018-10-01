@@ -1,6 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-import { Criticality, LevelOfSpend } from '../constants';
 import CanvasSchema from './canvas-schema';
 
 const KeyPartnerSchema = new SimpleSchema([
@@ -8,11 +7,13 @@ const KeyPartnerSchema = new SimpleSchema([
   {
     criticality: {
       type: Number,
-      allowedValues: Object.values(Criticality),
+      min: 0,
+      max: 100,
     },
     levelOfSpend: {
       type: Number,
-      allowedValues: Object.values(LevelOfSpend),
+      min: 0,
+      max: 100,
     },
   },
 ]);

@@ -4,10 +4,12 @@ import { Query } from 'react-apollo';
 import { pure } from 'recompose';
 
 import RevenueStreamAddModal from './RevenueStreamAddModal';
+import RevenueStreamEditModal from './RevenueStreamEditModal';
+import RevenueStreamsChartModal from './RevenueStreamsChartModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const RevenueStreams = ({ organizationId }) => (
   <Query
@@ -19,7 +21,7 @@ const RevenueStreams = ({ organizationId }) => (
       <CanvasBlock
         {...{ organizationId }}
         label="Revenue streams"
-        sectionName={CanvasSections.REVENUE_STREAMS}
+        sectionName={CanvasSections[CanvasTypes.REVENUE_STREAM]}
         help={(
           <Fragment>
             <p>From which channels and segments?</p>
@@ -29,6 +31,19 @@ const RevenueStreams = ({ organizationId }) => (
         items={revenueStreams}
         renderModal={({ isOpen, toggle }) => (
           <RevenueStreamAddModal {...{ isOpen, toggle, organizationId }} />
+        )}
+        renderEditModal={({ isOpen, toggle, _id }) => (
+          <RevenueStreamEditModal
+            {...{
+              isOpen,
+              toggle,
+              organizationId,
+              _id,
+            }}
+          />
+        )}
+        renderChartModal={({ isOpen, toggle }) => (
+          <RevenueStreamsChartModal {...{ isOpen, toggle, organizationId }} />
         )}
       />
     )}

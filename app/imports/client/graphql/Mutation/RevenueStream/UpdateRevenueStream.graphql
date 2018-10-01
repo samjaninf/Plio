@@ -1,0 +1,7 @@
+#import "../../Fragment/RevenueStreamCard.graphql"
+
+mutation updateRevenueStream($input: UpdateRevenueStreamInput!) {
+  updateRevenueStream(input: $input) {
+    ...RevenueStreamCard
+  }
+}

@@ -3,6 +3,11 @@ type CustomerRelationshipsQueryPayload {
   customerRelationships: [CustomerRelationship]
 }
 
+type CustomerRelationshipQueryPayload {
+  customerRelationship: CustomerRelationship
+}
+
 type Query {
   customerRelationships(organizationId: ID!): CustomerRelationshipsQueryPayload
+  customerRelationship(_id: ID!): CustomerRelationshipQueryPayload
 }

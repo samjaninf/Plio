@@ -1,0 +1,8 @@
+type BenefitsQueryPayload {
+  benefits: [Benefit]
+  totalCount: Int
+}
+
+type Query {
+  benefits(organizationId: ID!): BenefitsQueryPayload
+}

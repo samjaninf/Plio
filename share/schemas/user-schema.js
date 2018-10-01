@@ -1,8 +1,7 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { PhoneTypes, StringLimits } from '../constants';
-import { TimezoneSchema } from './schemas';
-
+import { TimezoneSchema, homeScreenTypeSchemaObj } from './schemas';
 
 const PhoneNumberSchema = new SimpleSchema({
   _id: {
@@ -12,7 +11,7 @@ const PhoneNumberSchema = new SimpleSchema({
   number: {
     label: 'Phone number',
     type: String,
-    regEx: /^[\+|0-9][0-9\-\s\(\)]+$/,
+    regEx: /^[+|0-9][0-9\-\s()]+$/,
   },
   type: {
     type: String,
@@ -67,6 +66,7 @@ const UserProfileSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  organizationHomeScreen: homeScreenTypeSchemaObj,
   organizationTimezone: TimezoneSchema.getDefinition('timezone'),
 });
 

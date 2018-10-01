@@ -1,23 +1,39 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { noop } from 'plio-util';
+import { pure } from 'recompose';
 
-import { FormField } from '../../components';
-import CriticalityField from './CriticalityField';
+import { getCriticalityValueLabel } from '../helpers';
+import { FormField, SliderField } from '../../components';
+import { CriticalityLabels } from '../../../../api/constants';
 import CanvasForm from './CanvasForm';
+
+const sliderLabels = {
+  leftLabel: CriticalityLabels.LOW,
+  rightLabel: CriticalityLabels.HIGH,
+};
 
 const KeyPartnerForm = ({
   organizationId,
-  save = noop,
+  save,
 }) => (
   <CanvasForm {...{ organizationId, save }}>
     <FormField>
       Criticality
-      <CriticalityField name="criticality" onChange={criticality => save({ criticality })} />
+      <SliderField
+        {...sliderLabels}
+        name="criticality"
+        onAfterChange={save}
+        tipFormatter={getCriticalityValueLabel}
+      />
     </FormField>
     <FormField>
       Level of spend
-      <CriticalityField name="levelOfSpend" onChange={levelOfSpend => save({ levelOfSpend })} />
+      <SliderField
+        {...sliderLabels}
+        name="levelOfSpend"
+        onAfterChange={save}
+        tipFormatter={getCriticalityValueLabel}
+      />
     </FormField>
   </CanvasForm>
 );
@@ -27,4 +43,4 @@ KeyPartnerForm.propTypes = {
   save: PropTypes.func,
 };
 
-export default KeyPartnerForm;
+export default pure(KeyPartnerForm);

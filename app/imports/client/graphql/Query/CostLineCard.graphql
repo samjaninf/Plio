@@ -1,0 +1,9 @@
+#import "../Fragment/CostLineCard.graphql"
+
+query CostLineCard($_id: ID!) {
+  costLine(_id: $_id) {
+    costLine {
+      ...CostLineCard
+    }
+  }
+}

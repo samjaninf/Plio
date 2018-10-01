@@ -1,0 +1,18 @@
+type Feature implements BaseEntity, CustomerElement {
+  _id: ID!
+  createdAt: DateTime!
+  createdBy: User!
+  updatedAt: DateTime
+  updatedBy: User
+  organization: Organization!
+  serialNumber: Int!
+  sequentialId: String!
+  title: String!
+  description: String
+  importance: Int!
+  status: Int!
+  linkedTo: [ValueProposition!]!
+  needs: [Need]
+  wants: [Want]
+  documentType: String
+}

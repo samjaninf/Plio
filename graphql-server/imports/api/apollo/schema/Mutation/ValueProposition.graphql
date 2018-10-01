@@ -16,6 +16,27 @@ input CreateValuePropositionInput {
   matchedTo: ValuePropositionMatchedToInput
 }
 
+input UpdateValuePropositionInput {
+  _id: ID!
+  title: String
+  originatorId: ID
+  color: String
+  notes: String
+  fileIds: [String]
+}
+
+input DeleteValuePropositionInput {
+  _id: ID!
+}
+
+input MatchValuePropositionInput {
+  _id: ID!
+  matchedTo: ValuePropositionMatchedToInput
+}
+
 type Mutation {
   createValueProposition(input: CreateValuePropositionInput!): ValuePropositionPayload
+  updateValueProposition(input: UpdateValuePropositionInput!): ValueProposition
+  deleteValueProposition(input: DeleteValuePropositionInput!): ValueProposition
+  matchValueProposition(input: MatchValuePropositionInput!): ValueProposition
 }

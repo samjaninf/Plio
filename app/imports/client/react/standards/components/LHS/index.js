@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import { ListGroup } from 'reactstrap';
 
 import { DocumentTypes } from '/imports/share/constants';
@@ -27,6 +28,14 @@ const propTypes = {
   onDataImportModalClose: PropTypes.func,
   openDocumentCreationModal: PropTypes.func,
 };
+
+const StyledField = styled(Field)`
+  .card .list-group &.list-group-item {
+    padding: 1.25rem;
+    border-left: 0;
+    border-right: 0;
+  }
+`;
 
 const StandardsLHS = ({
   filter,
@@ -87,9 +96,9 @@ const StandardsLHS = ({
           documentType={DocumentTypes.STANDARD}
           onSuccess={onDataImportSuccess}
         >
-          <Field tag="button" onClick={openDocumentCreationModal}>
+          <StyledField tag="button" onClick={openDocumentCreationModal}>
             New standard
-          </Field>
+          </StyledField>
         </DataImportContainer>
       </ModalHandle>
     </LHSContainer>

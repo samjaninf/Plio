@@ -5,10 +5,11 @@ import { pure } from 'recompose';
 
 import KeyPartnerAddModal from './KeyPartnerAddModal';
 import KeyPartnerEditModal from './KeyPartnerEditModal';
+import KeyPartnersChartModal from './KeyPartnersChartModal';
 import CanvasBlock from './CanvasBlock';
 import { Query as Queries } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
-import { CanvasSections } from '../../../../share/constants';
+import { CanvasSections, CanvasTypes } from '../../../../share/constants';
 
 const goals = [
   { sequentialId: 'KG1', title: 'Finish UI design' },
@@ -31,7 +32,7 @@ const KeyPartners = ({ organizationId }) => (
       <CanvasBlock
         {...{ standards, goals, organizationId }}
         label="Key partners"
-        sectionName={CanvasSections.KEY_PARTNERS}
+        sectionName={CanvasSections[CanvasTypes.KEY_PARTNER]}
         help={(
           <Fragment>
             <p>Who are our key partners/suppliers?</p>
@@ -42,9 +43,20 @@ const KeyPartners = ({ organizationId }) => (
         renderModal={({ isOpen, toggle }) => (
           <KeyPartnerAddModal {...{ isOpen, toggle, organizationId }} />
         )}
-        renderEditModal={({ isOpen, toggle, item }) => (
-          <KeyPartnerEditModal {...{ isOpen, toggle, organizationId }} keyPartner={item} />
+        renderEditModal={({ isOpen, toggle, _id }) => (
+          <KeyPartnerEditModal
+            {...{
+              isOpen,
+              toggle,
+              organizationId,
+              _id,
+            }}
+          />
         )}
+        renderChartModal={({ isOpen, toggle }) => (
+          <KeyPartnersChartModal {...{ isOpen, toggle, organizationId }} />
+        )}
+        chartButtonIcon="th-large"
       />
     )}
   </Query>

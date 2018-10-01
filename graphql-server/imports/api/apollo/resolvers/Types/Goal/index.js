@@ -3,7 +3,6 @@ import {
   loadUsersById,
   loadOrganizationById,
   loadFilesById,
-  loadLessonsByDocumentId,
   lenses,
 } from 'plio-util';
 import { view, map, flatten } from 'ramda';
@@ -11,7 +10,6 @@ import { view, map, flatten } from 'ramda';
 import { getGoalStatus } from '../../../../../share/helpers';
 
 const {
-  _id,
   createdBy,
   updatedBy,
   ownerId,
@@ -32,11 +30,16 @@ export default {
     notify: loadUsersById(view(notify)),
     organization: loadOrganizationById(view(organizationId)),
     files: loadFilesById(view(fileIds)),
-    lessons: loadLessonsByDocumentId(view(_id)),
     // TODO: subscribe cuz it may change over time
     status: async (goal, args, { loaders: { Organization: { byId } } }) => {
       const { timezone } = await byId.load(view(organizationId, goal));
       return getGoalStatus(timezone, goal);
+    },
+    lessons: async (root, args, context) => {
+      const { _id: documentId } = root;
+      const { loaders: { Lesson: { byQuery } } } = context;
+
+      return byQuery.load({ documentId });
     },
     actions: async (root, args, context) => {
       const { _id: documentId } = root;

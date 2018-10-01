@@ -1,0 +1,18 @@
+query OrganizationsMenu($organizationId: ID!) {
+  me {
+    _id
+    isPlioUser
+    profile {
+      fullName
+    }
+    roles(organizationId: $organizationId)
+  }
+
+  organizations {
+    organizations {
+      _id
+      name
+      serialNumber
+    }
+  }
+}

@@ -10,4 +10,5 @@ type CostLine implements BaseEntity, CanvasEntity {
   color: String!
   percentOfTotalCost: Int!
   notes: String
+  fileIds: [String]
 }

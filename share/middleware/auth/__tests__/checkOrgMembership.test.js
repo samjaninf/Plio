@@ -1,5 +1,7 @@
 import { __setupDB, __closeDB, Mongo } from 'meteor/mongo';
-import { T, nthArg } from 'ramda';
+import { T, nthArg, times } from 'ramda';
+import faker from 'faker';
+
 import Errors from '../../../errors';
 
 import checkOrgMembership from '../checkOrgMembership';
@@ -130,6 +132,23 @@ describe('checkOrgMembership', () => {
     const promise = checkOrgMembership(
       (_, { organizationId, userId }) => ({ organizationId, userId }),
     )(nthArg(2), root, args, context);
+
+    await expect(promise).resolves.toMatchObject({ organization });
+  });
+
+  it('fetches the correct organization', async () => {
+    const userId = faker.random.uuid();
+    const root = {};
+    const args = { serialNumber: 2, organizationId: undefined };
+    const context = { userId, collections: { Organizations } };
+
+    await Promise.all(times(n => Organizations.insert({
+      serialNumber: n,
+      users: [{ userId, isRemoved: false }],
+    }), 3));
+    const organization = await Organizations.findOne({ serialNumber: args.serialNumber });
+    const config = (_, { serialNumber, organizationId }) => ({ serialNumber, organizationId });
+    const promise = checkOrgMembership(config)(nthArg(2), root, args, context);
 
     await expect(promise).resolves.toMatchObject({ organization });
   });

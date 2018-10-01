@@ -1,3 +1,4 @@
+/* eslint-disable */
 import curry from 'lodash.curry';
 import get from 'lodash.get';
 import property from 'lodash.property';
@@ -418,6 +419,13 @@ export const compareRisksByScore = (risk1, risk2) => {
 
 export const getSelectedOrgSerialNumber = () => (
   localStorage.getItem(`${Meteor.userId()}: selectedOrganizationSerialNumber`)
+);
+
+export const setSelectedOrgSerialNumber = (serialNumber, userId) => (
+  localStorage.setItem(
+    `${userId || Meteor.userId()}: selectedOrganizationSerialNumber`,
+    serialNumber,
+  )
 );
 
 export const getUserJoinedAt = (organization = {}, userId) => {

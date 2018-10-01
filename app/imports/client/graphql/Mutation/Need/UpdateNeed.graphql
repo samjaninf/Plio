@@ -1,0 +1,7 @@
+#import "../../Fragment/CustomerElementCard.graphql"
+
+mutation updateNeed($input: UpdateCustomerElementInput!) {
+  updateNeed(input: $input) {
+    ...CustomerElementCard
+  }
+}

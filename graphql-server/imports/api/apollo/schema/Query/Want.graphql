@@ -1,0 +1,8 @@
+type WantsQueryPayload {
+  wants: [Want]
+  totalCount: Int
+}
+
+type Query {
+  wants(organizationId: ID!): WantsQueryPayload
+}

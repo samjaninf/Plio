@@ -2,15 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Modal as ReactstrapModal } from 'reactstrap';
 import cx from 'classnames';
-import { is } from 'ramda';
 
 import {
   TransitionBaseActiveClass,
   TransitionTimeouts,
 } from '../../../../api/constants';
+import { renderComponent } from '../../helpers';
 import { ModalConsumer } from './ModalContext';
 
 const Modal = ({
+  component,
+  render,
   children,
   className,
   contentClassName,
@@ -42,13 +44,21 @@ const Modal = ({
           ...backdropTransition,
         }}
       >
-        {is(Function, children) ? children(modal) : children}
+        {renderComponent({
+          ...modal,
+          children,
+          component,
+          render,
+        })}
       </ReactstrapModal>
     )}
   </ModalConsumer>
 );
 
 Modal.propTypes = {
+  ...ReactstrapModal.propTypes,
+  component: PropTypes.func,
+  render: PropTypes.func,
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
   className: PropTypes.string,
   contentClassName: PropTypes.string,

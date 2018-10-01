@@ -1,4 +1,5 @@
-import { replace, map, prop, compose, join } from 'ramda';
+import { replace, map, prop, compose, join, is } from 'ramda';
+
 import { GQ_ERROR_MESSAGE_PREFIX, DEFAULT_ERROR_MESSAGE } from './constants';
 
 const handleErrorMessage = compose(
@@ -14,16 +15,21 @@ const handleGraphQLErrors = compose(
 export const handleGQError = (error) => {
   if (!error) return '';
 
+  if (is(String, error)) return error;
+
   const { networkError, graphQLErrors, message } = error;
 
   if (networkError) {
-    return networkError;
+    return networkError.message;
   }
+
   if (graphQLErrors) {
     return handleGraphQLErrors(graphQLErrors);
   }
+
   if (message) {
     return handleErrorMessage(message);
   }
+
   return DEFAULT_ERROR_MESSAGE;
 };

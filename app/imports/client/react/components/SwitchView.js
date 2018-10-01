@@ -34,12 +34,14 @@ const SwitchView = ({
   active,
   onChange,
   buttons,
+  asField,
+  ...props
 }) => (
   <Fragment>
-    <CardBlock>
+    <CardBlock {...props}>
       <FormGroup row>
-        <Label sm="4" xs="12" />
-        <Col sm="8" xs="12">
+        {asField && <Label sm="4" xs="12" />}
+        <Col sm={asField ? '8' : ''} xs="12" className={cx(!asField && 'text-xs-center')}>
           <ButtonGroup className="btn-group-nomargin" data-toggle="buttons">
             {renderButtons({ active, onChange, buttons })}
           </ButtonGroup>
@@ -55,6 +57,7 @@ SwitchView.propTypes = {
   onChange: PropTypes.func,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   buttons: PropTypes.arrayOf(PropTypes.node.isRequired).isRequired,
+  asField: PropTypes.bool,
 };
 
 export default enhance(SwitchView);

@@ -77,10 +77,9 @@ const RisksSubcard = ({
         )}
       />
     )}
-    renderNewEntity={otherProps => (
+    renderNewEntity={() => (
       <NewRiskCard
         {...{
-          ...otherProps,
           linkedTo,
           organizationId,
           guidelines,

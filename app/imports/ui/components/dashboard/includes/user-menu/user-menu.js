@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { Organizations } from '../../../../../share/collections/organizations';
 import { isMobileRes } from '../../../../../api/checkers';
 import { flattenObjects } from '../../../../../api/helpers';
 import { MyPreferencesHelp } from '../../../../../api/help-messages';
@@ -118,10 +117,10 @@ Template.UserMenu.viewmodel({
   },
   async onInviteClick(event) {
     event.preventDefault();
-    const orgSerialNumber = parseInt(FlowRouter.getParam('orgSerialNumber'), 0);
-    const organizationId = Organizations.findOne({ serialNumber: orgSerialNumber })._id;
 
     await import('../../../userdirectory/includes/invite');
+
+    const { organizationId, organizationName } = this.data();
 
     this.modal().open({
       template: 'UserDirectory_InviteUsers',
@@ -131,6 +130,7 @@ Template.UserMenu.viewmodel({
       closeCaption: 'Cancel',
       variation: 'save',
       organizationId,
+      organizationName,
     });
   },
   goToMyProfile(href) {
