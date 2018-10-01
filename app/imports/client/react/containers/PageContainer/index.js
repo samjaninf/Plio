@@ -8,6 +8,7 @@ import { setWindowWidth } from '../../../../client/store/actions/windowActions';
 import { pickDeep } from '../../../../api/helpers';
 import { getIsFullScreenMode } from '../../../store/selectors/global';
 import { namedCompose } from '../../helpers';
+import { setIsFullScreenMode } from '../../../../client/store/actions/globalActions';
 import Page from '../../components/Page';
 
 export default namedCompose('PageContainer')(
@@ -26,6 +27,9 @@ export default namedCompose('PageContainer')(
       setNewWidth();
 
       $window.on('resize', setNewWidthThrottled);
+    },
+    componentWillUnmount() {
+      this.props.dispatch(setIsFullScreenMode(false));
     },
   }),
   mapProps(({
