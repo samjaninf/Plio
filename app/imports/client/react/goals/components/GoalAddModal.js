@@ -1,16 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { CardTitle, Button, Form } from 'reactstrap';
-import { Form as FinalForm } from 'react-final-form';
-import ErrorSection from '../../components/ErrorSection';
+import { Form } from 'reactstrap';
 
 import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalProvider,
+  EntityModalNext,
+  EntityModalHeader,
+  EntityModalBody,
+  EntityModalForm,
   CardBlock,
-  SaveButton,
 } from '../../components';
 import GoalForm from './GoalForm';
 
@@ -19,38 +16,29 @@ export const GoalAddModal = ({
   toggle,
   onSubmit,
   organizationId,
-  onClosed,
-  ...props
+  initialValues,
 }) => (
-  <ModalProvider {...{ isOpen, toggle }}>
-    <Modal {...{ onClosed }}>
-      <FinalForm
-        {...{ onSubmit, ...props }}
-        subscription={{ submitError: true, submitting: true }}
-      >
-        {({ handleSubmit, submitError, submitting }) => (
-          <Fragment>
-            <ModalHeader
-              renderLeftButton={<Button onClick={toggle}>Close</Button>}
-              renderRightButton={(
-                <SaveButton onClick={handleSubmit} isSaving={submitting} />
-              )}
-            >
-              <CardTitle>Key Goal</CardTitle>
-            </ModalHeader>
-            <ErrorSection errorText={submitError} />
-            <ModalBody>
-              <CardBlock>
-                <Form onSubmit={handleSubmit}>
-                  <GoalForm {...{ organizationId }} />
-                </Form>
-              </CardBlock>
-            </ModalBody>
-          </Fragment>
-        )}
-      </FinalForm>
-    </Modal>
-  </ModalProvider>
+  <EntityModalNext {...{ isOpen, toggle }}>
+    <EntityModalForm
+      {...{ initialValues, onSubmit }}
+      keepDirtyOnReinitialize
+    >
+      {({ handleSubmit }) => (
+        <Fragment>
+          <EntityModalHeader label="Key goal" />
+          <EntityModalBody>
+            <CardBlock>
+              <Form onSubmit={handleSubmit}>
+                {/* hidden input is needed for return key to work */}
+                <input hidden type="submit" />
+                <GoalForm {...{ organizationId }} />
+              </Form>
+            </CardBlock>
+          </EntityModalBody>
+        </Fragment>
+      )}
+    </EntityModalForm>
+  </EntityModalNext>
 );
 
 GoalAddModal.propTypes = {
@@ -58,7 +46,7 @@ GoalAddModal.propTypes = {
   toggle: PropTypes.func.isRequired,
   organizationId: PropTypes.string.isRequired,
   onSubmit: PropTypes.func,
-  onClosed: PropTypes.func,
+  initialValues: PropTypes.object,
 };
 
 export default GoalAddModal;

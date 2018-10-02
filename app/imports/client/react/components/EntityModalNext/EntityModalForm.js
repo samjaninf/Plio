@@ -11,6 +11,10 @@ const enhance = withHandlers({
     try {
       return await onSubmit(...args);
     } catch (err) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.error(err);
+      }
+
       return { [FORM_ERROR]: handleGQError(err) };
     }
   },

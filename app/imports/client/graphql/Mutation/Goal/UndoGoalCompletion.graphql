@@ -3,17 +3,15 @@
 
 mutation undoGoalCompletion($input: UndoGoalCompletionInput!) {
   undoGoalCompletion(input: $input) {
-    goal {
-      completedBy {
-        _id
-        profile {
-          fullName
-        }
+    completedBy {
+      _id
+      profile {
+        fullName
       }
-      completionComment
-      status
-      ...CompletedDeletedGoal
-      ...DashboardGoal
     }
+    completionComment
+    status
+    ...CompletedDeletedGoal
+    ...DashboardGoal
   }
 }

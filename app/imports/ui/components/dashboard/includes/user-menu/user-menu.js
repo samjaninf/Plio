@@ -87,6 +87,12 @@ Template.UserMenu.viewmodel({
       status,
     };
   },
+  inviteUsersBtnArgs() {
+    return {
+      className: 'btn btn-primary header-btn-invite',
+      onClick: this.onInviteClick.bind(this),
+    };
+  },
   getStatuses() {
     return STATUSES;
   },

@@ -17,46 +17,6 @@ input CreateGoalInput {
   priority: String!
 }
 
-input UpdateGoalTitleInput {
-  _id: ID!
-  title: String!
-}
-
-input UpdateGoalDescriptionInput {
-  _id: ID!
-  description: String!
-}
-
-input UpdateGoalOwnerInput {
-  _id: ID!
-  ownerId: ID!
-}
-
-input UpdateGoalStartDateInput {
-  _id: ID!
-  startDate: DateTime!
-}
-
-input UpdateGoalEndDateInput {
-  _id: ID!
-  endDate: DateTime!
-}
-
-input UpdateGoalPriorityInput {
-  _id: ID!
-  priority: String!
-}
-
-input UpdateGoalColorInput {
-  _id: ID!
-  color: String!
-}
-
-input UpdateGoalStatusCommentInput {
-  _id: ID!
-  statusComment: String!
-}
-
 input DeleteGoalInput {
   _id: ID!
 }
@@ -68,21 +28,6 @@ input RemoveGoalInput {
 input CompleteGoalInput {
   _id: ID!
   completionComment: String
-}
-
-input UpdateGoalCompletionCommentInput {
-  _id: ID!
-  completionComment: String!
-}
-
-input UpdateGoalCompletedAtInput {
-  _id: ID!
-  completedAt: DateTime
-}
-
-input UpdateGoalCompletedByInput {
-  _id: ID!
-  completedBy: ID!
 }
 
 input UndoGoalCompletionInput {
@@ -98,11 +43,6 @@ input LinkRiskToGoalInput {
   riskId: ID!
 }
 
-input GoalFileInput {
-  _id: ID!
-  fileId: ID!
-}
-
 input AddGoalNotifyUserInput {
   _id: ID!
   userId: ID!
@@ -113,27 +53,34 @@ input RemoveGoalNotifyUserInput {
   userId: ID!
 }
 
+input UpdateGoalInput {
+  _id: ID!
+  title: String
+  description: String
+  ownerId: ID
+  startDate: DateTime
+  endDate: DateTime
+  priority: String
+  color: String
+  statusComment: String
+  completionComment: String
+  completedAt: DateTime
+  completedBy: ID
+  riskIds: [ID]
+  milestoneIds: [ID]
+  notify: [ID]
+  fileIds: [ID]
+}
+
 type Mutation {
   createGoal(input: CreateGoalInput!): GoalPayload
-  updateGoalTitle(input: UpdateGoalTitleInput!): GoalPayload
-  updateGoalDescription(input: UpdateGoalDescriptionInput!): GoalPayload
-  updateGoalOwner(input: UpdateGoalOwnerInput!): GoalPayload
-  updateGoalStartDate(input: UpdateGoalStartDateInput!): GoalPayload
-  updateGoalEndDate(input: UpdateGoalEndDateInput!): GoalPayload
-  updateGoalPriority(input: UpdateGoalPriorityInput!): GoalPayload
-  updateGoalColor(input: UpdateGoalColorInput!): GoalPayload
-  updateGoalStatusComment(input: UpdateGoalStatusCommentInput!): GoalPayload
-  deleteGoal(input: DeleteGoalInput!): GoalPayload
+  updateGoal(input: UpdateGoalInput!): Goal
+  deleteGoal(input: DeleteGoalInput!): Goal
   removeGoal(input: RemoveGoalInput!): GoalPayload
-  completeGoal(input: CompleteGoalInput!): GoalPayload
-  updateGoalCompletionComment(input: UpdateGoalCompletionCommentInput!): GoalPayload
-  updateGoalCompletedAt(input: UpdateGoalCompletedAtInput!): GoalPayload
-  updateGoalCompletedBy(input: UpdateGoalCompletedByInput!): GoalPayload
-  undoGoalCompletion(input: UndoGoalCompletionInput!): GoalPayload
-  restoreGoal(input: RestoreGoalInput!): GoalPayload
+  completeGoal(input: CompleteGoalInput!): Goal
+  undoGoalCompletion(input: UndoGoalCompletionInput!): Goal
+  restoreGoal(input: RestoreGoalInput!): Goal
   linkRiskToGoal(input: LinkRiskToGoalInput!): LinkRiskToGoalPayload
-  linkFileToGoal(input: GoalFileInput!): GoalPayload
-  unlinkFileFromGoal(input: GoalFileInput!): GoalPayload
   addGoalNotifyUser(input: AddGoalNotifyUserInput!): UserPayload
-  removeGoalNotifyUser(input: RemoveGoalNotifyUserInput!): GoalPayload
+  removeGoalNotifyUser(input: RemoveGoalNotifyUserInput!): Goal
 }

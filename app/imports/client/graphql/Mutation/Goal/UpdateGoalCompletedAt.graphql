@@ -1,8 +1,0 @@
-mutation updateGoalCompletedAt($input: UpdateGoalCompletedAtInput!) {
-  updateGoalCompletedAt(input: $input) {
-    goal {
-      _id
-      completedAt
-    }
-  }
-}

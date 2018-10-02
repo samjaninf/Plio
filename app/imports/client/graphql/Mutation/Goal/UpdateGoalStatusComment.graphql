@@ -1,8 +1,0 @@
-mutation updateGoalStatusComment($input: UpdateGoalStatusCommentInput!) {
-  updateGoalStatusComment(input: $input) {
-    goal {
-      _id
-      statusComment
-    }
-  }
-}
