@@ -1,50 +1,50 @@
+import PropTypes from 'prop-types';
+import React from 'react';
 import { getUserOptions } from 'plio-util';
-import { graphql } from 'react-apollo';
-import { FORM_ERROR } from 'final-form';
-import { withProps } from 'recompose';
+import { Mutation } from 'react-apollo';
+import { pure } from 'recompose';
 
 import { GoalColors, GoalPriorities } from '../../../../share/constants';
 import { moveGoalWithinCacheAfterCreating } from '../../../apollo/utils';
-import { namedCompose } from '../../helpers';
+import { validateGoal } from '../../../validation';
 import GoalAddModal from '../components/GoalAddModal';
-import { Mutation } from '../../../graphql';
-import { handleGQError } from '../../../../api/handleGQError';
+import { Mutation as Mutations } from '../../../graphql';
 
-export default namedCompose('GoalAddModalContainer')(
-  withProps(({ owner }) => ({
-    initialValues: {
-      ownerId: getUserOptions(owner),
-      startDate: new Date(),
-      priority: GoalPriorities.MINOR,
-      color: GoalColors.INDIGO,
-    },
-  })),
-  graphql(Mutation.CREATE_GOAL, {
-    props: ({
-      mutate,
-      ownProps: {
-        organizationId,
-        toggle,
-        isOpen,
-      },
-    }) => ({
-      onSubmit: async ({
-        title,
-        description,
-        ownerId,
-        startDate,
-        endDate,
-        priority,
-        color,
-      }) => {
-        const errors = [];
-        if (!title) errors.push('Key goal name is required');
-        if (!endDate) errors.push('End Date is required');
+const GoalAddModalContainer = ({
+  owner,
+  organizationId,
+  isOpen,
+  toggle,
+}) => (
+  <Mutation mutation={Mutations.CREATE_GOAL}>
+    {createGoal => (
+      <GoalAddModal
+        {...{ organizationId, isOpen, toggle }}
+        initialValues={{
+          title: '',
+          description: '',
+          owner: getUserOptions(owner),
+          startDate: new Date(),
+          endDate: null,
+          priority: GoalPriorities.MINOR,
+          color: GoalColors.INDIGO,
+        }}
+        onSubmit={(values) => {
+          const errors = validateGoal(values);
 
-        if (errors.length) return { [FORM_ERROR]: errors.join('\n') };
+          if (errors) return errors;
 
-        try {
-          await mutate({
+          const {
+            title,
+            description = '',
+            owner: { value: ownerId } = {},
+            startDate,
+            endDate,
+            priority,
+            color,
+          } = values;
+
+          return createGoal({
             variables: {
               input: {
                 title,
@@ -54,17 +54,28 @@ export default namedCompose('GoalAddModalContainer')(
                 priority,
                 color,
                 organizationId,
-                ownerId: ownerId.value,
+                ownerId,
               },
             },
             update: (proxy, { data: { createGoal: { goal } } }) =>
               moveGoalWithinCacheAfterCreating(organizationId, goal, proxy),
-          });
-          return isOpen && toggle();
-        } catch (error) {
-          return { [FORM_ERROR]: handleGQError(error) };
-        }
-      },
-    }),
-  }),
-)(GoalAddModal);
+          }).then(toggle);
+        }}
+      />
+    )}
+  </Mutation>
+);
+
+GoalAddModalContainer.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
+  owner: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    profile: PropTypes.shape({
+      fullName: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  organizationId: PropTypes.string.isRequired,
+};
+
+export default pure(GoalAddModalContainer);

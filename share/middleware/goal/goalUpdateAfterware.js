@@ -6,5 +6,5 @@ export default () => async (next, root, args, context) => {
 
   const goal = await Goals.findOne({ _id });
 
-  return { goal };
+  return goal;
 };

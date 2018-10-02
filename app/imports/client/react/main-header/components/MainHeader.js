@@ -8,7 +8,6 @@ import { Styles } from '../../../../api/constants';
 import OrganizationMenu from './OrganizationMenu';
 
 const NavbarStyled = styled(Navbar)`
-  height: 50px;
   .navbar-nav {
     margin: 0;
     padding: 0;
@@ -42,6 +41,8 @@ const MainHeader = ({ organization, isDashboard }) => (
     <OrganizationMenu {...{ organization, isDashboard }} />
     <Blaze
       template="UserMenu"
+      // Blaze component renders <span> tag and messes up styling
+      className="nav navbar-nav pull-xs-right"
       organizationId={organization._id}
       organizationName={organization.name}
     />

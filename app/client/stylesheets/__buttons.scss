@@ -229,3 +229,9 @@
     @include pretty-buttons(white, #474949);
   }
 }
+
+.header-btn-invite {
+  margin: 7px 7px 0 0;
+  font-size: 16px;
+  font-family: $font-regular;
+}

@@ -2,19 +2,17 @@
 
 mutation completeGoal($input: CompleteGoalInput!) {
   completeGoal(input: $input) {
-    goal {
+    _id
+    isCompleted
+    completionComment
+    completedAt
+    completedBy {
       _id
-      isCompleted
-      completionComment
-      completedAt
-      completedBy {
-        _id
-        profile {
-          fullName
-        }
+      profile {
+        fullName
       }
-      status
-      ...CompletedDeletedGoal
     }
+    status
+    ...CompletedDeletedGoal
   }
 }

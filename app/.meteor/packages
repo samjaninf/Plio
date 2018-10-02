@@ -58,10 +58,11 @@ shell-server@0.3.1
 
 percolate:migrations
 meteorhacks:aggregate
-dynamic-import@0.4.0
+dynamic-import@0.4.2
 gadicc:blaze-react-component
 react-template-helper
 apollo
 swydo:graphql
 konecty:multiple-instances-status
-underscore
+underscore@1.0.10
+softwarerero:accounts-t9n

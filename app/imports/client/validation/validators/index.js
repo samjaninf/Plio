@@ -8,4 +8,5 @@ export { default as validateKeyActivity } from './validateKeyActivity';
 export { default as validateCustomerSegment } from './validateCustomerSegment';
 export { default as validateValueProposition } from './validateValueProposition';
 export { default as validateCustomerElement } from './validateCustomerElement';
+export { default as validateGoal } from './validateGoal';
 export { default as validateRisk } from './validateRisk';
