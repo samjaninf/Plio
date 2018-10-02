@@ -3,3 +3,4 @@ export { default as ensureGoalCompletionCanBeUndone } from './ensureGoalCompleti
 export { default as checkGoalAccess } from './checkGoalAccess';
 export { default as ensureCanChangeGoals } from './ensureCanChangeGoals';
 export { default as goalUpdateAfterware } from './goalUpdateAfterware';
+export { default as checkGoalsAccess } from './checkGoalsAccess';

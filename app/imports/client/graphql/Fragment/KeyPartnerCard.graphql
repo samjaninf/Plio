@@ -1,5 +1,6 @@
-#import "./RiskCard.graphql"
+#import './RiskCard.graphql'
 #import '../Fragment/LessonCard.graphql'
+#import '../Fragment/GoalSubcard.graphql'
 
 fragment KeyPartnerCard on KeyPartner {
   _id
@@ -8,6 +9,9 @@ fragment KeyPartnerCard on KeyPartner {
   criticality
   levelOfSpend
   notes
+  goals {
+    ...GoalSubcard
+  }
   risks {
     ...RiskCard
   }

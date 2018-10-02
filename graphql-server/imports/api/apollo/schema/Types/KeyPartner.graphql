@@ -12,6 +12,7 @@ type KeyPartner implements BaseEntity, CanvasEntity {
   levelOfSpend: Int!
   notes: String
   fileIds: [String]
+  goals: [Goal]
   risks: [Risk]
   lessons: [Lesson]
 }

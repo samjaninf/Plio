@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { ListGroupItem, Form } from 'reactstrap';
-import { identity } from 'ramda';
 
 import {
   Icon,
@@ -22,10 +21,7 @@ const ActivelyManageItem = ({
       Add a <strong>{label}</strong>
       <Icon name="question-circle" />
     </ListGroupItem>
-    <EntityForm
-      {...{ initialValues }}
-      onSubmit={values => onSubmit(values).then(toggle).catch(identity)}
-    >
+    <EntityForm {...{ initialValues, onSubmit }}>
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <EntityCard {...{ isOpen }} onDelete={toggle}>

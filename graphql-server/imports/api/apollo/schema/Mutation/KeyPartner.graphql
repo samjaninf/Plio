@@ -20,6 +20,7 @@ input UpdateKeyPartnerInput {
   criticality: Int
   levelOfSpend: Int
   notes: String
+  goalIds: [String]
   fileIds: [String]
   riskIds: [String]
 }

@@ -1,0 +1,27 @@
+fragment GoalSubcard on Goal {
+  owner {
+    _id
+    profile {
+      fullName
+    }
+  }
+  _id
+  title
+  startDate
+  endDate
+  color
+  sequentialId
+  description
+  priority
+  status
+  statusComment
+  isCompleted
+  completedAt
+  completedBy {
+    _id
+    profile {
+      fullName
+    }
+  }
+  completionComment
+}

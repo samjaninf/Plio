@@ -14,8 +14,17 @@ export default {
     updatedBy: loadUserById(view(updatedBy)),
     originator: loadUserById(view(originatorId)),
     organization: loadOrganizationById(view(organizationId)),
+    goals: async (root, args, context) => {
+      const { goalIds = [] } = root;
+      const { loaders: { Goal: { byQuery } } } = context;
+
+      return byQuery.loadMany(map(goalId => ({
+        _id: goalId,
+        isDeleted: false,
+      }), goalIds)).then(flatten);
+    },
     risks: async (root, args, context) => {
-      const { riskIds } = root;
+      const { riskIds = [] } = root;
       const { loaders: { Risk: { byQuery } } } = context;
 
       return byQuery.loadMany(map(riskId => ({

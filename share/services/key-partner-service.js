@@ -28,6 +28,7 @@ export default {
     levelOfSpend,
     notes,
     fileIds,
+    goalIds,
     riskIds,
   }, { userId, collections: { KeyPartners } }) {
     const query = { _id };
@@ -40,6 +41,7 @@ export default {
         levelOfSpend,
         notes,
         fileIds,
+        goalIds,
         riskIds,
         updatedBy: userId,
       },

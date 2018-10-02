@@ -14,6 +14,7 @@ const GoalAddContainer = ({
   organizationId,
   isOpen,
   toggle,
+  onAfterSubmit,
   ...props
 }) => (
   <Composer
@@ -75,16 +76,20 @@ const GoalAddContainer = ({
           },
           update: (proxy, { data: { createGoal: { goal } } }) =>
             moveGoalWithinCacheAfterCreating(organizationId, goal, proxy),
-        }).then(toggle);
+        }).then(({ data: { createGoal: { goal } } }) => {
+          if (onAfterSubmit) onAfterSubmit(goal._id);
+          toggle();
+        });
       },
     })}
   </Composer>
 );
 
 GoalAddContainer.propTypes = {
-  isOpen: PropTypes.bool,
-  toggle: PropTypes.func,
+  isOpen: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
   organizationId: PropTypes.string.isRequired,
+  onAfterSubmit: PropTypes.func,
 };
 
 export default GoalAddContainer;
