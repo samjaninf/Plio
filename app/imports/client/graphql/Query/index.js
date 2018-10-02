@@ -50,6 +50,10 @@ import REVENUE_STREAMS_CHART from './RevenueStreamsChart.graphql';
 import REVENUE_STREAMS_PROFIT_CHART from './RevenueStreamsProfitChart.graphql';
 import KEY_PARTNERS_CHART from './KeyPartnersChart.graphql';
 
+DASHBOARD_GOALS.name = 'DashboardGoals';
+COMPLETED_DELETED_GOALS.name = 'CompletedDeletedGoals';
+GOAL_LIST.name = 'GoalList';
+
 export default {
   DASHBOARD_GOALS,
   DASHBOARD_GOAL,

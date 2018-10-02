@@ -1,3 +1,3 @@
 [submodule "app/packages/meteor-accounts-t9n"]
 	path = app/packages/meteor-accounts-t9n
-	url = https://github.com/Dartv/meteor-accounts-t9n.git
+	url = https://github.com/Pliohub/meteor-accounts-t9n.git

@@ -35,6 +35,50 @@ export default {
     });
   },
 
+  update(args, context) {
+    const {
+      _id,
+      title,
+      description,
+      ownerId,
+      startDate,
+      endDate,
+      priority,
+      color,
+      statusComment,
+      completionComment,
+      completedAt,
+      completedBy,
+      riskIds,
+      milestoneIds,
+      notify,
+      fileIds,
+    } = args;
+    const { collections } = context;
+    const query = { _id };
+    const modifier = {
+      $set: {
+        title,
+        description,
+        ownerId,
+        startDate,
+        endDate,
+        priority,
+        color,
+        statusComment,
+        completionComment,
+        completedAt,
+        completedBy,
+        riskIds,
+        milestoneIds,
+        notify,
+        fileIds,
+      },
+    };
+
+    return collections.Goals.update(query, modifier);
+  },
+
   async complete({ _id, completionComment }, { userId }) {
     return this.set({
       _id,

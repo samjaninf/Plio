@@ -1,0 +1,7 @@
+#import "../../Fragment/GoalCard.graphql"
+
+mutation updateGoal($input: UpdateGoalInput!) {
+  updateGoal(input: $input) {
+    ...GoalCard
+  }
+}

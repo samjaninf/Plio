@@ -1,8 +1,0 @@
-mutation updateGoalColor($input: UpdateGoalColorInput!) {
-  updateGoalColor(input: $input) {
-    goal {
-      _id
-      color
-    }
-  }
-}

@@ -2,9 +2,7 @@
 
 mutation restoreGoal($input: RestoreGoalInput!) {
   restoreGoal(input: $input) {
-    goal {
-      sequentialId
-      ...DashboardGoal
-    }
+    sequentialId
+    ...DashboardGoal
   }
 }

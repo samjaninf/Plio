@@ -58,7 +58,6 @@ export default namedCompose('DashboardGoalsContainer')(
   connectUI({
     state: {
       isOpen: false,
-      isAddModalOpen: false,
       isEditModalOpen: false,
       isMilestoneModalOpen: false,
       isActionModalOpen: false,
@@ -92,7 +91,6 @@ export default namedCompose('DashboardGoalsContainer')(
       ownProps: {
         ui: {
           isOpen,
-          isAddModalOpen,
           isEditModalOpen,
           isMilestoneModalOpen,
           isActionModalOpen,
@@ -103,7 +101,6 @@ export default namedCompose('DashboardGoalsContainer')(
       },
     }) => ({
       isOpen,
-      isAddModalOpen,
       isEditModalOpen,
       isMilestoneModalOpen,
       isActionModalOpen,
@@ -125,11 +122,6 @@ export default namedCompose('DashboardGoalsContainer')(
           });
         }
         updateUI({ isOpen: !isOpen });
-      },
-      toggleAddModal: (e) => {
-        if (!isAddModalOpen) e.stopPropagation();
-
-        updateUI('isAddModalOpen', !isAddModalOpen);
       },
       toggleEditModal: () => updateUI('isEditModalOpen', !isEditModalOpen),
       toggleMilestoneModal: () =>

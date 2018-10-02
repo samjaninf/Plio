@@ -1,8 +1,0 @@
-mutation updateGoalStartDate($input: UpdateGoalStartDateInput!) {
-  updateGoalStartDate(input: $input) {
-    goal {
-      _id
-      startDate
-    }
-  }
-}

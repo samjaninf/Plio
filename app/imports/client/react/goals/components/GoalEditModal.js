@@ -1,22 +1,19 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { onlyUpdateForKeys } from 'recompose';
+import React, { Fragment } from 'react';
+import { pure } from 'recompose';
 import { noop } from 'plio-util';
 
-import { EntityModal } from '../../components';
-import GoalEditContainer from '../containers/GoalEditContainer';
+import {
+  EntityModalNext,
+  EntityModalHeader,
+  EntityModalBody,
+  EntityModalForm,
+  RenderSwitch,
+} from '../../components';
+import GoalForm from './GoalForm';
+import GoalEdit from './GoalEdit';
 import { GoalsHelp } from '../../../../api/help-messages';
-
-const enhance = onlyUpdateForKeys([
-  'isOpen',
-  'toggle',
-  'organizationId',
-  'loading',
-  'error',
-  'isGuidancePanelOpen',
-  'guidance',
-  'canEditGoals',
-]);
+import { validateGoal } from '../../../validation';
 
 export const GoalEditModal = ({
   isOpen,
@@ -24,48 +21,61 @@ export const GoalEditModal = ({
   organizationId,
   onDelete,
   loading,
-  guidanceText,
-  activeGoal,
-  canEditGoals,
+  error,
   initialValues,
+  onSubmit,
+  goal,
+  canEditGoals,
 }) => (
-  <EntityModal
+  <EntityModalNext
     {...{
       isOpen,
       toggle,
       loading,
+      error,
       onDelete,
-      initialValues,
     }}
     isEditMode
-    title="Key Goal"
-    onSave={noop}
-    guidanceText={guidanceText}
+    guidance={GoalsHelp.goal}
   >
-    {({ handleMutation }) => (
-      <GoalEditContainer
-        {...{ organizationId, canEditGoals, handleMutation }}
-        goalId={activeGoal}
-      />
-    )}
-  </EntityModal>
+    <EntityModalForm
+      {...{ initialValues, onSubmit }}
+      validate={validateGoal}
+    >
+      {({ handleSubmit }) => (
+        <Fragment>
+          <EntityModalHeader label="Key Goal" />
+          <EntityModalBody>
+            <RenderSwitch
+              {...{ loading }}
+              renderLoading={<GoalForm {...{ organizationId }} />}
+              errorWhenMissing={noop}
+              require={goal}
+            >
+              <GoalEdit
+                {...{ ...goal, organizationId, canEditGoals }}
+                save={handleSubmit}
+              />
+            </RenderSwitch>
+          </EntityModalBody>
+        </Fragment>
+      )}
+    </EntityModalForm>
+  </EntityModalNext>
 );
 
-GoalEditModal.defaultProps = {
-  guidanceText: GoalsHelp.goal,
-};
 
 GoalEditModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  onClosed: PropTypes.func,
   organizationId: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
   loading: PropTypes.bool,
-  guidanceText: PropTypes.node,
-  activeGoal: PropTypes.string,
-  canEditGoals: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   initialValues: PropTypes.object,
+  onSubmit: PropTypes.func.isRequired,
+  goal: PropTypes.object,
+  canEditGoals: PropTypes.bool,
 };
 
-export default enhance(GoalEditModal);
+export default pure(GoalEditModal);
