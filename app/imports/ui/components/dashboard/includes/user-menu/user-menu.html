@@ -46,6 +46,13 @@
           {{/Link}}
         </div>
       </li>
+      {{#if canInviteUsers organizationId}}
+        <li class="nav-item hidden-sm-down">
+          {{#Link (inviteUsersBtnArgs)}}
+            Invite users
+          {{/Link}}
+        </li>
+      {{/if}}
     </ul>
   {{/if}}
 </template>

@@ -1,8 +1,0 @@
-mutation updateGoalDescription($input: UpdateGoalDescriptionInput!) {
-  updateGoalDescription(input: $input) {
-    goal {
-      _id
-      description
-    }
-  }
-}

@@ -351,18 +351,6 @@ export const CanvasSections = {
   [CanvasTypes.REVENUE_STREAM]: 'revenueStreams',
 };
 
-export const UploaderMetaIdNames = {
-  [CanvasTypes.KEY_PARTNER]: 'keyPartnerId',
-  [CanvasTypes.KEY_ACTIVITY]: 'keyActivityId',
-  [CanvasTypes.KEY_RESOURCE]: 'keyResourceId',
-  [CanvasTypes.VALUE_PROPOSITION]: 'valuePropositionId',
-  [CanvasTypes.CUSTOMER_RELATIONSHIP]: 'customerRelationshipId',
-  [CanvasTypes.CHANNEL]: 'channelId',
-  [CanvasTypes.CUSTOMER_SEGMENT]: 'customerSegmentId',
-  [CanvasTypes.COST_LINE]: 'costLineId',
-  [CanvasTypes.REVENUE_STREAM]: 'revenueStreamId',
-};
-
 export const CustomerElementTypes = {
   BENEFIT: Abbreviations.BENEFIT,
   FEATURE: Abbreviations.FEATURE,
@@ -390,6 +378,19 @@ export const DocumentTypesPlural = {
 export const AllDocumentTypes = {
   ...DocumentTypes,
   DISCUSSION: 'discussion',
+};
+
+export const UploaderMetaIdNames = {
+  [CanvasTypes.KEY_PARTNER]: 'keyPartnerId',
+  [CanvasTypes.KEY_ACTIVITY]: 'keyActivityId',
+  [CanvasTypes.KEY_RESOURCE]: 'keyResourceId',
+  [CanvasTypes.VALUE_PROPOSITION]: 'valuePropositionId',
+  [CanvasTypes.CUSTOMER_RELATIONSHIP]: 'customerRelationshipId',
+  [CanvasTypes.CHANNEL]: 'channelId',
+  [CanvasTypes.CUSTOMER_SEGMENT]: 'customerSegmentId',
+  [CanvasTypes.COST_LINE]: 'costLineId',
+  [CanvasTypes.REVENUE_STREAM]: 'revenueStreamId',
+  [DocumentTypes.GOAL]: 'goalId',
 };
 
 export const ReviewStatuses = {

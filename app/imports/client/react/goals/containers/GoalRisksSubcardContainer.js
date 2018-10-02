@@ -16,7 +16,7 @@ export default namedCompose('GoalRisksSubcardContainer')(
   graphql(Query.GOAL_RISKS_CARD, {
     options: ({ goalId, organizationId }) => ({
       variables: { _id: goalId, organizationId },
-      fetchPolicy: ApolloFetchPolicies.CACHE_ONLY,
+      fetchPolicy: ApolloFetchPolicies.CACHE_AND_NETWORK,
     }),
     props: ({
       data: {
@@ -29,7 +29,7 @@ export default namedCompose('GoalRisksSubcardContainer')(
             sequentialId,
             risks = [],
             organization: { rkGuidelines: guidelines } = {},
-          },
+          } = {},
         } = {},
       },
     }) => ({

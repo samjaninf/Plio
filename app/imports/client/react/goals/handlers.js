@@ -19,7 +19,7 @@ export const onDelete = ({ mutate, ownProps: { organizationId, goal } }, callbac
       _id: goal._id,
     },
   },
-  update: (proxy, { data: { deleteGoal: { goal: removedGoal } } }) => {
+  update: (proxy, { data: { deleteGoal: removedGoal } }) => {
     if (!removedGoal.isCompleted) {
       moveGoalWithinCacheAfterDeleting(organizationId, removedGoal, proxy);
     }
@@ -32,7 +32,7 @@ export const onComplete = ({ mutate, ownProps: { organizationId, goal } }) => mu
       _id: goal._id,
     },
   },
-  update: (proxy, { data: { completeGoal: { goal: completedGoal } } }) => {
+  update: (proxy, { data: { completeGoal: completedGoal } }) => {
     moveGoalWithinCacheAfterDeleting(organizationId, completedGoal, proxy);
   },
 });
@@ -47,7 +47,7 @@ export const createRestoreHandler = curry((
   successText: `The key goal "${title}" was restored successfully.`,
 }, () => mutate({
   variables: { input: { _id } },
-  update: (store, { data: { [mutationName]: { goal } } }) => {
+  update: (store, { data: { [mutationName]: goal } }) => {
     moveGoalWithinCacheAfterRestoring(organizationId, goal, store);
   },
 })));

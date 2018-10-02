@@ -1,7 +1,0 @@
-mutation unlinkFileFromGoal($input: GoalFileInput!) {
-  unlinkFileFromGoal(input: $input) {
-    goal {
-      _id
-    }
-  }
-}

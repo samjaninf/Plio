@@ -172,27 +172,27 @@ apollo-cache-inmemory@^1.1.5:
     apollo-utilities "^1.0.4"
     graphql-anywhere "^4.1.1"
 
+apollo-cache@1.1.17:
+  version "1.1.17"
+  resolved "https://registry.yarnpkg.com/apollo-cache/-/apollo-cache-1.1.17.tgz#1fcca8423125223723b97fd72808be91a1a76490"
+  dependencies:
+    apollo-utilities "^1.0.21"
+
 apollo-cache@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/apollo-cache/-/apollo-cache-1.1.0.tgz#281b6a0fb6ca2c5bce69825642f685de92d05f3c"
   dependencies:
     apollo-utilities "^1.0.4"
 
-apollo-cache@^1.1.13:
-  version "1.1.13"
-  resolved "https://registry.yarnpkg.com/apollo-cache/-/apollo-cache-1.1.13.tgz#75c28091825992b2eec9fb63c9a367db3b4714a8"
-  dependencies:
-    apollo-utilities "^1.0.17"
-
-apollo-client@^2.3.7:
-  version "2.3.7"
-  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.3.7.tgz#891cd2392851f861a62fe334fa76fc629ed19fd3"
+apollo-client@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.4.2.tgz#d2f044d8740723bf98a6d8d8b9684ee8c36150e6"
   dependencies:
     "@types/zen-observable" "^0.8.0"
-    apollo-cache "^1.1.13"
+    apollo-cache "1.1.17"
     apollo-link "^1.0.0"
     apollo-link-dedup "^1.0.0"
-    apollo-utilities "^1.0.17"
+    apollo-utilities "1.0.21"
     symbol-observable "^1.0.2"
     zen-observable "^0.8.0"
   optionalDependencies:
@@ -280,7 +280,14 @@ apollo-tracing@^0.1.0:
   dependencies:
     graphql-extensions "^0.0.x"
 
-apollo-utilities@^1.0.0, apollo-utilities@^1.0.17:
+apollo-utilities@1.0.21, apollo-utilities@^1.0.21:
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.21.tgz#cb8b5779fe275850b16046ff8373f4af2de90765"
+  dependencies:
+    fast-json-stable-stringify "^2.0.0"
+    fclone "^1.0.11"
+
+apollo-utilities@^1.0.0:
   version "1.0.17"
   resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.17.tgz#04cd22db5c5dba8dbd349e28b0d9f9f525ab8e8a"
   dependencies:
@@ -1667,6 +1674,10 @@ fbjs@^0.8.16:
     promise "^7.1.1"
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
+
+fclone@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/fclone/-/fclone-1.0.11.tgz#10e85da38bfea7fc599341c296ee1d77266ee640"
 
 fibers@^1.0.13:
   version "1.0.15"
