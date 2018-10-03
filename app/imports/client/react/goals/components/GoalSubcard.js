@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 
+import { validateGoal } from '../../../validation';
 import { EntitySubcard } from '../../components';
 import GoalEdit from './GoalEdit';
 
@@ -18,6 +19,7 @@ const GoalSubcard = ({
 }) => (
   <Form
     {...{ initialValues, onSubmit }}
+    validate={validateGoal}
     render={({ handleSubmit }) => (
       <EntitySubcard
         entity={goal}

@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button } from 'reactstrap';
 import cx from 'classnames';
+import { Button } from 'reactstrap';
+import { FormSpy } from 'react-final-form';
 
 import Subcard from './Subcard';
 import SubcardHeader from './SubcardHeader';
@@ -31,7 +32,11 @@ const EntitySubcard = ({
       {header({ entity })}
     </SubcardHeader>
     <SubcardBody>
-      <ErrorSection errorText={error} />
+      <FormSpy subscription={{ submitError: true, error: true }}>
+        {formState => (
+          <ErrorSection errorText={formState.submitError || formState.error || error} />
+        )}
+      </FormSpy>
       {children}
       <CardBlock>
         {onClose && (
