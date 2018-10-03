@@ -21,6 +21,7 @@ export const GoalEdit = ({
   save,
   _id: goalId,
   canEditGoals,
+  isSubcard,
 }) => (
   <Fragment>
     <CardBlock>
@@ -34,25 +35,29 @@ export const GoalEdit = ({
       />
       <GoalCompleteForm {...{ organizationId, save }} />
     </CardBlock>
-    <GoalActionsSubcardContainer {...{ organizationId, goalId }} />
-    <GoalMilestonesSubcardContainer {...{ goalId }} />
-    {canEditGoals && <GoalRisksSubcardContainer {...{ organizationId, goalId }} />}
-    <GoalLessonsSubcardContainer {...{ goalId }} />
-    <FormSpy subscription={{}}>
-      {({ form }) => (
-        <CanvasFilesSubcard
-          {...{ organizationId }}
-          documentId={goalId}
-          onUpdate={({ variables: { input: { fileIds } } }) => {
-            form.change('fileIds', fileIds);
-            form.submit();
-          }}
-          slingshotDirective={AWSDirectives.GOAL_FILES}
-          documentType={DocumentTypes.GOAL}
-        />
-      )}
-    </FormSpy>
-    <GoalNotifySubcardContainer {...{ organizationId, goalId }} />
+    {!isSubcard && (
+      <Fragment>
+        <GoalActionsSubcardContainer {...{ organizationId, goalId }} />
+        <GoalMilestonesSubcardContainer {...{ goalId }} />
+        {canEditGoals && <GoalRisksSubcardContainer {...{ organizationId, goalId }} />}
+        <GoalLessonsSubcardContainer {...{ goalId }} />
+        <FormSpy subscription={{}}>
+          {({ form }) => (
+            <CanvasFilesSubcard
+              {...{ organizationId }}
+              documentId={goalId}
+              onUpdate={({ variables: { input: { fileIds } } }) => {
+                form.change('fileIds', fileIds);
+                form.submit();
+              }}
+              slingshotDirective={AWSDirectives.GOAL_FILES}
+              documentType={DocumentTypes.GOAL}
+            />
+          )}
+        </FormSpy>
+        <GoalNotifySubcardContainer {...{ organizationId, goalId }} />
+      </Fragment>
+    )}
   </Fragment>
 );
 
@@ -63,6 +68,7 @@ GoalEdit.propTypes = {
   sequentialId: PropTypes.string,
   save: PropTypes.func.isRequired,
   canEditGoals: PropTypes.bool,
+  isSubcard: PropTypes.bool,
 };
 
 export default pure(GoalEdit);

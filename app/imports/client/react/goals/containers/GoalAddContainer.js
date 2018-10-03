@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
 import { noop, getUserOptions } from 'plio-util';
+import { compose, append, map, prop } from 'ramda';
 
 import { GoalColors, GoalPriorities } from '../../../../share/constants';
 import { moveGoalWithinCacheAfterCreating } from '../../../apollo/utils';
@@ -10,11 +11,18 @@ import { Composer, renderComponent } from '../../helpers';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 
+const addGoal = (goalId, goals) => compose(
+  append(goalId),
+  map(prop('_id')),
+)(goals);
+
 const GoalAddContainer = ({
   organizationId,
   isOpen,
   toggle,
-  onAfterSubmit,
+  onUpdate,
+  entityId,
+  goals,
   ...props
 }) => (
   <Composer
@@ -35,6 +43,7 @@ const GoalAddContainer = ({
     {([{ data: { user } }, createGoal]) => renderComponent({
       ...props,
       organizationId,
+      goals,
       isOpen,
       toggle,
       initialValues: {
@@ -77,8 +86,17 @@ const GoalAddContainer = ({
           update: (proxy, { data: { createGoal: { goal } } }) =>
             moveGoalWithinCacheAfterCreating(organizationId, goal, proxy),
         }).then(({ data: { createGoal: { goal } } }) => {
-          if (onAfterSubmit) onAfterSubmit(goal._id);
-          toggle();
+          if (onUpdate) {
+            onUpdate({
+              variables: {
+                input: {
+                  _id: entityId,
+                  goalIds: addGoal(goal._id, goals),
+                },
+              },
+            });
+          }
+          if (toggle) toggle();
         });
       },
     })}
@@ -86,10 +104,12 @@ const GoalAddContainer = ({
 );
 
 GoalAddContainer.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
   organizationId: PropTypes.string.isRequired,
-  onAfterSubmit: PropTypes.func,
+  isOpen: PropTypes.bool,
+  toggle: PropTypes.func,
+  onUpdate: PropTypes.func,
+  goals: PropTypes.array,
+  entityId: PropTypes.string,
 };
 
 export default GoalAddContainer;

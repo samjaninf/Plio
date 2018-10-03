@@ -19,6 +19,7 @@ import {
   RenderSwitch,
 } from '../../components';
 import { WithState, Composer } from '../../helpers';
+import { GoalAddContainer, GoalsSubcard } from '../../goals';
 import KeyPartnerForm from './KeyPartnerForm';
 import CanvasFilesSubcard from './CanvasFilesSubcard';
 import CanvasRisksSubcard from './CanvasRisksSubcard';
@@ -141,6 +142,7 @@ const KeyPartnerEditModal = ({
                           _id: documentId,
                           risks = [],
                           lessons = [],
+                          goals = [],
                           title,
                         }) => (
                           <Fragment>
@@ -152,6 +154,14 @@ const KeyPartnerEditModal = ({
                               documentType={CanvasTypes.KEY_PARTNER}
                               onUpdate={updateKeyPartner}
                             />
+                            {!!goals.length && (
+                              <GoalAddContainer
+                                component={GoalsSubcard}
+                                {...{ organizationId, goals }}
+                                entityId={documentId}
+                                onUpdate={updateKeyPartner}
+                              />
+                            )}
                             {!!risks.length && (
                               <CanvasRisksSubcard
                                 {...{ organizationId, risks }}

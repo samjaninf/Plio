@@ -53,7 +53,8 @@ const getRefetchQueries = () => [
 ];
 
 const GoalEditContainer = ({
-  goalId,
+  goalDoc,
+  goalId = goalDoc && goalDoc._id,
   organizationId,
   isOpen,
   toggle,
@@ -61,7 +62,7 @@ const GoalEditContainer = ({
   canEditGoals,
   ...props
 }) => (
-  <WithState initialState={{ goal: null, initialValues: {} }}>
+  <WithState initialState={{ goal: goalDoc || null, initialValues: {} }}>
     {({ state: { initialValues, goal }, setState }) => (
       <Composer
         components={[
@@ -70,6 +71,7 @@ const GoalEditContainer = ({
             {...{ fetchPolicy }}
             query={Queries.GOAL_CARD}
             variables={{ _id: goalId }}
+            isSkip={goalDoc}
             onCompleted={data => setState({
               initialValues: getInitialValues(data),
               goal: getGoal(data),
@@ -183,6 +185,7 @@ const GoalEditContainer = ({
               },
             }).then(noop).catch((err) => {
               form.reset(currentValues);
+              console.log(err);
               throw err;
             });
           },
@@ -200,7 +203,8 @@ GoalEditContainer.propTypes = {
   organizationId: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  goalId: PropTypes.string.isRequired,
+  goalId: PropTypes.string,
+  goalDoc: PropTypes.object,
   fetchPolicy: PropTypes.string,
   canEditGoals: PropTypes.bool,
 };

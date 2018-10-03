@@ -5,3 +5,4 @@ export { default as GoalEditModal } from './GoalEditModal';
 export { default as GoalEdit } from './GoalEdit';
 export { default as GoalMilestonesSubcard } from './GoalMilestonesSubcard';
 export { default as CompletedDeletedGoals } from './CompletedDeletedGoals';
+export { default as GoalsSubcard } from './GoalsSubcard';
