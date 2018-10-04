@@ -11,22 +11,19 @@ const CanvasLessonsSubcard = ({
   refetchQuery,
 }) => (
   <EntityLessonFormContainer
-    {...{ organizationId, documentType, refetchQuery }}
+    {...{
+      organizationId,
+      documentType,
+      lessons,
+      linkedTo,
+      refetchQuery,
+    }}
     documentId={linkedTo._id}
-  >
-    {({ onSubmit, initialValues }) => (
-      <LessonsSubcard
-        {...{
-          organizationId,
-          lessons,
-          linkedTo,
-          initialValues,
-        }}
-        onSave={onSubmit}
-        onDelete={console.log}
-      />
+    onDelete={console.log}
+    render={({ onSubmit, ...restLessonProps }) => (
+      <LessonsSubcard {...restLessonProps} onSave={onSubmit} />
     )}
-  </EntityLessonFormContainer>
+  />
 );
 
 CanvasLessonsSubcard.propTypes = {

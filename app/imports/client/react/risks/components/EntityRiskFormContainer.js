@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
 import { noop, getUserOptions, lenses } from 'plio-util';
 import { compose, append, map, prop, view } from 'ramda';
+import { pure } from 'recompose';
 
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
@@ -118,4 +119,4 @@ EntityRiskFormContainer.propTypes = {
   toggle: PropTypes.func,
 };
 
-export default EntityRiskFormContainer;
+export default pure(EntityRiskFormContainer);

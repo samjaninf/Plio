@@ -8,20 +8,16 @@ import ActivelyManageItem from './ActivelyManageItem';
 const AddRiskItem = ({
   organizationId,
   linkedTo,
-  onUpdate,
   risks,
+  ...rest
 }) => (
   <EntityManagerItem
-    {...{ organizationId, onUpdate, risks }}
+    {...{ organizationId, risks, ...rest }}
     itemId="risk"
     label="Risk"
     entityId={linkedTo._id}
-    component={itemProps => (
-      <EntityRiskFormContainer
-        component={ActivelyManageItem}
-        {...itemProps}
-      />
-    )}
+    component={EntityRiskFormContainer}
+    render={ActivelyManageItem}
   >
     <NewRiskCard {...{ organizationId, linkedTo, risks }} />
   </EntityManagerItem>
@@ -29,7 +25,6 @@ const AddRiskItem = ({
 
 AddRiskItem.propTypes = {
   organizationId: PropTypes.string.isRequired,
-  onUpdate: PropTypes.func.isRequired,
   risks: PropTypes.array,
   linkedTo: PropTypes.shape({
     _id: PropTypes.string.isRequired,

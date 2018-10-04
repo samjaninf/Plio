@@ -5,17 +5,13 @@ import { EntityManagerItem } from '../../../components';
 import { NewGoalCard, GoalAddContainer } from '../../../goals';
 import ActivelyManageItem from './ActivelyManageItem';
 
-const GoalActivelyManageItem = ({ organizationId, goals, ...restProps }) => (
+const GoalActivelyManageItem = ({ organizationId, goals, ...rest }) => (
   <EntityManagerItem
-    {...{ organizationId, goals, ...restProps }}
+    {...{ organizationId, goals, ...rest }}
     itemId="keyGoal"
     label="Key goal"
-    component={itemProps => (
-      <GoalAddContainer
-        component={ActivelyManageItem}
-        {...itemProps}
-      />
-    )}
+    component={GoalAddContainer}
+    render={ActivelyManageItem}
   >
     <NewGoalCard {...{ organizationId, goals }} />
   </EntityManagerItem>

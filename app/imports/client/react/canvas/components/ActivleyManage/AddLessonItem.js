@@ -5,33 +5,21 @@ import { EntityManagerItem } from '../../../components';
 import { LessonForm, EntityLessonFormContainer } from '../../../lessons';
 import ActivelyManageItem from './ActivelyManageItem';
 
-const AddLessonItem = ({
-  organizationId,
-  linkedTo,
-  documentType,
-  refetchQuery,
-}) => (
-  <EntityLessonFormContainer
-    {...{ organizationId, documentType, refetchQuery }}
+const AddLessonItem = ({ organizationId, linkedTo, ...rest }) => (
+  <EntityManagerItem
+    {...{ organizationId, ...rest }}
+    itemId="lessonLearned"
+    label="Lesson learned"
     documentId={linkedTo._id}
+    component={EntityLessonFormContainer}
+    render={ActivelyManageItem}
   >
-    {props => (
-      <EntityManagerItem
-        component={ActivelyManageItem}
-        itemId="lessonLearned"
-        label="Lesson learned"
-        {...props}
-      >
-        <LessonForm {...{ organizationId, linkedTo }} />
-      </EntityManagerItem>
-    )}
-  </EntityLessonFormContainer>
+    <LessonForm {...{ organizationId, linkedTo }} />
+  </EntityManagerItem>
 );
 
 AddLessonItem.propTypes = {
   organizationId: PropTypes.string.isRequired,
-  documentType: PropTypes.string.isRequired,
-  refetchQuery: PropTypes.object.isRequired,
   linkedTo: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

@@ -7,14 +7,16 @@ import { noop, getUserOptions, toDate } from 'plio-util';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 import { validateLesson } from '../../../validation';
-import { Composer } from '../../helpers';
+import { Composer, renderComponent } from '../../helpers';
 
 const EntityLessonFormContainer = ({
   organizationId,
+  isOpen,
+  toggle,
   documentId,
   documentType,
   refetchQuery,
-  children,
+  ...props
 }) => (
   <Composer
     components={[
@@ -28,7 +30,11 @@ const EntityLessonFormContainer = ({
       /* eslint-enable react/no-children-prop */
     ]}
   >
-    {([{ data: { user } }, createLesson]) => children({
+    {([{ data: { user } }, createLesson]) => renderComponent({
+      ...props,
+      isOpen,
+      toggle,
+      organizationId,
       initialValues: {
         title: '',
         notes: '',
@@ -44,7 +50,7 @@ const EntityLessonFormContainer = ({
         } = values;
 
         const errors = validateLesson(values);
-        if (errors) return Promise.reject(errors);
+        if (errors) return errors;
 
         return createLesson({
           variables: {
@@ -63,7 +69,7 @@ const EntityLessonFormContainer = ({
           refetchQueries: [
             { query: refetchQuery, variables: { _id: documentId } },
           ],
-        });
+        }).then(toggle || noop);
       },
     })}
   </Composer>
@@ -71,10 +77,11 @@ const EntityLessonFormContainer = ({
 
 EntityLessonFormContainer.propTypes = {
   organizationId: PropTypes.string.isRequired,
-  children: PropTypes.func.isRequired,
   documentId: PropTypes.string.isRequired,
   documentType: PropTypes.string.isRequired,
   refetchQuery: PropTypes.object.isRequired,
+  isOpen: PropTypes.bool,
+  toggle: PropTypes.func,
 };
 
 export default EntityLessonFormContainer;

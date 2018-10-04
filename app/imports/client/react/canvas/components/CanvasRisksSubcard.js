@@ -18,7 +18,7 @@ const CanvasRisksSubcard = ({
     }}
     entityId={linkedTo._id}
     onDelete={console.log}
-    component={({ onSubmit, ...restRiskProps }) => (
+    render={({ onSubmit, ...restRiskProps }) => (
       <RisksSubcard {...restRiskProps} onSave={onSubmit} />
     )}
   />

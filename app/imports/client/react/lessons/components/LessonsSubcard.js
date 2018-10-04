@@ -13,13 +13,22 @@ const getInitialValues = compose(
   over(lenses.owner, getUserOptions),
 );
 
-const LessonsSubcard = ({ lessons, onDelete, ...props }) => (
+const LessonsSubcard = ({
+  lessons,
+  onDelete,
+  linkedTo,
+  organizationId,
+  ...props
+}) => (
   <EntityManagerSubcard
+    {...props}
     title="Lessons learned"
     newEntityTitle="New lesson learned"
     newEntityButtonTitle="Add a new lesson learned"
     entities={lessons}
-    renderNewEntity={() => <LessonForm {...props} />}
+    renderNewEntity={() => (
+      <LessonForm {...{ linkedTo, organizationId }} />
+    )}
     render={({ entity, isOpen, toggle }) => (
       <Form
         onSubmit={() => null}
@@ -30,23 +39,25 @@ const LessonsSubcard = ({ lessons, onDelete, ...props }) => (
           <LessonSubcardContainer
             lesson={entity}
             {...{
+              organizationId,
+              linkedTo,
               isOpen,
               toggle,
               onDelete,
               reset,
-              ...props,
             }}
           />
         )}
       />
     )}
-    {...props}
   />
 );
 
 LessonsSubcard.propTypes = {
   lessons: PropTypes.arrayOf(PropTypes.object),
+  linkedTo: PropTypes.object,
   onDelete: PropTypes.func.isRequired,
+  organizationId: PropTypes.string.isRequired,
 };
 
 export default LessonsSubcard;
