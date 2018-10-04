@@ -23,6 +23,15 @@ export default {
         isDeleted: false,
       }), goalIds)).then(flatten);
     },
+    standards: async (root, args, context) => {
+      const { standardIds = [] } = root;
+      const { loaders: { Standard: { byQuery } } } = context;
+
+      return byQuery.loadMany(map(standardId => ({
+        _id: standardId,
+        isDeleted: false,
+      }), standardIds)).then(flatten);
+    },
     risks: async (root, args, context) => {
       const { riskIds = [] } = root;
       const { loaders: { Risk: { byQuery } } } = context;

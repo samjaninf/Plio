@@ -13,6 +13,7 @@ type KeyPartner implements BaseEntity, CanvasEntity {
   notes: String
   fileIds: [String]
   goals: [Goal]
+  standards: [Standard]
   risks: [Risk]
   lessons: [Lesson]
 }

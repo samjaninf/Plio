@@ -15,6 +15,7 @@ import {
 } from '../../../components';
 import ActivelyManageItem from './ActivelyManageItem';
 import GoalActivelyManageItem from './GoalActivelyManageItem';
+import StandardActivelyManageItem from './StandardActivelyManageItem';
 import RiskActivelyManageItem from './RiskActivelyManageItem';
 import LessonActivelyManageItem from './LessonActivelyManageItem';
 
@@ -51,6 +52,7 @@ const ActivelyManageSubcard = ({
     _id: entityId,
     title,
     goals = [],
+    standards = [],
     risks = [],
   },
   documentType,
@@ -84,6 +86,14 @@ const ActivelyManageSubcard = ({
                   entityId,
                   organizationId,
                   goals,
+                  onUpdate,
+                }}
+              />
+              <StandardActivelyManageItem
+                {...{
+                  entityId,
+                  organizationId,
+                  standards,
                   onUpdate,
                 }}
               />

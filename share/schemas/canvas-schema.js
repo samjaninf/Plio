@@ -34,6 +34,12 @@ const CanvasSchema = new SimpleSchema([
       optional: true,
       defaultValue: [],
     },
+    standardIds: {
+      type: [String],
+      regEx: SimpleSchema.RegEx.Id,
+      optional: true,
+      defaultValue: [],
+    },
     riskIds: {
       type: [String],
       regEx: SimpleSchema.RegEx.Id,

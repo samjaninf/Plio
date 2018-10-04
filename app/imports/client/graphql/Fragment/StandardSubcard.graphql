@@ -1,0 +1,11 @@
+fragment StandardSubcard on Standard {
+  owner {
+    _id
+    profile {
+      fullName
+    }
+  }
+  _id
+  title
+  status
+}
