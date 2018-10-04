@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { EntityManagerItem } from '../../../components';
-import { NewRiskCard, EntityRiskFormContainer } from '../../../risks/components';
+import { NewRiskCard, RiskAddContainer } from '../../../risks';
 import ActivelyManageItem from './ActivelyManageItem';
 
-const AddRiskItem = ({
+const RiskActivelyManageItem = ({
   organizationId,
   linkedTo,
   risks,
@@ -16,14 +16,14 @@ const AddRiskItem = ({
     itemId="risk"
     label="Risk"
     entityId={linkedTo._id}
-    component={EntityRiskFormContainer}
+    component={RiskAddContainer}
     render={ActivelyManageItem}
   >
     <NewRiskCard {...{ organizationId, linkedTo, risks }} />
   </EntityManagerItem>
 );
 
-AddRiskItem.propTypes = {
+RiskActivelyManageItem.propTypes = {
   organizationId: PropTypes.string.isRequired,
   risks: PropTypes.array,
   linkedTo: PropTypes.shape({
@@ -32,4 +32,4 @@ AddRiskItem.propTypes = {
   }).isRequired,
 };
 
-export default AddRiskItem;
+export default RiskActivelyManageItem;

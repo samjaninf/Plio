@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { RisksSubcard, EntityRiskFormContainer } from '../../risks';
+import { RisksSubcard, RiskAddContainer } from '../../risks';
 
 const CanvasRisksSubcard = ({
   organizationId,
@@ -9,7 +9,7 @@ const CanvasRisksSubcard = ({
   linkedTo,
   onUpdate,
 }) => (
-  <EntityRiskFormContainer
+  <RiskAddContainer
     {...{
       organizationId,
       risks,

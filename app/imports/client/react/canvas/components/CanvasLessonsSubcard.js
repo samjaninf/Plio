@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { LessonsSubcard, EntityLessonFormContainer } from '../../lessons';
+import { LessonsSubcard, LessonAddContainer } from '../../lessons';
 
 const CanvasLessonsSubcard = ({
   organizationId,
@@ -10,7 +10,7 @@ const CanvasLessonsSubcard = ({
   documentType,
   refetchQuery,
 }) => (
-  <EntityLessonFormContainer
+  <LessonAddContainer
     {...{
       organizationId,
       documentType,

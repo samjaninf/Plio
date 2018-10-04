@@ -2,23 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { EntityManagerItem } from '../../../components';
-import { LessonForm, EntityLessonFormContainer } from '../../../lessons';
+import { LessonForm, LessonAddContainer } from '../../../lessons';
 import ActivelyManageItem from './ActivelyManageItem';
 
-const AddLessonItem = ({ organizationId, linkedTo, ...rest }) => (
+const LessonActivelyManageItem = ({ organizationId, linkedTo, ...rest }) => (
   <EntityManagerItem
     {...{ organizationId, ...rest }}
     itemId="lessonLearned"
     label="Lesson learned"
     documentId={linkedTo._id}
-    component={EntityLessonFormContainer}
+    component={LessonAddContainer}
     render={ActivelyManageItem}
   >
     <LessonForm {...{ organizationId, linkedTo }} />
   </EntityManagerItem>
 );
 
-AddLessonItem.propTypes = {
+LessonActivelyManageItem.propTypes = {
   organizationId: PropTypes.string.isRequired,
   linkedTo: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -26,4 +26,4 @@ AddLessonItem.propTypes = {
   }).isRequired,
 };
 
-export default AddLessonItem;
+export default LessonActivelyManageItem;

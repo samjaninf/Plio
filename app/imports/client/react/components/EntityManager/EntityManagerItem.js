@@ -15,7 +15,7 @@ const EntityManagerItem = ({ itemId, ...rest }) => (
 );
 
 EntityManagerItem.propTypes = {
-  // component: PropTypes.func.isRequired,
+  component: PropTypes.func.isRequired,
   itemId: PropTypes.string.isRequired,
 };
 

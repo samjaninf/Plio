@@ -16,7 +16,7 @@ const addRisk = (riskId, risks) => compose(
   map(prop('_id')),
 )(risks);
 
-const EntityRiskFormContainer = ({
+const RiskAddContainer = ({
   organizationId,
   isOpen,
   toggle,
@@ -110,7 +110,7 @@ const EntityRiskFormContainer = ({
   </Composer>
 );
 
-EntityRiskFormContainer.propTypes = {
+RiskAddContainer.propTypes = {
   organizationId: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   risks: PropTypes.array.isRequired,
@@ -119,4 +119,4 @@ EntityRiskFormContainer.propTypes = {
   toggle: PropTypes.func,
 };
 
-export default pure(EntityRiskFormContainer);
+export default pure(RiskAddContainer);

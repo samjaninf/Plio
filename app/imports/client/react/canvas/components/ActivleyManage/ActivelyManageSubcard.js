@@ -13,10 +13,10 @@ import {
   EntityManager,
   EntityManagerItem,
 } from '../../../components';
-import GoalActivelyManageItem from './GoalActivelyManageItem';
-import AddRiskItem from './AddRiskItem';
-import AddLessonItem from './AddLessonItem';
 import ActivelyManageItem from './ActivelyManageItem';
+import GoalActivelyManageItem from './GoalActivelyManageItem';
+import RiskActivelyManageItem from './RiskActivelyManageItem';
+import LessonActivelyManageItem from './LessonActivelyManageItem';
 
 const StyledCol = styled(Col)`
   padding: 0 1.85rem;
@@ -95,7 +95,7 @@ const ActivelyManageSubcard = ({
               >
                 ActivelyManageItem
               </EntityManagerItem>
-              <AddRiskItem
+              <RiskActivelyManageItem
                 {...{ organizationId, risks, onUpdate }}
                 linkedTo={{ _id: entityId, title }}
               />
@@ -115,7 +115,7 @@ const ActivelyManageSubcard = ({
               >
                 ActivelyManageItem
               </EntityManagerItem>
-              <AddLessonItem
+              <LessonActivelyManageItem
                 {...{ organizationId, documentType, refetchQuery }}
                 linkedTo={{ _id: entityId, title }}
               />

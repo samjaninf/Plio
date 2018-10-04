@@ -9,7 +9,7 @@ import { ApolloFetchPolicies } from '../../../../api/constants';
 import { validateLesson } from '../../../validation';
 import { Composer, renderComponent } from '../../helpers';
 
-const EntityLessonFormContainer = ({
+const LessonAddContainer = ({
   organizationId,
   isOpen,
   toggle,
@@ -75,7 +75,7 @@ const EntityLessonFormContainer = ({
   </Composer>
 );
 
-EntityLessonFormContainer.propTypes = {
+LessonAddContainer.propTypes = {
   organizationId: PropTypes.string.isRequired,
   documentId: PropTypes.string.isRequired,
   documentType: PropTypes.string.isRequired,
@@ -84,4 +84,4 @@ EntityLessonFormContainer.propTypes = {
   toggle: PropTypes.func,
 };
 
-export default EntityLessonFormContainer;
+export default LessonAddContainer;
