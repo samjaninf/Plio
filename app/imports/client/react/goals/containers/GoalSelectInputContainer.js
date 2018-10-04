@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { mapEntitiesToOptions } from 'plio-util';
+import { mapRejectedEntitiesToOptions } from 'plio-util';
 import { withHandlers, setPropTypes, defaultProps, componentFromProp } from 'recompose';
 
 import { namedCompose } from '../../helpers';
@@ -16,11 +16,17 @@ export default namedCompose('GoalSelectInputContainer')(
     loadOptionsOnOpen: true,
   }),
   withHandlers({
-    loadOptions: ({ organizationId }) => () => client.query({
+    loadOptions: ({ organizationId, goals }) => () => client.query({
       query: Query.GOAL_LIST,
       variables: { organizationId },
-    }).then(({ data: { goals: { goals } } }) => ({
-      options: mapEntitiesToOptions(goals),
+    }).then(({
+      data: {
+        goals: {
+          goals: resultGoals,
+        },
+      },
+    }) => ({
+      options: mapRejectedEntitiesToOptions(goals, resultGoals),
     })),
   }),
 )(componentFromProp('component'));

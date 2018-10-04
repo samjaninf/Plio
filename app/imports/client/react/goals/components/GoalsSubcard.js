@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { CardBlock, EntityManagerSubcard } from '../../components';
+import { EntityManagerSubcard } from '../../components';
 import GoalEditContainer from '../containers/GoalEditContainer';
-import GoalForm from './GoalForm';
+import NewGoalCard from './NewGoalCard';
 import GoalSubcard from './GoalSubcard';
 
 const GoalsSubcard = ({
@@ -31,11 +31,7 @@ const GoalsSubcard = ({
         component={GoalSubcard}
       />
     )}
-    renderNewEntity={() => (
-      <CardBlock>
-        <GoalForm {...{ organizationId }} />
-      </CardBlock>
-    )}
+    renderNewEntity={() => <NewGoalCard {...{ organizationId, goals }} />}
   />
 );
 

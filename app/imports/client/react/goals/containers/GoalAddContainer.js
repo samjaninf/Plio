@@ -48,6 +48,7 @@ const GoalAddContainer = ({
       isOpen,
       toggle,
       initialValues: {
+        active: 0,
         title: '',
         description: '',
         owner: getUserOptions(user),
@@ -57,11 +58,8 @@ const GoalAddContainer = ({
         color: GoalColors.INDIGO,
       },
       onSubmit: (values) => {
-        const errors = validateGoal(values);
-
-        if (errors) return errors;
-
         const {
+          active,
           title,
           description = '',
           owner: { value: ownerId } = {},
@@ -70,6 +68,25 @@ const GoalAddContainer = ({
           priority,
           color,
         } = values;
+        let linkToEntity;
+
+        if (entityId) {
+          linkToEntity = goalId => onUpdate({
+            variables: {
+              input: {
+                _id: entityId,
+                goalIds: addGoal(goalId, goals),
+              },
+            },
+          });
+
+          if (active === 1) {
+            return linkToEntity(values.goal.value).then(() => toggle && toggle());
+          }
+        }
+
+        const errors = validateGoal(values);
+        if (errors) return errors;
 
         return createGoal({
           variables: {
@@ -87,16 +104,7 @@ const GoalAddContainer = ({
           update: (proxy, { data: { createGoal: { goal } } }) =>
             moveGoalWithinCacheAfterCreating(organizationId, goal, proxy),
         }).then(({ data: { createGoal: { goal } } }) => {
-          if (onUpdate) {
-            onUpdate({
-              variables: {
-                input: {
-                  _id: entityId,
-                  goalIds: addGoal(goal._id, goals),
-                },
-              },
-            });
-          }
+          if (linkToEntity) linkToEntity(goal._id);
           if (toggle) toggle();
         });
       },

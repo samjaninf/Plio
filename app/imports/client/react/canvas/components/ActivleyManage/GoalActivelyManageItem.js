@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { EntityManagerItem, CardBlock } from '../../../components';
-import { GoalForm, GoalAddContainer } from '../../../goals';
+import { EntityManagerItem } from '../../../components';
+import { NewGoalCard, GoalAddContainer } from '../../../goals';
 import ActivelyManageItem from './ActivelyManageItem';
 
-const GoalActivelyManageItem = ({ organizationId, ...restProps }) => (
+const GoalActivelyManageItem = ({ organizationId, goals, ...restProps }) => (
   <EntityManagerItem
     {...{ organizationId }}
     itemId="keyGoal"
@@ -13,18 +13,17 @@ const GoalActivelyManageItem = ({ organizationId, ...restProps }) => (
     component={itemProps => (
       <GoalAddContainer
         component={ActivelyManageItem}
-        {...{ ...restProps, ...itemProps }}
+        {...{ goals, ...restProps, ...itemProps }}
       />
     )}
   >
-    <CardBlock>
-      <GoalForm {...{ organizationId }} />
-    </CardBlock>
+    <NewGoalCard {...{ organizationId, goals }} />
   </EntityManagerItem>
 );
 
 GoalActivelyManageItem.propTypes = {
   organizationId: PropTypes.string.isRequired,
+  goals: PropTypes.array.isRequired,
 };
 
 export default GoalActivelyManageItem;
