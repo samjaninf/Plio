@@ -24,4 +24,5 @@ fragment GoalSubcard on Goal {
     }
   }
   completionComment
+  isCompleted
 }

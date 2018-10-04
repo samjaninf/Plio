@@ -44,7 +44,6 @@ const getInitialValues = compose(
     'completedBy',
     'isCompleted',
   ]),
-  getGoal,
 );
 const getRefetchQueries = () => [
   Queries.DASHBOARD_GOALS.name,
@@ -62,7 +61,12 @@ const GoalEditContainer = ({
   canEditGoals,
   ...props
 }) => (
-  <WithState initialState={{ goal: goalDoc || null, initialValues: {} }}>
+  <WithState
+    initialState={{
+      goal: goalDoc || null,
+      initialValues: goalDoc ? getInitialValues(goalDoc) : {},
+    }}
+  >
     {({ state: { initialValues, goal }, setState }) => (
       <Composer
         components={[
@@ -71,9 +75,9 @@ const GoalEditContainer = ({
             {...{ fetchPolicy }}
             query={Queries.GOAL_CARD}
             variables={{ _id: goalId }}
-            isSkip={goalDoc}
+            skip={!!goalDoc}
             onCompleted={data => setState({
-              initialValues: getInitialValues(data),
+              initialValues: getInitialValues(getGoal(data)),
               goal: getGoal(data),
             })}
             children={noop}
@@ -91,24 +95,33 @@ const GoalEditContainer = ({
             mutation={Mutations.COMPLETE_GOAL}
             refetchQueries={getRefetchQueries}
             children={noop}
+            onCompleted={({ completeGoal }) => setState({
+              goal: { ...goal, ...completeGoal },
+              initialValues: getInitialValues({ ...goal, ...completeGoal }),
+            })}
           />,
           <Mutation
             mutation={Mutations.UNDO_GOAL_COMPLETION}
             refetchQueries={getRefetchQueries}
             children={noop}
+            onCompleted={
+              ({ undoGoalCompletion }) => setState({
+                goal: { ...goal, ...undoGoalCompletion },
+                initialValues: getInitialValues({ ...goal, ...undoGoalCompletion }),
+              })
+            }
           />,
           /* eslint-enable react/no-children-prop */
         ]}
       >
         {([
-          { data, loading, error },
+          { loading, error },
           updateGoal,
           deleteGoal,
           completeGoal,
           undoGoalCompletion,
         ]) => renderComponent({
           ...props,
-          loading,
           error,
           organizationId,
           isOpen,
@@ -116,8 +129,9 @@ const GoalEditContainer = ({
           initialValues,
           goal,
           canEditGoals,
+          loading: !goalDoc && loading,
           onSubmit: async (values, form) => {
-            const currentValues = getInitialValues(data);
+            const currentValues = getInitialValues(goal);
             const difference = diff(values, currentValues);
 
             if (!difference) return undefined;
@@ -185,7 +199,6 @@ const GoalEditContainer = ({
               },
             }).then(noop).catch((err) => {
               form.reset(currentValues);
-              console.log(err);
               throw err;
             });
           },

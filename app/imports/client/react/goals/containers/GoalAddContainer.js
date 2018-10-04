@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { pure } from 'recompose';
 import { Query, Mutation } from 'react-apollo';
 import { noop, getUserOptions } from 'plio-util';
 import { compose, append, map, prop } from 'ramda';
@@ -112,4 +113,4 @@ GoalAddContainer.propTypes = {
   entityId: PropTypes.string,
 };
 
-export default GoalAddContainer;
+export default pure(GoalAddContainer);
