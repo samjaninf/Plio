@@ -8,7 +8,7 @@ import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 import { ProblemMagnitudes } from '../../../../share/constants';
 import { validateRisk } from '../../../validation';
-import { Composer } from '../../helpers';
+import { Composer, renderComponent } from '../../helpers';
 
 const addRisk = (riskId, risks) => compose(
   append(riskId),
@@ -17,10 +17,12 @@ const addRisk = (riskId, risks) => compose(
 
 const EntityRiskFormContainer = ({
   organizationId,
+  isOpen,
+  toggle,
   onUpdate,
   entityId,
   risks,
-  children,
+  ...props
 }) => (
   <Composer
     components={[
@@ -48,7 +50,12 @@ const EntityRiskFormContainer = ({
         },
       },
       createRisk,
-    ]) => children({
+    ]) => renderComponent({
+      ...props,
+      isOpen,
+      toggle,
+      risks,
+      organizationId,
       initialValues: {
         active: 0,
         title: '',
@@ -75,14 +82,14 @@ const EntityRiskFormContainer = ({
               riskIds: addRisk(riskId, risks),
             },
           },
-        });
+        }).then(toggle || noop);
 
         if (active === 1) {
           return linkToEntity(values.risk.value);
         }
 
         const errors = validateRisk(values);
-        if (errors) return Promise.reject(errors);
+        if (errors) return errors;
 
         return createRisk({
           variables: {
@@ -104,10 +111,11 @@ const EntityRiskFormContainer = ({
 
 EntityRiskFormContainer.propTypes = {
   organizationId: PropTypes.string.isRequired,
-  children: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   risks: PropTypes.array.isRequired,
   entityId: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool,
+  toggle: PropTypes.func,
 };
 
 export default EntityRiskFormContainer;

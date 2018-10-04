@@ -7,13 +7,13 @@ import ActivelyManageItem from './ActivelyManageItem';
 
 const GoalActivelyManageItem = ({ organizationId, goals, ...restProps }) => (
   <EntityManagerItem
-    {...{ organizationId }}
+    {...{ organizationId, goals, ...restProps }}
     itemId="keyGoal"
     label="Key goal"
     component={itemProps => (
       <GoalAddContainer
         component={ActivelyManageItem}
-        {...{ goals, ...restProps, ...itemProps }}
+        {...itemProps}
       />
     )}
   >

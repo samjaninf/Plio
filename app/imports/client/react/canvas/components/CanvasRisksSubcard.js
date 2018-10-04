@@ -10,22 +10,18 @@ const CanvasRisksSubcard = ({
   onUpdate,
 }) => (
   <EntityRiskFormContainer
-    {...{ organizationId, risks, onUpdate }}
+    {...{
+      organizationId,
+      risks,
+      onUpdate,
+      linkedTo,
+    }}
     entityId={linkedTo._id}
-  >
-    {({ onSubmit, initialValues }) => (
-      <RisksSubcard
-        {...{
-          organizationId,
-          risks,
-          linkedTo,
-          initialValues,
-        }}
-        onSave={onSubmit}
-        onDelete={console.log}
-      />
+    onDelete={console.log}
+    component={({ onSubmit, ...restRiskProps }) => (
+      <RisksSubcard {...restRiskProps} onSave={onSubmit} />
     )}
-  </EntityRiskFormContainer>
+  />
 );
 
 CanvasRisksSubcard.propTypes = {

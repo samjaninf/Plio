@@ -11,21 +11,20 @@ const AddRiskItem = ({
   onUpdate,
   risks,
 }) => (
-  <EntityRiskFormContainer
-    {...{ organizationId, risks, onUpdate }}
+  <EntityManagerItem
+    {...{ organizationId, onUpdate, risks }}
+    itemId="risk"
+    label="Risk"
     entityId={linkedTo._id}
-  >
-    {props => (
-      <EntityManagerItem
+    component={itemProps => (
+      <EntityRiskFormContainer
         component={ActivelyManageItem}
-        itemId="risk"
-        label="Risk"
-        {...props}
-      >
-        <NewRiskCard {...{ organizationId, linkedTo, risks }} />
-      </EntityManagerItem>
+        {...itemProps}
+      />
     )}
-  </EntityRiskFormContainer>
+  >
+    <NewRiskCard {...{ organizationId, linkedTo, risks }} />
+  </EntityManagerItem>
 );
 
 AddRiskItem.propTypes = {

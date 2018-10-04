@@ -81,7 +81,7 @@ const GoalAddContainer = ({
           });
 
           if (active === 1) {
-            return linkToEntity(values.goal.value).then(() => toggle && toggle());
+            return linkToEntity(values.goal.value).then(toggle || noop);
           }
         }
 
