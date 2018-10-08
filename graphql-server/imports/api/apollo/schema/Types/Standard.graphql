@@ -22,7 +22,7 @@ type Standard implements BaseEntity, PlioEntity {
   # type: StandardType
   # section: StandardBookSection
   # review: StandardReview
-  # source1
+  # source1: Source!
   # source2
   # lessons
   improvementPlan: ImprovementPlan

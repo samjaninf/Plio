@@ -1,0 +1,17 @@
+type StandardPayload {
+  standard: Standard
+}
+
+input CreateStandardInput {
+  organizationId: ID!
+  title: String!
+  status: String!
+  # sectionId: ID!
+  # typeId: ID!
+  ownerId: ID!
+  # source1: Source!
+}
+
+type Mutation {
+  createStandard(input: CreateStandardInput!): StandardPayload
+}

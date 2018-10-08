@@ -97,14 +97,6 @@ const ActivelyManageSubcard = ({
                   onUpdate,
                 }}
               />
-              <EntityManagerItem
-                component={ActivelyManageItem}
-                itemId="standard"
-                label="Standard"
-                onSubmit={console.log}
-              >
-                ActivelyManageItem
-              </EntityManagerItem>
               <RiskActivelyManageItem
                 {...{ organizationId, risks, onUpdate }}
                 linkedTo={{ _id: entityId, title }}

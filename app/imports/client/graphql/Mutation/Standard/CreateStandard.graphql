@@ -1,0 +1,9 @@
+#import "../../Fragment/StandardSubcard.graphql"
+
+mutation createStandard($input: CreateStandardInput!) {
+  createStandard(input: $input) {
+    standard {
+      ...StandardSubcard
+    }
+  }
+}

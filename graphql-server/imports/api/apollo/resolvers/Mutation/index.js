@@ -20,6 +20,7 @@ import Feature from './Feature';
 import Need from './Need';
 import Want from './Want';
 import Relation from './Relation';
+import Standard from './Standard';
 
 export default {
   ...Goal,
@@ -44,4 +45,5 @@ export default {
   ...Need,
   ...Want,
   ...Relation,
+  ...Standard,
 };

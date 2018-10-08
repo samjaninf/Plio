@@ -1,11 +1,20 @@
 fragment StandardSubcard on Standard {
+  _id
+  title
+  status
   owner {
     _id
     profile {
       fullName
     }
   }
-  _id
-  title
-  status
+  # section {
+
+  # }
+  # type {
+
+  # }
+  # source1 {
+
+  # }
 }
