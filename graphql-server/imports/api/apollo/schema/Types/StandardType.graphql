@@ -1,0 +1,10 @@
+type StandardType implements BaseEntity {
+  _id: ID!
+  createdAt: DateTime!
+  createdBy: User!
+  updatedAt: DateTime
+  updatedBy: User
+  organization: Organization!
+  abbreviation: String
+  title: String!
+}

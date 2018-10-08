@@ -53,7 +53,7 @@
     "moment-timezone": "^0.5.5",
     "npm": "^5.6.0",
     "path": "^0.12.7",
-    "plio-util": "https://github.com/Pliohub/plio-util.git#devel",
+    "plio-util": "https://github.com/Pliohub/plio-util.git#I1307-actively-manage-subcard-6",
     "pluralize": "^2.0.0",
     "prop-types": "^15.6.0",
     "query": "^0.2.0",

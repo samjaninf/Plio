@@ -3413,9 +3413,9 @@ pify@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
 
-"plio-util@https://github.com/Pliohub/plio-util.git#devel":
+"plio-util@https://github.com/Pliohub/plio-util.git#I1307-actively-manage-subcard-6":
   version "0.2.2"
-  resolved "https://github.com/Pliohub/plio-util.git#2bda24b1905c4f07df36c0ee33b34af545f1ed71"
+  resolved "https://github.com/Pliohub/plio-util.git#47fa81a6ea791182b46690a9ec69e514bcc57337"
 
 pluralize@^2.0.0:
   version "2.0.0"

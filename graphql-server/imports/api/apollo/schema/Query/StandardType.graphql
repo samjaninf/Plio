@@ -1,0 +1,8 @@
+type StandardTypesQueryPayload {
+  totalCount: Int
+  standardTypes: [StandardType]!
+}
+
+type Query {
+  standardTypes(organizationId: ID!): StandardTypesQueryPayload!
+}

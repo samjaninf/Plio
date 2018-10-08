@@ -1,18 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
-import { compose, append, map, prop } from 'ramda';
-import { noop, getUserOptions } from 'plio-util';
+import { compose, append, map, prop, view, find, propEq, either } from 'ramda';
+import { noop, getUserOptions, lenses, getId } from 'plio-util';
 
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateStandard } from '../../../validation';
 import { Composer, renderComponent } from '../../helpers';
 import { ApolloFetchPolicies } from '../../../../api/constants';
+import { StandardStatusTypes, DefaultStandardTypes } from '../../../../share/constants';
 
 const addStandard = (goalId, goals) => compose(
   append(goalId),
   map(prop('_id')),
 )(goals);
+
+const getDefaultType = either(
+  compose(
+    getId,
+    find(propEq(
+      'title',
+      DefaultStandardTypes.STANDARD_OPERATING_PROCEDURE.title,
+    )),
+  ),
+  view(lenses.head._id),
+);
 
 const StandardAddContainer = ({
   organizationId,
@@ -31,6 +43,12 @@ const StandardAddContainer = ({
         fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
         children={noop}
       />,
+      <Query
+        query={Queries.STANDARD_TYPE_LIST}
+        variables={{ organizationId }}
+        fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
+        children={noop}
+      />,
       <Mutation
         mutation={Mutations.CREATE_STANDARD}
         children={noop}
@@ -38,7 +56,15 @@ const StandardAddContainer = ({
       /* eslint-disable react/no-children-prop */
     ]}
   >
-    {([{ data: { user } }, createStandard]) => renderComponent({
+    {([
+      { data: { user } },
+      {
+        data: {
+          standardTypes: { standardTypes = [] } = {},
+        },
+      },
+      createStandard,
+    ]) => renderComponent({
       ...props,
       organizationId,
       standards,
@@ -48,10 +74,10 @@ const StandardAddContainer = ({
         active: 0,
         title: '',
         // section: 'some section option',
-        // type: 'some type option',
-        status: 'issued',
+        status: StandardStatusTypes.ISSUED,
         owner: getUserOptions(user),
         // source: null,
+        type: getDefaultType(standardTypes),
       },
       onSubmit: (values) => {
         const {
@@ -59,8 +85,8 @@ const StandardAddContainer = ({
           title,
           status,
           // section: { value: sectionId } = {},
-          // type: { value: typeId } = {},
           owner: { value: ownerId } = {},
+          type: typeId,
           // source: source1,
         } = values;
         let linkToEntity;
@@ -89,7 +115,7 @@ const StandardAddContainer = ({
               title,
               status,
               // sectionId,
-              // typeId,
+              typeId,
               ownerId,
               // source1,
               organizationId,

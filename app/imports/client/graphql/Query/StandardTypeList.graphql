@@ -1,0 +1,9 @@
+query StandardTypeList($organizationId: ID!) {
+  standardTypes(organizationId: $organizationId) {
+    standardTypes {
+      _id
+      title
+      abbreviation
+    }
+  }
+}

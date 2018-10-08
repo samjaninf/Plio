@@ -25,6 +25,7 @@ import Benefit from './Benefit.graphql';
 import Feature from './Feature.graphql';
 import Need from './Need.graphql';
 import Want from './Want.graphql';
+import StandardType from './StandardType.graphql';
 
 export default [
   User,
@@ -54,4 +55,5 @@ export default [
   Feature,
   Need,
   Want,
+  StandardType,
 ];

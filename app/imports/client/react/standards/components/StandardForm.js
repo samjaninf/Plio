@@ -4,12 +4,14 @@ import { noop } from 'plio-util';
 
 import { StringLimits, StandardStatusTypes, StandardStatuses } from '../../../../share/constants';
 import { OrgUsersSelectInputContainer } from '../../containers';
+import StandardTypeSelectContainer from '../containers/StandardTypeSelectContainer';
 
 import {
   FormField,
   InputField,
   SelectInputField,
   SelectRadioField,
+  SelectField,
 } from '../../components';
 
 const statusOptions = [
@@ -31,6 +33,15 @@ const StandardForm = ({
         onBlur={save}
         addon={sequentialId}
         maxLength={StringLimits.title.max}
+      />
+    </FormField>
+    <FormField>
+      Type
+      <StandardTypeSelectContainer
+        name="type"
+        onChange={save}
+        component={SelectField}
+        {...{ organizationId }}
       />
     </FormField>
     <FormField>
