@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { EntityManagerItem } from '../../../components';
-import { StandardAddContainer } from '../../../standards';
+import { StandardAddContainer, NewStandardCard } from '../../../standards';
 import ActivelyManageItem from './ActivelyManageItem';
 
 const StandardActivelyManageItem = ({ organizationId, standards, ...rest }) => (
@@ -13,8 +13,7 @@ const StandardActivelyManageItem = ({ organizationId, standards, ...rest }) => (
     component={StandardAddContainer}
     render={ActivelyManageItem}
   >
-    Test
-    {/* <NewGoalCard {...{ organizationId, standards }} /> */}
+    <NewStandardCard {...{ organizationId, standards }} />
   </EntityManagerItem>
 );
 

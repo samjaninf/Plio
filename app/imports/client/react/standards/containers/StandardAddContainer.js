@@ -63,18 +63,21 @@ const StandardAddContainer = ({
           owner: { value: ownerId } = {},
           // source: source1,
         } = values;
+        let linkToEntity;
 
-        const linkToEntity = standardId => onUpdate({
-          variables: {
-            input: {
-              _id: entityId,
-              standardIds: addStandard(standardId, standards),
+        if (entityId) {
+          linkToEntity = standardId => onUpdate({
+            variables: {
+              input: {
+                _id: entityId,
+                standardIds: addStandard(standardId, standards),
+              },
             },
-          },
-        });
+          });
 
-        if (active === 1) {
-          return linkToEntity(values.standard.value).then(toggle);
+          if (active === 1) {
+            return linkToEntity(values.standard.value).then(toggle);
+          }
         }
 
         const errors = validateStandard(values);
@@ -92,7 +95,10 @@ const StandardAddContainer = ({
               organizationId,
             },
           },
-        }).then(({ data: { createStandard: { standard } } }) => linkToEntity(standard._id));
+        }).then(({ data: { createStandard: { standard } } }) => {
+          if (linkToEntity) linkToEntity(standard._id);
+          if (toggle) toggle();
+        });
       },
     })}
   </Composer>
