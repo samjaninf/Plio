@@ -8,7 +8,7 @@ import {
   SelectInputField,
 } from '../../components';
 import StandardsSelectInputContainer from '../containers/StandardsSelectInputContainer';
-// import StandardForm from './GoalFoStandardForm';
+import StandardForm from './StandardForm';
 
 const NewStandardCard = ({
   organizationId,
@@ -22,7 +22,7 @@ const NewStandardCard = ({
     ]}
   >
     <CardBlock>
-      {/* <StandardForm {...{ organizationId }} /> */}
+      <StandardForm {...{ organizationId }} />
     </CardBlock>
     <CardBlock>
       <FormField>

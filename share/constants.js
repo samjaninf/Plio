@@ -433,9 +433,14 @@ export const SourceTypes = {
   VIDEO: 'video',
 };
 
+export const StandardStatusTypes = {
+  ISSUED: 'issued',
+  DRAFT: 'draft',
+};
+
 export const StandardStatuses = {
-  issued: 'Issued',
-  draft: 'Draft',
+  [StandardStatusTypes.ISSUED]: 'Issued',
+  [StandardStatusTypes.DRAFT]: 'Draft',
 };
 
 export const StringLimits = {
