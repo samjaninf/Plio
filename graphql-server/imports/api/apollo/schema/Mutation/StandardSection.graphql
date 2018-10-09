@@ -1,0 +1,12 @@
+type StandardSectionPayload {
+  standardSection: StandardSection
+}
+
+input CreateStandardSectionInput {
+  organizationId: ID!
+  title: String!
+}
+
+type Mutation {
+  createStandardSection(input: CreateStandardSectionInput!): StandardSectionPayload
+}

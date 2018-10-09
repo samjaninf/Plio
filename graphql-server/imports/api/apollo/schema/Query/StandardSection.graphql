@@ -1,0 +1,8 @@
+type StandardSectionsQueryPayload {
+  totalCount: Int
+  standardSections: [StandardSection]!
+}
+
+type Query {
+  standardSections(organizationId: ID!): StandardSectionsQueryPayload!
+}

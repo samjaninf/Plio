@@ -1,0 +1,8 @@
+mutation createStandardSection($input: CreateStandardSectionInput!) {
+  createStandardSection(input: $input) {
+    standardSection {
+      _id
+      title
+    }
+  }
+}

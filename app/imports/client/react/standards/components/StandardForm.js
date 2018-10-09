@@ -5,6 +5,7 @@ import { noop } from 'plio-util';
 import { StringLimits, StandardStatusTypes, StandardStatuses } from '../../../../share/constants';
 import { OrgUsersSelectInputContainer } from '../../containers';
 import StandardTypeSelectContainer from '../containers/StandardTypeSelectContainer';
+import StandardsSectionField from './StandardsSectionField';
 
 import {
   FormField,
@@ -33,6 +34,14 @@ const StandardForm = ({
         onBlur={save}
         addon={sequentialId}
         maxLength={StringLimits.title.max}
+      />
+    </FormField>
+    <FormField>
+      Standards section
+      <StandardsSectionField
+        name="section"
+        onChange={save}
+        {...{ organizationId }}
       />
     </FormField>
     <FormField>

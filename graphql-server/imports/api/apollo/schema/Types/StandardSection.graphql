@@ -1,0 +1,9 @@
+type StandardSection implements BaseEntity {
+  _id: ID!
+  createdAt: DateTime!
+  createdBy: User!
+  updatedAt: DateTime
+  updatedBy: User
+  organization: Organization!
+  title: String!
+}

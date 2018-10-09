@@ -22,6 +22,7 @@ import Need from './Need.graphql';
 import Want from './Want.graphql';
 import Relation from './Relation.graphql';
 import Standard from './Standard.graphql';
+import StandardSection from './StandardSection.graphql';
 
 export default [
   Goal,
@@ -48,4 +49,5 @@ export default [
   Want,
   Relation,
   Standard,
+  StandardSection,
 ];

@@ -22,6 +22,7 @@ import Feature from './Feature.graphql';
 import Need from './Need.graphql';
 import Want from './Want.graphql';
 import StandardType from './StandardType.graphql';
+import StandardSection from './StandardSection.graphql';
 
 export default [
   User,
@@ -48,4 +49,5 @@ export default [
   Need,
   Want,
   StandardType,
+  StandardSection,
 ];

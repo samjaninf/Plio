@@ -1,0 +1,8 @@
+query StandardSectionList($organizationId: ID!) {
+  standardSections(organizationId: $organizationId) {
+    standardSections {
+      _id
+      title
+    }
+  }
+}

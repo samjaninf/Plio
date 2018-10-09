@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
-import { compose, append, map, prop, view, find, propEq, either } from 'ramda';
-import { noop, getUserOptions, lenses, getId } from 'plio-util';
+import { compose, append, map, prop, view, find, propEq, either, sort } from 'ramda';
+import { noop, getUserOptions, getEntityOptions, lenses, getId, byTitle } from 'plio-util';
+import { pure } from 'recompose';
 
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateStandard } from '../../../validation';
@@ -24,6 +25,12 @@ const getDefaultType = either(
     )),
   ),
   view(lenses.head._id),
+);
+
+const getDefaultSection = compose(
+  getEntityOptions,
+  view(lenses.head),
+  sort(byTitle),
 );
 
 const StandardAddContainer = ({
@@ -49,6 +56,11 @@ const StandardAddContainer = ({
         fetchPolicy={ApolloFetchPolicies.CACHE_ONLY}
         children={noop}
       />,
+      <Query
+        query={Queries.STANDARD_SECTION_LIST}
+        variables={{ organizationId }}
+        children={noop}
+      />,
       <Mutation
         mutation={Mutations.CREATE_STANDARD}
         children={noop}
@@ -63,6 +75,11 @@ const StandardAddContainer = ({
           standardTypes: { standardTypes = [] } = {},
         },
       },
+      {
+        data: {
+          standardSections: { standardSections = [] } = {},
+        },
+      },
       createStandard,
     ]) => renderComponent({
       ...props,
@@ -73,10 +90,10 @@ const StandardAddContainer = ({
       initialValues: {
         active: 0,
         title: '',
-        // section: 'some section option',
+        source1: null,
+        section: getDefaultSection(standardSections),
         status: StandardStatusTypes.ISSUED,
         owner: getUserOptions(user),
-        // source: null,
         type: getDefaultType(standardTypes),
       },
       onSubmit: (values) => {
@@ -84,10 +101,10 @@ const StandardAddContainer = ({
           active,
           title,
           status,
-          // section: { value: sectionId } = {},
+          source1,
+          section: { value: sectionId } = {},
           owner: { value: ownerId } = {},
           type: typeId,
-          // source: source1,
         } = values;
         let linkToEntity;
 
@@ -114,10 +131,10 @@ const StandardAddContainer = ({
             input: {
               title,
               status,
-              // sectionId,
+              sectionId,
               typeId,
               ownerId,
-              // source1,
+              source1,
               organizationId,
             },
           },
@@ -139,4 +156,4 @@ StandardAddContainer.propTypes = {
   entityId: PropTypes.string,
 };
 
-export default StandardAddContainer;
+export default pure(StandardAddContainer);

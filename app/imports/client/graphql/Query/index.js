@@ -50,6 +50,7 @@ import REVENUE_STREAMS_CHART from './RevenueStreamsChart.graphql';
 import REVENUE_STREAMS_PROFIT_CHART from './RevenueStreamsProfitChart.graphql';
 import KEY_PARTNERS_CHART from './KeyPartnersChart.graphql';
 import STANDARD_TYPE_LIST from './StandardTypeList.graphql';
+import STANDARD_SECTION_LIST from './StandardSectionList.graphql';
 
 DASHBOARD_GOALS.name = 'DashboardGoals';
 COMPLETED_DELETED_GOALS.name = 'CompletedDeletedGoals';
@@ -108,4 +109,5 @@ export default {
   REVENUE_STREAMS_PROFIT_CHART,
   KEY_PARTNERS_CHART,
   STANDARD_TYPE_LIST,
+  STANDARD_SECTION_LIST,
 };

@@ -22,6 +22,7 @@ import Feature from './Feature';
 import Need from './Need';
 import Want from './Want';
 import StandardType from './StandardType';
+import StandardSection from './StandardSection';
 
 export default {
   ...User,
@@ -48,4 +49,5 @@ export default {
   ...Need,
   ...Want,
   ...StandardType,
+  ...StandardSection,
 };
