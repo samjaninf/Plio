@@ -4,10 +4,12 @@ import { Query, Mutation } from 'react-apollo';
 import { compose, append, map, prop, view, find, propEq, either, sort } from 'ramda';
 import { noop, getUserOptions, getEntityOptions, lenses, getId, byTitle } from 'plio-util';
 import { pure } from 'recompose';
+import { FORM_ERROR } from 'final-form';
 
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateStandard } from '../../../validation';
 import { Composer, renderComponent } from '../../helpers';
+import { getNestingLevel } from '../helpers';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 import { StandardStatusTypes, DefaultStandardTypes } from '../../../../share/constants';
 
@@ -103,7 +105,7 @@ const StandardAddContainer = ({
           status,
           source1,
           section: { value: sectionId } = {},
-          owner: { value: ownerId } = {},
+          owner: { value: owner } = {},
           type: typeId,
         } = values;
         let linkToEntity;
@@ -126,6 +128,11 @@ const StandardAddContainer = ({
         const errors = validateStandard(values);
         if (errors) return errors;
 
+        const nestingLevel = getNestingLevel(title);
+        if (nestingLevel > 4) {
+          return { [FORM_ERROR]: 'Maximum nesting is 4 levels. Please change your title.' };
+        }
+
         return createStandard({
           variables: {
             input: {
@@ -133,8 +140,9 @@ const StandardAddContainer = ({
               status,
               sectionId,
               typeId,
-              ownerId,
+              owner,
               source1,
+              nestingLevel,
               organizationId,
             },
           },

@@ -165,7 +165,8 @@ export const expandCollapsedStandard = (_id) => {
       action = addCollapsed({ ...sectionItem, close: { type: sectionItem.type } });
       break;
     case STANDARD_FILTER_MAP.TYPE:
-      action = chainActions([typeItem, sectionItem].map(item => addCollapsed({ ...item, close: { type: item.type } })));
+      action = chainActions([typeItem, sectionItem].map(item =>
+        addCollapsed({ ...item, close: { type: item.type } })));
       break;
     default:
       return false;
@@ -210,7 +211,9 @@ export const expandCollapsedStandards = (ids) => {
         ? types.concat(uncategorizedType)
         : types;
 
-      return store.dispatch(chainActions(types.map(addCollapsedType).concat(sections.map(addCollapsedSection))));
+      return store
+        .dispatch(chainActions(types.map(addCollapsedType)
+          .concat(sections.map(addCollapsedSection))));
     }
     default:
       return false;
@@ -266,3 +269,8 @@ export const getSelectedStandardDeletedState = state => ({
     state.collections.standardsByIds[state.global.urlItemId],
   ),
 });
+
+export const getNestingLevel = (title) => {
+  const number = title.match(/^[\d.]*\d/);
+  return (number && number[0].split('.').length) || 1;
+};

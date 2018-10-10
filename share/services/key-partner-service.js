@@ -29,6 +29,7 @@ export default {
     notes,
     fileIds,
     goalIds,
+    standardIds,
     riskIds,
   }, { userId, collections: { KeyPartners } }) {
     const query = { _id };
@@ -42,6 +43,7 @@ export default {
         notes,
         fileIds,
         goalIds,
+        standardIds,
         riskIds,
         updatedBy: userId,
       },

@@ -21,6 +21,7 @@ input UpdateKeyPartnerInput {
   levelOfSpend: Int
   notes: String
   goalIds: [String]
+  standardIds: [String]
   fileIds: [String]
   riskIds: [String]
 }

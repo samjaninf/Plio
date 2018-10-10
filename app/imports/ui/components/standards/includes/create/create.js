@@ -4,13 +4,14 @@ import { Meteor } from 'meteor/meteor';
 import { and } from 'ramda';
 import { toastr } from 'meteor/chrismbeckett:toastr';
 
-import { insert } from '/imports/api/standards/methods';
-import { setModalError, inspire } from '/imports/api/helpers';
-import { insert as insertFile } from '/imports/api/files/methods';
-import UploadService from '/imports/ui/utils/uploads/UploadService';
+import { getNestingLevel } from '../../../../../client/react/standards/helpers';
+import { insert } from '../../../../../api/standards/methods';
+import { setModalError, inspire } from '../../../../../api/helpers';
+import { insert as insertFile } from '../../../../../api/files/methods';
+import UploadService from '../../../../../ui/utils/uploads/UploadService';
 
 Template.CreateStandard.viewmodel({
-  mixin: ['standard', 'numberRegex', 'organization', 'router', 'getChildrenData', 'modal'],
+  mixin: ['standard', 'organization', 'router', 'getChildrenData', 'modal'],
   validate({
     sourceType,
     sourceFile,
@@ -62,9 +63,7 @@ Template.CreateStandard.viewmodel({
   },
   insert(args) {
     const { title, sourceType, sourceFile } = args;
-
-    const number = this.parseNumber(title);
-    const nestingLevel = (number && number[0].split('.').length) || 1;
+    const nestingLevel = getNestingLevel(title);
 
     if (nestingLevel > 4) {
       setModalError('Maximum nesting is 4 levels. Please change your title.');

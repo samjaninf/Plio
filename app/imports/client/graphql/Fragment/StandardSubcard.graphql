@@ -8,13 +8,18 @@ fragment StandardSubcard on Standard {
       fullName
     }
   }
-  # section {
-
-  # }
-  # type {
-
-  # }
-  # source1 {
-
-  # }
+  section {
+    _id
+    title
+  }
+  type {
+    _id
+    title
+    abbreviation
+  }
+  source1 {
+    type
+    fileId
+    url
+  }
 }

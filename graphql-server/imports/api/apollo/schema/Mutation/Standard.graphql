@@ -2,14 +2,21 @@ type StandardPayload {
   standard: Standard
 }
 
+input SourceInput {
+  type: String!
+  fileId: String
+  url: String
+}
+
 input CreateStandardInput {
   organizationId: ID!
   title: String!
   status: String!
-  # sectionId: ID!
-  # typeId: ID!
-  ownerId: ID!
-  # source1: Source!
+  sectionId: ID!
+  typeId: ID!
+  owner: ID!
+  source1: SourceInput!
+  nestingLevel: Int!
 }
 
 type Mutation {
