@@ -36,3 +36,4 @@ export { default as FormControlStatic } from './FormControlStatic';
 export { default as SliderInput } from './SliderInput';
 export { default as SliderAdapter } from './SliderAdapter';
 export { default as SliderField } from './SliderField';
+export { default as CreateSourceField } from './CreateSourceField';

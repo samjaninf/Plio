@@ -1,5 +1,4 @@
-import { Files } from '/imports/share/collections/files.js';
-
+import { Files } from '../../share/collections/files.js';
 
 export default {
   collection: Files,

@@ -66,4 +66,19 @@ Template.Sources_Create.viewmodel({
 
     return data;
   },
+  update() {
+    if (this.onChangeSource) {
+      const {
+        sourceType,
+        sourceUrl,
+        sourceVideoUrl,
+        sourceFile,
+      } = this.getData();
+      this.onChangeSource({
+        type: sourceType,
+        url: sourceType === 'url' ? sourceUrl : sourceVideoUrl,
+        file: sourceFile,
+      });
+    }
+  },
 });

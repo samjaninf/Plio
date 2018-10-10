@@ -1,14 +1,11 @@
 import { Template } from 'meteor/templating';
 import invoke from 'lodash.invoke';
-import { Meteor } from 'meteor/meteor';
 import { and } from 'ramda';
-import { toastr } from 'meteor/chrismbeckett:toastr';
 
-import { getNestingLevel } from '../../../../../client/react/standards/helpers';
+import { getNestingLevel, uploadFile } from '../../../../../client/react/standards/helpers';
 import { insert } from '../../../../../api/standards/methods';
 import { setModalError, inspire } from '../../../../../api/helpers';
 import { insert as insertFile } from '../../../../../api/files/methods';
-import UploadService from '../../../../../ui/utils/uploads/UploadService';
 
 Template.CreateStandard.viewmodel({
   mixin: ['standard', 'organization', 'router', 'getChildrenData', 'modal'],
@@ -118,7 +115,12 @@ Template.CreateStandard.viewmodel({
 
     const cb = (_id, open) => {
       if (sourceFile && fileId) {
-        this._uploadFile(sourceFile, fileId, _id);
+        uploadFile({
+          fileId,
+          standardId: _id,
+          file: sourceFile,
+          organizationId: this.organizationId(),
+        });
       }
 
       if (this.isActiveStandardFilter(3)) {
@@ -135,42 +137,5 @@ Template.CreateStandard.viewmodel({
     };
 
     invoke(this.card, 'insert', insert, standardArgs, cb);
-  },
-  _uploadFile(file, fileId, standardId) {
-    const uploadService = new UploadService({
-      slingshotDirective: 'standardFiles',
-      slingshotContext: {
-        standardId,
-        organizationId: this.organizationId(),
-      },
-      maxFileSize: Meteor.settings.public.otherFilesMaxSize,
-      hooks: {
-        afterUpload: (__, url) => {
-          const fileName = file.name;
-          const extension = fileName.split('.').pop().toLowerCase();
-          if (extension === 'docx') {
-            this._launchDocxRendering(url, fileName, standardId);
-          }
-        },
-      },
-    });
-
-    uploadService.uploadExisting(fileId, file);
-  },
-  _launchDocxRendering(fileUrl, fileName, standardId) {
-    Meteor.call('Mammoth.convertStandardFileToHtml', {
-      fileUrl,
-      htmlFileName: `${fileName}.html`,
-      source: 'source1',
-      standardId,
-    }, (error, result) => {
-      if (error) {
-        // HTTP errors
-        toastr.error(`Failed to get .docx file: ${error}`);
-      } else if (result.error) {
-        // Mammoth errors
-        toastr.error(`Rendering document: ${result.error}`);
-      }
-    });
   },
 });

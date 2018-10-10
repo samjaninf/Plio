@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
-import { updateProgress, terminateUploading } from '/imports/api/files/methods';
+import { updateProgress, terminateUploading } from '../../../api/files/methods';
 
 
-export default UploadsStore = {
+const UploadsStore = {
 
   _uploaders: {},
 
@@ -21,7 +21,7 @@ export default UploadsStore = {
   terminateUploading(fileId, cb) {
     const uploader = this.getUploader(fileId);
     if (uploader) {
-      uploader.xhr && uploader.xhr.abort();
+      if (uploader.xhr) uploader.xhr.abort();
       this.removeUploader(fileId);
     }
 
@@ -38,10 +38,10 @@ export default UploadsStore = {
     const progressInterval = Meteor.setInterval(() => {
       const progress = uploader.progress();
 
-      if (!progress && progress != 0 || progress === 1) {
+      if (!progress && progress !== 0 || progress === 1) {
         Meteor.clearInterval(progressInterval);
       } else {
-        updateProgress.call({ _id: fileId, progress }, (err, res) => {
+        updateProgress.call({ _id: fileId, progress }, (err) => {
           if (err) {
             Meteor.clearInterval(progressInterval);
             UploadsStore.terminateUploading(fileId);
@@ -61,3 +61,5 @@ export default UploadsStore = {
   },
 
 };
+
+export default UploadsStore;

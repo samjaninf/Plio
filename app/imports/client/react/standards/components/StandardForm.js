@@ -6,7 +6,6 @@ import { StringLimits, StandardStatusTypes, StandardStatuses } from '../../../..
 import { OrgUsersSelectInputContainer } from '../../containers';
 import StandardTypeSelectContainer from '../containers/StandardTypeSelectContainer';
 import StandardsSectionField from './StandardsSectionField';
-import StandardSourceField from './StandardSourceField';
 
 import {
   FormField,
@@ -14,6 +13,7 @@ import {
   SelectInputField,
   SelectRadioField,
   SelectField,
+  CreateSourceField,
 } from '../../components';
 
 const statusOptions = [
@@ -72,12 +72,7 @@ const StandardForm = ({
         options={statusOptions}
       />
     </FormField>
-    <StandardSourceField
-      name="source1"
-      label="Source file"
-      onChange={save}
-      {...{ organizationId }}
-    />
+    <CreateSourceField name="source1" />
   </Fragment>
 );
 

@@ -32,7 +32,7 @@
           <span class="btn btn-primary btn-file">
             <i class="fa fa-plus"></i>
             Add
-            <input type="file" {{b "value: sourceFile, ref: fileInput"}} />
+            <input type="file" {{b "value: sourceFile, ref: fileInput, change: update"}} />
           </span>
         </div>
       {{/if}}
@@ -40,12 +40,12 @@
     {{else}} {{#if (isSourceType 'url')}}
 
       <input type="text" class="form-control" placeholder="URL link"
-          {{b "value: sourceUrl"}} />
+          {{b "value: sourceUrl, focusout: update"}} />
 
     {{else}} {{#if (isSourceType 'video')}}
 
       <input type="text" class="form-control" placeholder="Video"
-          {{b "value: sourceVideoUrl"}} />
+          {{b "value: sourceVideoUrl, focusout: update"}} />
 
     {{/if}}{{/if}}{{/if}}
   {{/FormField}}

@@ -6,10 +6,11 @@ import { noop, getUserOptions, getEntityOptions, lenses, getId, byTitle } from '
 import { pure } from 'recompose';
 import { FORM_ERROR } from 'final-form';
 
+import { insert as insertFile } from '../../../../api/files/methods';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateStandard } from '../../../validation';
 import { Composer, renderComponent } from '../../helpers';
-import { getNestingLevel } from '../helpers';
+import { getNestingLevel, uploadFile } from '../helpers';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 import { StandardStatusTypes, DefaultStandardTypes } from '../../../../share/constants';
 
@@ -98,12 +99,12 @@ const StandardAddContainer = ({
         owner: getUserOptions(user),
         type: getDefaultType(standardTypes),
       },
-      onSubmit: (values) => {
+      onSubmit: async (values) => {
         const {
           active,
           title,
           status,
-          source1,
+          source1: { file, ...source1 } = {},
           section: { value: sectionId } = {},
           owner: { value: owner } = {},
           type: typeId,
@@ -133,6 +134,15 @@ const StandardAddContainer = ({
           return { [FORM_ERROR]: 'Maximum nesting is 4 levels. Please change your title.' };
         }
 
+        let fileId;
+        if (source1.type === 'attachment' && file) {
+          fileId = await insertFile.call({
+            name: file.name,
+            extension: file.name.split('.').pop().toLowerCase(),
+            organizationId,
+          });
+        }
+
         return createStandard({
           variables: {
             input: {
@@ -141,12 +151,23 @@ const StandardAddContainer = ({
               sectionId,
               typeId,
               owner,
-              source1,
               nestingLevel,
               organizationId,
+              source1: {
+                fileId,
+                ...source1,
+              },
             },
           },
         }).then(({ data: { createStandard: { standard } } }) => {
+          if (fileId) {
+            uploadFile({
+              file,
+              fileId,
+              organizationId,
+              standardId: standard._id,
+            });
+          }
           if (linkToEntity) linkToEntity(standard._id);
           if (toggle) toggle();
         });
