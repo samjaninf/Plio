@@ -4,12 +4,14 @@ import { Template } from 'meteor/templating';
 Template.ESSources.viewmodel({
   mixin: ['organization'],
   update(args, cb) {
-    this.parent().update(args, cb);
+    const onChange = this.onChange || this.parent().update;
+    onChange(args, cb);
   },
   uploaderMetaContext() {
+    const parent = this.parent();
     return {
       organizationId: this.organizationId(),
-      standardId: this.parent().standardId(),
+      standardId: parent && parent.standardId(),
     };
   },
   convertDocxToHtml(url, fileObj, cb) {
