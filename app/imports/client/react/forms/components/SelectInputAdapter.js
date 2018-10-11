@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { append } from 'ramda';
 
 import SelectInput from './SelectInput';
 
@@ -15,8 +16,14 @@ const SelectInputAdapter = ({
       input.onChange(option);
       if (onChange) onChange(option);
     }}
-    onNewOptionClick={(option) => {
-      if (onNewOptionClick) onNewOptionClick(option, input.onChange);
+    onNewOptionClick={(rawOption) => {
+      if (onNewOptionClick) {
+        onNewOptionClick(rawOption, (option) => {
+          const options = rest.multi ? append(option, input.value) : option;
+          input.onChange(options);
+          if (onChange) onChange(options);
+        });
+      }
     }}
   />
 );

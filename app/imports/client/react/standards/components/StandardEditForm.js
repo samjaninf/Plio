@@ -9,9 +9,10 @@ import {
   SelectInputField,
   SelectField,
   TextareaField,
+  DepartmentsCreatableField,
 } from '../../components';
 import { StringLimits } from '../../../../share/constants';
-import { OrgUsersSelectInputContainer, DepartmentsSelectInputContainer } from '../../containers';
+import { OrgUsersSelectInputContainer } from '../../containers';
 import StandardTypeSelectContainer from '../containers/StandardTypeSelectContainer';
 import StandardStatusField from './StandardStatusField';
 import StandardsSectionField from './StandardsSectionField';
@@ -93,13 +94,12 @@ export const StandardEditForm = ({ organizationId, save }) => (
     </FormField>
     <FormField>
       Department/sector(s)
-      <DepartmentsSelectInputContainer
+      <DepartmentsCreatableField
         name="departments"
         placeholder="Department/sector(s)"
-        organizationId={organizationId}
         component={SelectInputField}
         onChange={save}
-        onNewOptionClick={console.log}
+        {...{ organizationId }}
       />
     </FormField>
   </Fragment>
