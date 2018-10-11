@@ -20,6 +20,7 @@ import {
 } from '../../components';
 import { WithState, Composer } from '../../helpers';
 import { GoalAddContainer, GoalsSubcard } from '../../goals';
+import { StandardAddContainer, StandardsSubcard } from '../../standards';
 import KeyPartnerForm from './KeyPartnerForm';
 import CanvasFilesSubcard from './CanvasFilesSubcard';
 import CanvasRisksSubcard from './CanvasRisksSubcard';
@@ -143,6 +144,7 @@ const KeyPartnerEditModal = ({
                           risks = [],
                           lessons = [],
                           goals = [],
+                          standards = [],
                           title,
                         }) => (
                           <Fragment>
@@ -158,6 +160,14 @@ const KeyPartnerEditModal = ({
                               <GoalAddContainer
                                 component={GoalsSubcard}
                                 {...{ organizationId, goals }}
+                                entityId={documentId}
+                                onUpdate={updateKeyPartner}
+                              />
+                            )}
+                            {!!standards.length && (
+                              <StandardAddContainer
+                                component={StandardsSubcard}
+                                {...{ organizationId, standards }}
                                 entityId={documentId}
                                 onUpdate={updateKeyPartner}
                               />

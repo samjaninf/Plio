@@ -19,6 +19,18 @@ input CreateStandardInput {
   nestingLevel: Int!
 }
 
+input UpdateStandardInput {
+  organizationId: ID!
+  title: String
+  status: String
+  sectionId: ID
+  typeId: ID
+  owner: ID
+  source1: SourceInput
+  nestingLevel: Int
+}
+
 type Mutation {
   createStandard(input: CreateStandardInput!): StandardPayload
+  updateStandard(input: UpdateStandardInput!): Standard
 }

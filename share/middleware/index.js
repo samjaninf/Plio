@@ -26,3 +26,4 @@ export * from './need';
 export * from './want';
 export * from './files';
 export * from './relation';
+export * from './standard';
