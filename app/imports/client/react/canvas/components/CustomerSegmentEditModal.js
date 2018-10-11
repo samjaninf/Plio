@@ -1,7 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import { getEntityOptions, getUserOptions, lenses, noop, convertDocumentOptions } from 'plio-util';
+import {
+  getEntityOptions,
+  getUserOptions,
+  lenses,
+  noop,
+  convertDocumentOptions,
+  getValues,
+  mapUsersToOptions,
+} from 'plio-util';
 import { compose, pick, over, pathOr, repeat, defaultTo } from 'ramda';
 import { pure } from 'recompose';
 import diff from 'deep-diff';
@@ -21,13 +29,14 @@ import {
   EntityModalBody,
   EntityModalForm,
   RenderSwitch,
-  NotifySubcardAdapter,
+  NotifySubcard,
 } from '../../components';
 
 const getCustomerSegment = pathOr({}, repeat('customerSegment', 2));
 const getInitialValues = compose(
   over(lenses.matchedTo, compose(defaultTo(OptionNone), getEntityOptions)),
   over(lenses.originator, getUserOptions),
+  over(lenses.notify, mapUsersToOptions),
   pick([
     'originator',
     'title',
@@ -35,6 +44,7 @@ const getInitialValues = compose(
     'percentOfMarketSize',
     'matchedTo',
     'notes',
+    'notify',
   ]),
   getCustomerSegment,
 );
@@ -117,6 +127,7 @@ const CustomerSegmentEditModal = ({
                   matchedTo,
                   percentOfMarketSize,
                   notes = '',
+                  notify = [],
                 } = values;
 
                 if (difference[0].path[0] === 'matchedTo') {
@@ -143,6 +154,7 @@ const CustomerSegmentEditModal = ({
                       notes,
                       color,
                       percentOfMarketSize,
+                      notify: getValues(notify),
                       originatorId: originator.value,
                     },
                   },
@@ -190,9 +202,9 @@ const CustomerSegmentEditModal = ({
                             slingshotDirective={AWSDirectives.CUSTOMER_SEGMENT_FILES}
                             documentType={CanvasTypes.CUSTOMER_SEGMENT}
                           />
-                          <NotifySubcardAdapter
+                          <NotifySubcard
                             {...{ documentId, notify, organizationId }}
-                            onUpdate={updateCustomerSegment}
+                            onChange={handleSubmit}
                           />
                         </Fragment>
                       )}
