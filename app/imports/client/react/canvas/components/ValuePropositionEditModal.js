@@ -176,7 +176,6 @@ const ValuePropositionEditModal = ({
                         benefits = [],
                         features = [],
                         matchedTo,
-                        notify,
                       }) => (
                         <Fragment>
                           <ValuePropositionForm
@@ -200,7 +199,7 @@ const ValuePropositionEditModal = ({
                             documentType={CanvasTypes.VALUE_PROPOSITION}
                           />
                           <NotifySubcard
-                            {...{ documentId, notify, organizationId }}
+                            {...{ documentId, organizationId }}
                             onChange={handleSubmit}
                           />
                         </Fragment>

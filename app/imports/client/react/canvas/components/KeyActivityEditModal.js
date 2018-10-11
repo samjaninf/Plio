@@ -130,7 +130,7 @@ const KeyActivityEditModal = ({
                       loading={query.loading}
                       renderLoading={<CanvasForm {...{ organizationId }} />}
                     >
-                      {({ _id: documentId, notify }) => (
+                      {({ _id: documentId }) => (
                         <Fragment>
                           <CanvasForm {...{ organizationId }} save={handleSubmit} />
                           <CanvasFilesSubcard
@@ -140,7 +140,7 @@ const KeyActivityEditModal = ({
                             documentType={CanvasTypes.KEY_ACTIVITY}
                           />
                           <NotifySubcard
-                            {...{ documentId, notify, organizationId }}
+                            {...{ documentId, organizationId }}
                             onChange={handleSubmit}
                           />
                         </Fragment>

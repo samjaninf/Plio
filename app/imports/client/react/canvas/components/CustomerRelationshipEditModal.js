@@ -131,7 +131,7 @@ const CustomerRelationshipEditModal = ({
                       loading={query.loading}
                       renderLoading={<CanvasForm {...{ organizationId }} />}
                     >
-                      {({ _id: documentId, notify }) => (
+                      {({ _id: documentId }) => (
                         <Fragment>
                           <CanvasForm {...{ organizationId }} save={handleSubmit} />
                           <CanvasFilesSubcard
@@ -141,7 +141,7 @@ const CustomerRelationshipEditModal = ({
                             documentType={CanvasTypes.CUSTOMER_RELATIONSHIP}
                           />
                           <NotifySubcard
-                            {...{ documentId, notify, organizationId }}
+                            {...{ documentId, organizationId }}
                             onChange={handleSubmit}
                           />
                         </Fragment>

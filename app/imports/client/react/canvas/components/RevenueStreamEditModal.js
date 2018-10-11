@@ -136,7 +136,7 @@ const RevenueStreamEditModal = ({
                       loading={query.loading}
                       renderLoading={<RevenueStreamForm {...{ organizationId }} />}
                     >
-                      {({ _id: documentId, notify }) => (
+                      {({ _id: documentId }) => (
                         <Fragment>
                           <RevenueStreamForm {...{ organizationId }} save={handleSubmit} />
                           <CanvasFilesSubcard
@@ -146,7 +146,7 @@ const RevenueStreamEditModal = ({
                             documentType={CanvasTypes.REVENUE_STREAM}
                           />
                           <NotifySubcard
-                            {...{ documentId, notify, organizationId }}
+                            {...{ documentId, organizationId }}
                             onChange={handleSubmit}
                           />
                         </Fragment>

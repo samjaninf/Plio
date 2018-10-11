@@ -179,7 +179,6 @@ const CustomerSegmentEditModal = ({
                         needs = [],
                         wants = [],
                         matchedTo,
-                        notify,
                       }) => (
                         <Fragment>
                           <CustomerSegmentForm
@@ -203,7 +202,7 @@ const CustomerSegmentEditModal = ({
                             documentType={CanvasTypes.CUSTOMER_SEGMENT}
                           />
                           <NotifySubcard
-                            {...{ documentId, notify, organizationId }}
+                            {...{ documentId, organizationId }}
                             onChange={handleSubmit}
                           />
                         </Fragment>

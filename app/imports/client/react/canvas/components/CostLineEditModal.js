@@ -133,7 +133,7 @@ const CostLineEditModal = ({
                       loading={query.loading}
                       renderLoading={<CostLineForm {...{ organizationId }} />}
                     >
-                      {({ _id: documentId, notify }) => (
+                      {({ _id: documentId }) => (
                         <Fragment>
                           <CostLineForm {...{ organizationId }} save={handleSubmit} />
                           <CanvasFilesSubcard
@@ -143,7 +143,7 @@ const CostLineEditModal = ({
                             documentType={CanvasTypes.COST_LINE}
                           />
                           <NotifySubcard
-                            {...{ documentId, notify, organizationId }}
+                            {...{ documentId, organizationId }}
                             onChange={handleSubmit}
                           />
                         </Fragment>

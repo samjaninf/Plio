@@ -136,7 +136,7 @@ const KeyPartnerEditModal = ({
                       loading={query.loading}
                       renderLoading={<KeyPartnerForm {...{ organizationId }} />}
                     >
-                      {({ _id: documentId, notify }) => (
+                      {({ _id: documentId }) => (
                         <Fragment>
                           <KeyPartnerForm {...{ organizationId }} save={handleSubmit} />
                           <CanvasFilesSubcard
@@ -146,7 +146,7 @@ const KeyPartnerEditModal = ({
                             documentType={CanvasTypes.KEY_PARTNER}
                           />
                           <NotifySubcard
-                            {...{ documentId, notify, organizationId }}
+                            {...{ documentId, organizationId }}
                             onChange={handleSubmit}
                           />
                         </Fragment>
