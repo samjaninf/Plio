@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import { getUserOptions, lenses, noop } from 'plio-util';
+import { getUserOptions, lenses, noop, getValues, mapUsersToOptions } from 'plio-util';
 import { compose, pick, over, pathOr, repeat } from 'ramda';
 import { pure } from 'recompose';
 import diff from 'deep-diff';
@@ -17,7 +17,7 @@ import {
   EntityModalBody,
   EntityModalForm,
   RenderSwitch,
-  NotifySubcardAdapter,
+  NotifySubcard,
 } from '../../components';
 import { WithState, Composer } from '../../helpers';
 import KeyPartnerForm from './KeyPartnerForm';
@@ -26,6 +26,7 @@ import CanvasFilesSubcard from './CanvasFilesSubcard';
 const getKeyPartner = pathOr({}, repeat('keyPartner', 2));
 const getInitialValues = compose(
   over(lenses.originator, getUserOptions),
+  over(lenses.notify, mapUsersToOptions),
   pick([
     'originator',
     'title',
@@ -33,6 +34,7 @@ const getInitialValues = compose(
     'criticality',
     'levelOfSpend',
     'notes',
+    'notify',
   ]),
   getKeyPartner,
 );
@@ -102,6 +104,7 @@ const KeyPartnerEditModal = ({
                   criticality,
                   levelOfSpend,
                   notes = '', // final form sends undefined value instead of an empty string
+                  notify = [],
                 } = values;
 
                 return updateKeyPartner({
@@ -113,6 +116,7 @@ const KeyPartnerEditModal = ({
                       color,
                       criticality,
                       levelOfSpend,
+                      notify: getValues(notify),
                       originatorId: originator.value,
                     },
                   },
@@ -141,9 +145,9 @@ const KeyPartnerEditModal = ({
                             slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
                             documentType={CanvasTypes.KEY_PARTNER}
                           />
-                          <NotifySubcardAdapter
+                          <NotifySubcard
                             {...{ documentId, notify, organizationId }}
-                            onUpdate={updateKeyPartner}
+                            onChange={handleSubmit}
                           />
                         </Fragment>
                       )}

@@ -1,11 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Field } from 'react-final-form';
 import { CardTitle, FormGroup } from 'reactstrap';
 
-import { Subcard, SubcardHeader, SubcardBody, Pull, CardBlock } from '../../components';
-import OrgUsersSelectInputContainer from '../../containers/OrgUsersSelectInputContainer';
+import {
+  Subcard,
+  SubcardHeader,
+  SubcardBody,
+  Pull,
+  CardBlock,
+  UserSelectInput,
+} from '../../components';
 
-const NotifySubcard = ({ notify = [], ...props }) => (
+const NotifySubcard = ({ onChange, ...props }) => (
   <Subcard>
     <SubcardHeader>
       <Pull left>
@@ -15,18 +22,20 @@ const NotifySubcard = ({ notify = [], ...props }) => (
       </Pull>
       <Pull right>
         <CardTitle>
-          {notify.length || ''}
+          <Field name="notify" subscription={{ value: true }}>
+            {({ input: { value = [] } }) => value.length || ''}
+          </Field>
         </CardTitle>
       </Pull>
     </SubcardHeader>
     <SubcardBody>
       <CardBlock>
         <FormGroup>
-          <OrgUsersSelectInputContainer
-            {...props}
+          <UserSelectInput
+            {...{ onChange, ...props }}
             multi
+            name="notify"
             placeholder="User to notify"
-            value={notify}
           />
         </FormGroup>
       </CardBlock>
@@ -35,7 +44,7 @@ const NotifySubcard = ({ notify = [], ...props }) => (
 );
 
 NotifySubcard.propTypes = {
-  notify: PropTypes.array,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default NotifySubcard;
