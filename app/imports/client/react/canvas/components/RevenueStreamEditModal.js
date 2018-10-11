@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import { getUserOptions, lenses, noop } from 'plio-util';
+import { getUserOptions, lenses, noop, getValues, mapUsersToOptions } from 'plio-util';
 import { compose, pick, over, pathOr, repeat } from 'ramda';
 import { pure } from 'recompose';
 import diff from 'deep-diff';
@@ -20,12 +20,13 @@ import {
   EntityModalBody,
   EntityModalForm,
   RenderSwitch,
-  NotifySubcardAdapter,
+  NotifySubcard,
 } from '../../components';
 
 const getRevenueStream = pathOr({}, repeat('revenueStream', 2));
 const getInitialValues = compose(
   over(lenses.originator, getUserOptions),
+  over(lenses.notify, mapUsersToOptions),
   pick([
     'originator',
     'title',
@@ -33,6 +34,7 @@ const getInitialValues = compose(
     'percentOfRevenue',
     'percentOfProfit',
     'notes',
+    'notify',
   ]),
   getRevenueStream,
 );
@@ -102,6 +104,7 @@ const RevenueStreamEditModal = ({
                   percentOfRevenue,
                   percentOfProfit,
                   notes = '', // final form sends undefined value instead of an empty string
+                  notify = [],
                 } = values;
 
                 return updateRevenueStream({
@@ -113,6 +116,7 @@ const RevenueStreamEditModal = ({
                       color,
                       percentOfRevenue,
                       percentOfProfit,
+                      notify: getValues(notify),
                       originatorId: originator.value,
                     },
                   },
@@ -141,9 +145,9 @@ const RevenueStreamEditModal = ({
                             slingshotDirective={AWSDirectives.REVENUE_STREAM_FILES}
                             documentType={CanvasTypes.REVENUE_STREAM}
                           />
-                          <NotifySubcardAdapter
+                          <NotifySubcard
                             {...{ documentId, notify, organizationId }}
-                            onUpdate={updateRevenueStream}
+                            onChange={handleSubmit}
                           />
                         </Fragment>
                       )}
