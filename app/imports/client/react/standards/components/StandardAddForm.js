@@ -32,7 +32,7 @@ const StandardAddForm = ({ organizationId }) => (
     <FormField>
       Type
       <StandardTypeSelectContainer
-        name="type"
+        name="typeId"
         component={SelectField}
         {...{ organizationId }}
       />

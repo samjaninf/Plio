@@ -10,7 +10,7 @@ import { Mutation } from 'react-apollo';
 import { getUserOptions, getEntityOptions, lenses, noop } from 'plio-util';
 import diff from 'deep-diff';
 
-import { Composer, renderComponent } from '../../helpers';
+import { Composer, WithState, renderComponent } from '../../helpers';
 import { Mutation as Mutations } from '../../../graphql';
 
 const getInitialValues = compose(
@@ -21,70 +21,90 @@ const getInitialValues = compose(
     'owner',
     'status',
     'section',
-    'type',
+    'typeId',
     'source1',
+    'description',
+    'issueNumber',
   ]),
 );
 
 const StandardEditContainer = ({
-  standard,
+  standard: standardDoc,
   organizationId,
   isOpen,
   toggle,
   ...props
 }) => (
-  <Composer
-    components={[
-      /* eslint-disable react/no-children-prop */
-      <Mutation
-        mutation={Mutations.UPDATE_STANDARD}
-        children={noop}
-      />,
-      // TODO add delete mutation
-      /* eslint-enable react/no-children-prop */
-    ]}
+  <WithState
+    initialState={{
+      standard: standardDoc || null,
+      initialValues: getInitialValues(standardDoc),
+    }}
   >
-    {([updateStandard]) => renderComponent({
-      ...props,
-      organizationId,
-      isOpen,
-      toggle,
-      standard,
-      initialValues: getInitialValues(standard),
-      onSubmit: async (values, form) => {
-        const currentValues = getInitialValues(standard);
-        const difference = diff(values, currentValues);
+    {({ state: { initialValues, standard }, setState }) => (
+      <Composer
+        components={[
+          /* eslint-disable react/no-children-prop */
+          <Mutation
+            mutation={Mutations.UPDATE_STANDARD}
+            onCompleted={({ updateStandard }) => setState({ standard: updateStandard })}
+            children={noop}
+          />,
+          // TODO add delete mutation
+          /* eslint-enable react/no-children-prop */
+        ]}
+      >
+        {([updateStandard]) => renderComponent({
+          ...props,
+          organizationId,
+          isOpen,
+          toggle,
+          standard,
+          initialValues,
+          onSubmit: async (values, form) => {
+            const currentValues = getInitialValues(standard);
+            const difference = diff(values, currentValues);
 
-        if (!difference) return undefined;
+            if (!difference) return undefined;
 
-        const {
-          title,
-          status,
-          source1,
-          section: { value: sectionId } = {},
-          owner: { value: owner } = {},
-          type: typeId,
-        } = values;
-
-        return updateStandard({
-          variables: {
-            input: {
-              _id: standard._id,
+            const {
               title,
               status,
-              source1,
-              sectionId,
               typeId,
-              owner,
-            },
+              description,
+              issueNumber,
+              uniqueNumber,
+              source1: { fileId, type, url },
+              section: { value: sectionId } = {},
+              owner: { value: owner } = {},
+              departments,
+            } = values;
+            console.log(departments);
+
+            return updateStandard({
+              variables: {
+                input: {
+                  _id: standard._id,
+                  source1: { fileId, type, url },
+                  title,
+                  status,
+                  sectionId,
+                  typeId,
+                  owner,
+                  description,
+                  issueNumber,
+                  uniqueNumber,
+                },
+              },
+            }).then(noop).catch((err) => {
+              form.reset(currentValues);
+              throw err;
+            });
           },
-        }).then(noop).catch((err) => {
-          form.reset(currentValues);
-          throw err;
-        });
-      },
-    })}
-  </Composer>
+        })}
+      </Composer>
+    )}
+  </WithState>
 );
 
 StandardEditContainer.propTypes = {

@@ -2,6 +2,10 @@ fragment StandardSubcard on Standard {
   _id
   title
   status
+  typeId
+  description
+  issueNumber
+  uniqueNumber
   owner {
     _id
     profile {
@@ -11,11 +15,6 @@ fragment StandardSubcard on Standard {
   section {
     _id
     title
-  }
-  type {
-    _id
-    title
-    abbreviation
   }
   source1 {
     type

@@ -93,11 +93,11 @@ const StandardAddContainer = ({
       initialValues: {
         active: 0,
         title: '',
-        source1: null,
+        source1: undefined,
         section: getDefaultSection(standardSections),
         status: StandardStatusTypes.ISSUED,
         owner: getUserOptions(user),
-        type: getDefaultType(standardTypes),
+        typeId: getDefaultType(standardTypes),
       },
       onSubmit: async (values) => {
         const {
@@ -107,7 +107,7 @@ const StandardAddContainer = ({
           source1: { file, ...source1 } = {},
           section: { value: sectionId } = {},
           owner: { value: owner } = {},
-          type: typeId,
+          typeId,
         } = values;
         let linkToEntity;
 

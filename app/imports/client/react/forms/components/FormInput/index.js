@@ -54,7 +54,7 @@ FormInput.propTypes = {
   className: PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   innerRef: PropTypes.func,
   children: PropTypes.node,
   inputGroup: PropTypes.bool,

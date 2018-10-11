@@ -20,7 +20,7 @@ input CreateStandardInput {
 }
 
 input UpdateStandardInput {
-  organizationId: ID!
+  _id: ID!
   title: String
   status: String
   sectionId: ID
@@ -28,6 +28,9 @@ input UpdateStandardInput {
   owner: ID
   source1: SourceInput
   nestingLevel: Int
+  description: String
+  issueNumber: Int
+  uniqueNumber: Int
 }
 
 type Mutation {

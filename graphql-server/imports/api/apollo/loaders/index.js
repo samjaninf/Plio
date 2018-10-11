@@ -18,6 +18,8 @@ import Feature from './Feature';
 import Need from './Need';
 import Want from './Want';
 import Relation from './Relation';
+import StandardType from './StandardType';
+import StandardSection from './StandardSection';
 
 const loaders = {
   User,
@@ -38,6 +40,8 @@ const loaders = {
   Need,
   Want,
   Relation,
+  StandardType,
+  StandardSection,
 };
 
 export const createLoaders = (ctx) => {

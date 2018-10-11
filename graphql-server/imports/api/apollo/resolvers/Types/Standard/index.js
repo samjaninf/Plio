@@ -26,5 +26,19 @@ export default {
     notify: loadUsersById(view(notify)),
     organization: loadOrganizationById(view(organizationId)),
     files: loadFilesById(view(fileIds)),
+    type: async (root, args, context) => {
+      const { typeId } = root;
+      const { loaders: { StandardType: { byId } } } = context;
+      if (!typeId) return null;
+
+      return byId.load(typeId);
+    },
+    section: async (root, args, context) => {
+      const { sectionId } = root;
+      const { loaders: { StandardSection: { byId } } } = context;
+      if (!sectionId) return null;
+
+      return byId.load(sectionId);
+    },
   },
 };
