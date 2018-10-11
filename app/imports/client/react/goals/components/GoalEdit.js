@@ -4,11 +4,10 @@ import { pure } from 'recompose';
 import { FormSpy } from 'react-final-form';
 
 import { AWSDirectives, DocumentTypes } from '../../../../share/constants';
-import { CardBlock } from '../../components';
+import { CardBlock, NotifySubcard } from '../../components';
 import GoalMilestonesSubcardContainer from '../containers/GoalMilestonesSubcardContainer';
 import GoalRisksSubcardContainer from '../containers/GoalRisksSubcardContainer';
 import GoalLessonsSubcardContainer from '../containers/GoalLessonsSubcardContainer';
-import GoalNotifySubcardContainer from '../containers/GoalNotifySubcardContainer';
 import GoalActionsSubcardContainer from '../containers/GoalActionsSubcardContainer';
 import GoalEditForm from './GoalEditForm';
 import GoalCompleteForm from './GoalCompleteForm';
@@ -52,7 +51,11 @@ export const GoalEdit = ({
         />
       )}
     </FormSpy>
-    <GoalNotifySubcardContainer {...{ organizationId, goalId }} />
+    <NotifySubcard
+      {...{ organizationId }}
+      documentId={goalId}
+      onChange={save}
+    />
   </Fragment>
 );
 
