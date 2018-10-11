@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import { getUserOptions, lenses, noop } from 'plio-util';
+import { getUserOptions, lenses, noop, getValues, mapUsersToOptions } from 'plio-util';
 import { compose, pick, over, pathOr, repeat } from 'ramda';
 import { pure } from 'recompose';
 import diff from 'deep-diff';
@@ -20,17 +20,19 @@ import {
   EntityModalBody,
   EntityModalForm,
   RenderSwitch,
-  NotifySubcardAdapter,
+  NotifySubcard,
 } from '../../components';
 
 const getKeyResource = pathOr({}, repeat('keyResource', 2));
 const getInitialValues = compose(
   over(lenses.originator, getUserOptions),
+  over(lenses.notify, mapUsersToOptions),
   pick([
     'originator',
     'title',
     'color',
     'notes',
+    'notify',
   ]),
   getKeyResource,
 );
@@ -98,6 +100,7 @@ const KeyResourceEditModal = ({
                   originator,
                   color,
                   notes = '', // final form sends undefined value instead of an empty string
+                  notify = [],
                 } = values;
 
                 return updateKeyResource({
@@ -107,6 +110,7 @@ const KeyResourceEditModal = ({
                       title,
                       notes,
                       color,
+                      notify: getValues(notify),
                       originatorId: originator.value,
                     },
                   },
@@ -135,9 +139,9 @@ const KeyResourceEditModal = ({
                             slingshotDirective={AWSDirectives.KEY_RESOURCE_FILES}
                             documentType={CanvasTypes.KEY_RESOURCE}
                           />
-                          <NotifySubcardAdapter
+                          <NotifySubcard
                             {...{ documentId, notify, organizationId }}
-                            onUpdate={updateKeyResource}
+                            onChange={handleSubmit}
                           />
                         </Fragment>
                       )}
