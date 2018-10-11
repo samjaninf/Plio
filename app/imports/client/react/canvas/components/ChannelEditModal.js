@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import { getUserOptions, lenses, noop } from 'plio-util';
+import { getUserOptions, lenses, noop, getValues, mapUsersToOptions } from 'plio-util';
 import { compose, pick, over, pathOr, repeat } from 'ramda';
 import { pure } from 'recompose';
 import diff from 'deep-diff';
@@ -20,17 +20,19 @@ import {
   EntityModalBody,
   EntityModalForm,
   RenderSwitch,
-  NotifySubcardAdapter,
+  NotifySubcard,
 } from '../../components';
 
 const getChannel = pathOr({}, repeat('channel', 2));
 const getInitialValues = compose(
   over(lenses.originator, getUserOptions),
+  over(lenses.notify, mapUsersToOptions),
   pick([
     'originator',
     'title',
     'color',
     'notes',
+    'notify',
   ]),
   getChannel,
 );
@@ -98,6 +100,7 @@ const ChannelEditModal = ({
                   originator,
                   color,
                   notes = '',
+                  notify = [],
                 } = values;
 
                 return updateChannel({
@@ -107,6 +110,7 @@ const ChannelEditModal = ({
                       title,
                       notes,
                       color,
+                      notify: getValues(notify),
                       originatorId: originator.value,
                     },
                   },
@@ -135,9 +139,9 @@ const ChannelEditModal = ({
                             slingshotDirective={AWSDirectives.CHANNEL_FILES}
                             documentType={CanvasTypes.CHANNEL}
                           />
-                          <NotifySubcardAdapter
+                          <NotifySubcard
                             {...{ documentId, notify, organizationId }}
-                            onUpdate={updateChannel}
+                            onChange={handleSubmit}
                           />
                         </Fragment>
                       )}
