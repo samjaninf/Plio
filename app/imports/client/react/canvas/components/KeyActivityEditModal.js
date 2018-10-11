@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import diff from 'deep-diff';
 import { Query, Mutation } from 'react-apollo';
-import { getUserOptions, lenses, noop } from 'plio-util';
+import { getUserOptions, lenses, noop, mapUsersToOptions, getValues } from 'plio-util';
 import { compose, pick, over, pathOr, repeat } from 'ramda';
 import { pure } from 'recompose';
 
@@ -20,17 +20,19 @@ import {
   EntityModalBody,
   EntityModalForm,
   RenderSwitch,
-  NotifySubcardAdapter,
+  NotifySubcard,
 } from '../../components';
 
 const getKeyActivity = pathOr({}, repeat('keyActivity', 2));
 const getInitialValues = compose(
   over(lenses.originator, getUserOptions),
+  over(lenses.notify, mapUsersToOptions),
   pick([
     'originator',
     'title',
     'color',
     'notes',
+    'notify',
   ]),
   getKeyActivity,
 );
@@ -98,6 +100,7 @@ const KeyActivityEditModal = ({
                   originator,
                   color,
                   notes = '',
+                  notify = [],
                 } = values;
 
                 return updateKeyActivity({
@@ -107,6 +110,7 @@ const KeyActivityEditModal = ({
                       title,
                       notes,
                       color,
+                      notify: getValues(notify),
                       originatorId: originator.value,
                     },
                   },
@@ -135,9 +139,9 @@ const KeyActivityEditModal = ({
                             slingshotDirective={AWSDirectives.KEY_ACTIVITY_FILES}
                             documentType={CanvasTypes.KEY_ACTIVITY}
                           />
-                          <NotifySubcardAdapter
+                          <NotifySubcard
                             {...{ documentId, notify, organizationId }}
-                            onUpdate={updateKeyActivity}
+                            onChange={handleSubmit}
                           />
                         </Fragment>
                       )}
