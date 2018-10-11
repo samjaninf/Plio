@@ -5,9 +5,16 @@ import {
   pick,
   compose,
   over,
+  pluck,
 } from 'ramda';
 import { Mutation } from 'react-apollo';
-import { getUserOptions, getEntityOptions, lenses, noop } from 'plio-util';
+import {
+  getUserOptions,
+  getEntityOptions,
+  lenses,
+  noop,
+  mapEntitiesToOptions,
+} from 'plio-util';
 import diff from 'deep-diff';
 
 import { Composer, WithState, renderComponent } from '../../helpers';
@@ -16,6 +23,7 @@ import { Mutation as Mutations } from '../../../graphql';
 const getInitialValues = compose(
   over(lenses.owner, getUserOptions),
   over(lenses.section, getEntityOptions),
+  over(lenses.departments, mapEntitiesToOptions),
   pick([
     'title',
     'owner',
@@ -25,6 +33,7 @@ const getInitialValues = compose(
     'source1',
     'description',
     'issueNumber',
+    'departments',
   ]),
 );
 
@@ -79,13 +88,13 @@ const StandardEditContainer = ({
               owner: { value: owner } = {},
               departments,
             } = values;
-            console.log(departments);
 
             return updateStandard({
               variables: {
                 input: {
                   _id: standard._id,
                   source1: { fileId, type, url },
+                  departmentsIds: pluck('value', departments),
                   title,
                   status,
                   sectionId,

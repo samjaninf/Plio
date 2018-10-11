@@ -16,6 +16,10 @@ fragment StandardSubcard on Standard {
     _id
     title
   }
+  departments {
+    _id
+    title
+  }
   source1 {
     type
     fileId

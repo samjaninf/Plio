@@ -24,7 +24,7 @@ type Standard implements BaseEntity, PlioEntity {
   deletedBy: User
   notify: [User]
   status: String!
-  # departments: [Department]
+  departments: [Department]
   files: [File]
   typeId: String
   type: StandardType

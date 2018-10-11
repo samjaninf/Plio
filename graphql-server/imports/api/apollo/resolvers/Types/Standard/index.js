@@ -4,6 +4,7 @@ import {
   loadOrganizationById,
   loadFilesById,
   lenses,
+  loadDepartmentsById,
 } from 'plio-util';
 import { view } from 'ramda';
 
@@ -15,6 +16,7 @@ const {
   notify,
   organizationId,
   fileIds,
+  departmentsIds,
 } = lenses;
 
 export default {
@@ -26,6 +28,7 @@ export default {
     notify: loadUsersById(view(notify)),
     organization: loadOrganizationById(view(organizationId)),
     files: loadFilesById(view(fileIds)),
+    departments: loadDepartmentsById(view(departmentsIds)),
     type: async (root, args, context) => {
       const { typeId } = root;
       const { loaders: { StandardType: { byId } } } = context;

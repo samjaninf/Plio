@@ -11,11 +11,10 @@ import {
   TextareaField,
 } from '../../components';
 import { StringLimits } from '../../../../share/constants';
-import { OrgUsersSelectInputContainer } from '../../containers';
+import { OrgUsersSelectInputContainer, DepartmentsSelectInputContainer } from '../../containers';
 import StandardTypeSelectContainer from '../containers/StandardTypeSelectContainer';
 import StandardStatusField from './StandardStatusField';
 import StandardsSectionField from './StandardsSectionField';
-// import StandardsDepartmentsField from './StandardsDepartmentsField';
 
 const NumberField = styled(InputField)`
   max-width: 75px;
@@ -91,6 +90,17 @@ export const StandardEditForm = ({ organizationId, save }) => (
     <FormField>
       Status
       <StandardStatusField name="status" onChange={save} />
+    </FormField>
+    <FormField>
+      Department/sector(s)
+      <DepartmentsSelectInputContainer
+        name="departments"
+        placeholder="Department/sector(s)"
+        organizationId={organizationId}
+        component={SelectInputField}
+        onChange={save}
+        onNewOptionClick={console.log}
+      />
     </FormField>
   </Fragment>
 );
