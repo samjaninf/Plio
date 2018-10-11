@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import { getUserOptions, lenses, noop } from 'plio-util';
+import { getUserOptions, lenses, noop, getValues, mapUsersToOptions } from 'plio-util';
 import { compose, pick, over, pathOr, repeat } from 'ramda';
 import { pure } from 'recompose';
 import diff from 'deep-diff';
@@ -20,18 +20,20 @@ import {
   EntityModalBody,
   EntityModalForm,
   RenderSwitch,
-  NotifySubcardAdapter,
+  NotifySubcard,
 } from '../../components';
 
 const getCostLine = pathOr({}, repeat('costLine', 2));
 const getInitialValues = compose(
   over(lenses.originator, getUserOptions),
+  over(lenses.notify, mapUsersToOptions),
   pick([
     'originator',
     'title',
     'color',
     'percentOfTotalCost',
     'notes',
+    'notify',
   ]),
   getCostLine,
 );
@@ -100,6 +102,7 @@ const CostLineEditModal = ({
                   color,
                   percentOfTotalCost,
                   notes = '', // final form sends undefined value instead of an empty string
+                  notify = [],
                 } = values;
 
                 return updateCostLine({
@@ -110,6 +113,7 @@ const CostLineEditModal = ({
                       notes,
                       color,
                       percentOfTotalCost,
+                      notify: getValues(notify),
                       originatorId: originator.value,
                     },
                   },
@@ -138,9 +142,9 @@ const CostLineEditModal = ({
                             slingshotDirective={AWSDirectives.COST_LINE_FILES}
                             documentType={CanvasTypes.COST_LINE}
                           />
-                          <NotifySubcardAdapter
+                          <NotifySubcard
                             {...{ documentId, notify, organizationId }}
-                            onUpdate={updateCostLine}
+                            onChange={handleSubmit}
                           />
                         </Fragment>
                       )}
