@@ -81,7 +81,7 @@ const StandardsSectionField = ({ organizationId, ...props }) => (
 
 StandardsSectionField.propTypes = {
   organizationId: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 };
 
 export default StandardsSectionField;

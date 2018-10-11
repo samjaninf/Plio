@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 
 import { validateStandard } from '../../../validation';
-import { EntitySubcard } from '../../components';
+import { EntitySubcard, CardBlock } from '../../components';
 import StandardEditForm from './StandardEditForm';
 
 const StandardSubcard = ({
@@ -23,13 +23,7 @@ const StandardSubcard = ({
     render={({ handleSubmit }) => (
       <EntitySubcard
         entity={standard}
-        header={() => (
-          <Fragment>
-            <strong>{standard.sequentialId}</strong>
-            {' '}
-            {standard.title}
-          </Fragment>
-        )}
+        header={() => standard.title}
         {...{
           isOpen,
           toggle,
@@ -38,10 +32,9 @@ const StandardSubcard = ({
           onDelete,
         }}
       >
-        <StandardEditForm
-          {...{ ...standard, ...props }}
-          save={handleSubmit}
-        />
+        <CardBlock>
+          <StandardEditForm {...props} save={handleSubmit} />
+        </CardBlock>
       </EntitySubcard>
     )}
   />

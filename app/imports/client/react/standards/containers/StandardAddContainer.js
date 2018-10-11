@@ -39,7 +39,7 @@ const getDefaultSection = compose(
 const StandardAddContainer = ({
   organizationId,
   isOpen,
-  toggle = noop,
+  toggle,
   entityId,
   standards,
   onUpdate,
@@ -122,7 +122,7 @@ const StandardAddContainer = ({
           });
 
           if (active === 1) {
-            return linkToEntity(values.standard.value).then(toggle);
+            return linkToEntity(values.standard.value).then(toggle || noop);
           }
         }
 

@@ -1,55 +1,38 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { noop } from 'plio-util';
 
-import { StringLimits, StandardStatusTypes, StandardStatuses } from '../../../../share/constants';
+import { StringLimits } from '../../../../share/constants';
 import { OrgUsersSelectInputContainer } from '../../containers';
 import StandardTypeSelectContainer from '../containers/StandardTypeSelectContainer';
 import StandardsSectionField from './StandardsSectionField';
+import StandardStatusField from './StandardStatusField';
 
 import {
   FormField,
   InputField,
   SelectInputField,
-  SelectRadioField,
   SelectField,
   CreateSourceField,
 } from '../../components';
 
-const statusOptions = [
-  { label: StandardStatuses[StandardStatusTypes.ISSUED], value: StandardStatusTypes.ISSUED },
-  { label: StandardStatuses[StandardStatusTypes.DRAFT], value: StandardStatusTypes.DRAFT },
-];
-
-const StandardForm = ({
-  organizationId,
-  sequentialId,
-  save = noop,
-}) => (
+const StandardAddForm = ({ organizationId }) => (
   <Fragment>
     <FormField>
       Document title
       <InputField
         name="title"
         placeholder="Title"
-        onBlur={save}
-        addon={sequentialId}
         maxLength={StringLimits.title.max}
       />
     </FormField>
     <FormField>
       Standards section
-      <StandardsSectionField
-        name="section"
-        onChange={save}
-        {...{ organizationId }}
-      />
+      <StandardsSectionField name="section" {...{ organizationId }} />
     </FormField>
     <FormField>
       Type
       <StandardTypeSelectContainer
         name="type"
-        onChange={save}
         component={SelectField}
         {...{ organizationId }}
       />
@@ -60,26 +43,19 @@ const StandardForm = ({
         name="owner"
         placeholder="Owner"
         component={SelectInputField}
-        onChange={save}
         {...{ organizationId }}
       />
     </FormField>
     <FormField>
       Status
-      <SelectRadioField
-        name="status"
-        onChange={save}
-        options={statusOptions}
-      />
+      <StandardStatusField name="status" />
     </FormField>
     <CreateSourceField name="source1" />
   </Fragment>
 );
 
-StandardForm.propTypes = {
+StandardAddForm.propTypes = {
   organizationId: PropTypes.string.isRequired,
-  sequentialId: PropTypes.string,
-  save: PropTypes.func,
 };
 
-export default StandardForm;
+export default StandardAddForm;

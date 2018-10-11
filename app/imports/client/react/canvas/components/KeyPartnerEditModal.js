@@ -146,55 +146,58 @@ const KeyPartnerEditModal = ({
                           goals = [],
                           standards = [],
                           title,
-                        }) => (
-                          <Fragment>
-                            <KeyPartnerForm {...{ organizationId }} save={handleSubmit} />
-                            <ActivelyManageSubcard
-                              {...{ organizationId }}
-                              entity={keyPartner}
-                              refetchQuery={Queries.KEY_PARTNER_CARD}
-                              documentType={CanvasTypes.KEY_PARTNER}
-                              onUpdate={updateKeyPartner}
-                            />
-                            {!!goals.length && (
-                              <GoalAddContainer
-                                component={GoalsSubcard}
-                                {...{ organizationId, goals }}
-                                entityId={documentId}
-                                onUpdate={updateKeyPartner}
-                              />
-                            )}
-                            {!!standards.length && (
-                              <StandardAddContainer
-                                component={StandardsSubcard}
-                                {...{ organizationId, standards }}
-                                entityId={documentId}
-                                onUpdate={updateKeyPartner}
-                              />
-                            )}
-                            {!!risks.length && (
-                              <CanvasRisksSubcard
-                                {...{ organizationId, risks }}
-                                linkedTo={{ _id: documentId, title }}
-                                onUpdate={updateKeyPartner}
-                              />
-                            )}
-                            {!!lessons.length && (
-                              <CanvasLessonsSubcard
-                                {...{ organizationId, lessons }}
+                        }) => {
+                          console.log(standards);
+                          return (
+                            <Fragment>
+                              <KeyPartnerForm {...{ organizationId }} save={handleSubmit} />
+                              <ActivelyManageSubcard
+                                {...{ organizationId }}
+                                entity={keyPartner}
                                 refetchQuery={Queries.KEY_PARTNER_CARD}
-                                linkedTo={{ _id: documentId, title }}
+                                documentType={CanvasTypes.KEY_PARTNER}
+                                onUpdate={updateKeyPartner}
+                              />
+                              {!!goals.length && (
+                                <GoalAddContainer
+                                  component={GoalsSubcard}
+                                  {...{ organizationId, goals }}
+                                  entityId={documentId}
+                                  onUpdate={updateKeyPartner}
+                                />
+                              )}
+                              {!!standards.length && (
+                                <StandardAddContainer
+                                  component={StandardsSubcard}
+                                  {...{ organizationId, standards }}
+                                  entityId={documentId}
+                                  onUpdate={updateKeyPartner}
+                                />
+                              )}
+                              {!!risks.length && (
+                                <CanvasRisksSubcard
+                                  {...{ organizationId, risks }}
+                                  linkedTo={{ _id: documentId, title }}
+                                  onUpdate={updateKeyPartner}
+                                />
+                              )}
+                              {!!lessons.length && (
+                                <CanvasLessonsSubcard
+                                  {...{ organizationId, lessons }}
+                                  refetchQuery={Queries.KEY_PARTNER_CARD}
+                                  linkedTo={{ _id: documentId, title }}
+                                  documentType={CanvasTypes.KEY_PARTNER}
+                                />
+                              )}
+                              <CanvasFilesSubcard
+                                {...{ organizationId, documentId }}
+                                onUpdate={updateKeyPartner}
+                                slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
                                 documentType={CanvasTypes.KEY_PARTNER}
                               />
-                            )}
-                            <CanvasFilesSubcard
-                              {...{ organizationId, documentId }}
-                              onUpdate={updateKeyPartner}
-                              slingshotDirective={AWSDirectives.KEY_PARTNER_FILES}
-                              documentType={CanvasTypes.KEY_PARTNER}
-                            />
-                          </Fragment>
-                        )}
+                            </Fragment>
+                          );
+                        }}
                       </RenderSwitch>
                     </EntityModalBody>
                   </Fragment>

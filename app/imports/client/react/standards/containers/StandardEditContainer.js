@@ -5,36 +5,24 @@ import {
   pick,
   compose,
   over,
-  unless,
-  isNil,
 } from 'ramda';
 import { Mutation } from 'react-apollo';
-import { getUserOptions, lenses, noop } from 'plio-util';
-import moment from 'moment';
+import { getUserOptions, getEntityOptions, lenses, noop } from 'plio-util';
 import diff from 'deep-diff';
 
 import { Composer, renderComponent } from '../../helpers';
 import { Mutation as Mutations } from '../../../graphql';
 
 const getInitialValues = compose(
-  over(lenses.startDate, moment),
-  over(lenses.endDate, moment),
-  over(lenses.completedAt, unless(isNil, moment)),
   over(lenses.owner, getUserOptions),
-  over(lenses.completedBy, getUserOptions),
+  over(lenses.section, getEntityOptions),
   pick([
     'title',
-    'description',
-    'startDate',
-    'endDate',
-    'priority',
-    'color',
-    'statusComment',
-    'completionComment',
-    'completedAt',
     'owner',
-    'completedBy',
-    'isCompleted',
+    'status',
+    'section',
+    'type',
+    'source1',
   ]),
 );
 
