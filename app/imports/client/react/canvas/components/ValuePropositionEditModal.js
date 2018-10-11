@@ -1,7 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import { getEntityOptions, getUserOptions, lenses, noop, convertDocumentOptions } from 'plio-util';
+import {
+  getEntityOptions,
+  getUserOptions,
+  lenses,
+  noop,
+  convertDocumentOptions,
+  getValues,
+  mapUsersToOptions,
+} from 'plio-util';
 import { compose, pick, over, pathOr, repeat, defaultTo } from 'ramda';
 import { pure } from 'recompose';
 import diff from 'deep-diff';
@@ -21,19 +29,21 @@ import {
   EntityModalBody,
   EntityModalForm,
   RenderSwitch,
-  NotifySubcardAdapter,
+  NotifySubcard,
 } from '../../components';
 
 const getValueProposition = pathOr({}, repeat('valueProposition', 2));
 const getInitialValues = compose(
   over(lenses.matchedTo, compose(defaultTo(OptionNone), getEntityOptions)),
   over(lenses.originator, getUserOptions),
+  over(lenses.notify, mapUsersToOptions),
   pick([
     'originator',
     'title',
     'color',
     'matchedTo',
     'notes',
+    'notify',
   ]),
   getValueProposition,
 );
@@ -115,6 +125,7 @@ const ValuePropositionEditModal = ({
                   color,
                   matchedTo,
                   notes = '',
+                  notify = [],
                 } = values;
 
                 if (difference[0].path[0] === 'matchedTo') {
@@ -140,6 +151,7 @@ const ValuePropositionEditModal = ({
                       title,
                       notes,
                       color,
+                      notify: getValues(notify),
                       originatorId: originator.value,
                     },
                   },
@@ -187,9 +199,9 @@ const ValuePropositionEditModal = ({
                             slingshotDirective={AWSDirectives.VALUE_PROPOSITION_FILES}
                             documentType={CanvasTypes.VALUE_PROPOSITION}
                           />
-                          <NotifySubcardAdapter
+                          <NotifySubcard
                             {...{ documentId, notify, organizationId }}
-                            onUpdate={updateValueProposition}
+                            onChange={handleSubmit}
                           />
                         </Fragment>
                       )}
