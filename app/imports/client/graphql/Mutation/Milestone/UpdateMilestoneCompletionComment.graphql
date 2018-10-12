@@ -1,8 +1,0 @@
-mutation updateMilestoneCompletionComment($input: UpdateMilestoneCompletionComment!) {
-  updateMilestoneCompletionComment(input: $input) {
-    milestone {
-      _id
-      completionComment
-    }
-  }
-}

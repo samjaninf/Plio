@@ -1,7 +1,0 @@
-mutation removeMilestoneNotifyUser($input: RemoveMilestoneNotifyUserInput!) {
-  removeMilestoneNotifyUser(input: $input) {
-    milestone {
-      _id
-    }
-  }
-}

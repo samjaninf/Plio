@@ -1,8 +1,0 @@
-mutation updateMilestoneDescription($input: UpdateMilestoneDescriptionInput!) {
-  updateMilestoneDescription(input: $input) {
-    milestone {
-      _id
-      description
-    }
-  }
-}

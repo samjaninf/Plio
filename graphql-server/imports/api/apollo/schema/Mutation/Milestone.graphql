@@ -14,57 +14,12 @@ input DeleteMilestoneInput {
   _id: ID!
 }
 
-input UpdateMilestoneTitleInput {
-  _id: ID!
-  title: String!
-}
-
-input UpdateMilestoneDescriptionInput {
-  _id: ID!
-  description: String!
-}
-
-input UpdateMilestoneCompletionTargetDateInput {
-  _id: ID!
-  linkedTo: ID!
-  completionTargetDate: DateTime!
-}
-
 input CompleteMilestoneInput {
   _id: ID!
-}
-
-input UpdateMilestoneCompletedAtInput {
-  _id: ID!
-  completedAt: DateTime!
-}
-
-input UpdateMilestoneCompletionCommentInput {
-  _id: ID!
-  completionComment: String!
-}
-
-input AddMilestoneNotifyUserInput {
-  _id: ID!
-  userId: ID!
-}
-
-input RemoveMilestoneNotifyUserInput {
-  _id: ID!
-  userId: ID!
 }
 
 type Mutation {
   createMilestone(input: CreateMilestoneInput!): MilestonePayload
   deleteMilestone(input: DeleteMilestoneInput!): MilestonePayload
-  updateMilestoneTitle(input: UpdateMilestoneTitleInput!): MilestonePayload
-  updateMilestoneDescription(input: UpdateMilestoneDescriptionInput!): MilestonePayload
-  updateMilestoneCompletionTargetDate(
-    input: UpdateMilestoneCompletionTargetDateInput!
-  ): MilestonePayload
   completeMilestone(input: CompleteMilestoneInput!): MilestonePayload
-  updateMilestoneCompletedAt(input: UpdateMilestoneCompletedAtInput!): MilestonePayload
-  updateMilestoneCompletionComment(input: UpdateMilestoneCompletionCommentInput!): MilestonePayload
-  addMilestoneNotifyUser(input: AddMilestoneNotifyUserInput!): UserPayload
-  removeMilestoneNotifyUser(input: RemoveMilestoneNotifyUserInput!): MilestonePayload
 }

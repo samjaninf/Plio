@@ -1,9 +1,0 @@
-mutation updateMilestoneCompletionTargetDate($input: UpdateMilestoneCompletionTargetDateInput!) {
-  updateMilestoneCompletionTargetDate(input: $input) {
-    milestone {
-      _id
-      completionTargetDate
-      status
-    }
-  }
-}
