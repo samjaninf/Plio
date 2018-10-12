@@ -10,9 +10,15 @@ const FieldCondition = ({
   ...props
 }) => (
   <Field name={when} subscription={{ value: true }} {...props}>
-    {({ input: { value } }) => (typeof is === 'function' ? is(value) : is === value)
-      ? children
-      : otherwise}
+    {({ input }) => {
+      const pred = typeof is === 'function' ? is(input.value) : is === input.value;
+      if (pred) {
+        if (typeof children === 'function') return children({ input });
+        return children;
+      }
+
+      return otherwise;
+    }}
   </Field>
 );
 
@@ -20,7 +26,7 @@ FieldCondition.propTypes = {
   when: PropTypes.string.isRequired,
   is: PropTypes.any,
   otherwise: PropTypes.node,
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
 export default FieldCondition;
