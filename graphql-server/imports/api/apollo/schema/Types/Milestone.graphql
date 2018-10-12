@@ -17,5 +17,6 @@ type Milestone implements BaseEntity, PlioEntity {
   completedAt: Date
   completedBy: User
   completionComment: String
-  goals: [Goal]
+  # parent goal
+  goal: Goal
 }

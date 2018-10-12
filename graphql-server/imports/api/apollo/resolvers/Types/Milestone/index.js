@@ -3,9 +3,8 @@ import {
   loadUsersById,
   loadOrganizationById,
   lenses,
-  loadGoalsById,
 } from 'plio-util';
-import { view, compose, map } from 'ramda';
+import { view, head } from 'ramda';
 import { getMilestoneStatus } from '../../../../../share/helpers';
 
 const {
@@ -14,8 +13,6 @@ const {
   notify,
   completedBy,
   organizationId,
-  linkedTo,
-  documentId,
 } = lenses;
 
 export default {
@@ -30,9 +27,7 @@ export default {
       const { timezone } = await byId.load(view(organizationId, milestone));
       return getMilestoneStatus(timezone, milestone);
     },
-    goals: loadGoalsById(compose(
-      map(view(documentId)),
-      view(linkedTo),
-    )),
+    goal: async ({ _id }, args, { loaders: { Goal: { byQuery } } }) =>
+      byQuery.load({ milestoneIds: _id }).then(head),
   },
 };
