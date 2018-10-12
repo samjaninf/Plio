@@ -1,11 +1,14 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { Card } from 'reactstrap';
+import { pure } from 'recompose';
 import styled from 'styled-components';
 
-import { EntitySubcard } from '../../components';
 import { getFormattedDate } from '../../../../share/helpers';
-import MilestoneEditFormContainer from '../containers/MilestoneEditFormContainer';
+import { EntityForm, EntityCard } from '../../components';
+import { validateMilestone } from '../../../validation';
 import MilestoneSymbol from './MilestoneSymbol';
+import MilestoneForm from './MilestoneForm';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -24,57 +27,38 @@ const MilestoneSubcard = ({
   isOpen,
   toggle,
   onDelete,
-  onClose,
-  error,
-  loading,
-  linkedTo,
-  color,
-  mutateWithState,
 }) => (
-  <EntitySubcard
-    entity={milestone}
-    header={() => (
-      <StyledHeader>
-        <div>{milestone.title}</div>
-        <div className="hidden-xs-down">
-          <div>
-            {getFormattedDate(milestone.completionTargetDate)}
+  <Card>
+    <EntityForm
+      {...{ isOpen, toggle, onDelete }}
+      label={(
+        <StyledHeader>
+          <div>{milestone.title}</div>
+          <div className="hidden-xs-down">
+            <div>
+              {getFormattedDate(milestone.completionTargetDate)}
+            </div>
+            <MilestoneSymbol status={milestone.status} />
           </div>
-          <MilestoneSymbol status={milestone.status} {...{ color }} />
-        </div>
-      </StyledHeader>
-    )}
-    {...{
-      isOpen,
-      toggle,
-      loading,
-      onDelete,
-      onClose,
-      error,
-    }}
-  >
-    <MilestoneEditFormContainer
-      {...{
-        milestone,
-        mutateWithState,
-        linkedTo,
-        color,
-      }}
-    />
-  </EntitySubcard>
+        </StyledHeader>
+      )}
+      validate={validateMilestone}
+      onSubmit={console.log}
+      initialValues={{}}
+      component={EntityCard}
+    >
+      {({ handleSubmit }) => (
+        <MilestoneForm save={handleSubmit} />
+      )}
+    </EntityForm>
+  </Card>
 );
 
 MilestoneSubcard.propTypes = {
   milestone: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onClose: PropTypes.func,
-  loading: PropTypes.bool,
-  error: PropTypes.string,
-  linkedTo: PropTypes.object.isRequired,
-  color: PropTypes.string,
-  mutateWithState: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
-export default MilestoneSubcard;
+export default pure(MilestoneSubcard);
