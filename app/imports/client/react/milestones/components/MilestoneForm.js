@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { renameKeys } from 'plio-util';
+import { Field } from 'react-final-form';
 
 import {
   FormField,
@@ -9,7 +9,8 @@ import {
   InputField,
   TextareaField,
   DatePickerField,
-  LinkedEntityInput,
+  FieldCondition,
+  FormInput,
 } from '../../components';
 import MilestoneSymbol from './MilestoneSymbol';
 import { MilestoneStatuses } from '../../../../share/constants';
@@ -24,24 +25,14 @@ const StyledSpan = styled.span`
   margin-left: 10px;
 `;
 
-const MilestoneForm = ({
-  onChangeTitle,
-  onChangeDescription,
-  linkedTo,
-  onChangeCompletionTargetDate,
-  isCompleted,
-  onChangeCompletedAt,
-  onChangeCompletionComment,
-  status,
-  color,
-}) => (
+const MilestoneForm = ({ save }) => (
   <CardBlock>
     <FormField>
       Title
       <InputField
         name="title"
         placeholder="Title"
-        onBlur={onChangeTitle}
+        onBlur={save}
       />
     </FormField>
     <FormField>
@@ -49,66 +40,75 @@ const MilestoneForm = ({
       <TextareaField
         name="description"
         placeholder="Description"
-        onBlur={onChangeDescription}
+        onBlur={save}
       />
     </FormField>
-    <FormField>
-      Linked to
-      <LinkedEntityInput disabled {...renameKeys({ title: 'value' }, linkedTo)} />
-    </FormField>
-    {!!status && (
-      <FormField>
-        Status
-        <StatusField>
-          <MilestoneSymbol {...{ status, color }} />
-          <StyledSpan>{MilestoneStatuses[status]}</StyledSpan>
-        </StatusField>
-      </FormField>
-    )}
-    <FormField>
-      Completion - target date
-      <DatePickerField
-        name="completionTargetDate"
-        disabled={isCompleted}
-        onChange={onChangeCompletionTargetDate}
-        placeholderText="Completion - target date"
-      />
-    </FormField>
-    {isCompleted && (
-      <Fragment>
+    <Field
+      name="linkedTo"
+      subscription={{ value: true }}
+      render={({ input: { value: linkedTo } }) => linkedTo && (
         <FormField>
-          Completed on
+          Linked to
+          <FormInput
+            disabled
+            value={linkedTo.label.split(' ').slice(1).join(' ')} // title
+            addon={linkedTo.label.split(' ')[0]} // sequentialId
+          />
+        </FormField>
+      )}
+    />
+    <FieldCondition when="status" is={Boolean}>
+      {({ input: { value: status } }) => (
+        <FormField>
+          Status
+          <StatusField>
+            <Field name="color" subscription={{ value: true }}>
+              {({ input: { value: color } }) => (
+                <MilestoneSymbol {...{ color, status }} />
+              )}
+            </Field>
+            <StyledSpan>{MilestoneStatuses[status]}</StyledSpan>
+          </StatusField>
+        </FormField>
+      )}
+    </FieldCondition>
+    <Field name="isCompleted" subscription={{ value: true }}>
+      {({ input: { value: isCompleted } }) => (
+        <FormField>
+          Completion - target date
           <DatePickerField
-            name="completedAt"
-            onChange={onChangeCompletedAt}
-            placeholderText="Completed on"
+            name="completionTargetDate"
+            disabled={!!isCompleted}
+            onChange={save}
+            placeholderText="Completion - target date"
           />
         </FormField>
-        <FormField>
-          Comments
-          <TextareaField
-            name="completionComment"
-            onBlur={onChangeCompletionComment}
-            placeholder="Comments"
-          />
-        </FormField>
-      </Fragment>
-    )}
+      )}
+    </Field>
+    <FieldCondition when="isCompleted" is>
+      <FormField>
+        Completed on
+        <DatePickerField
+          name="completedAt"
+          onChange={save}
+          placeholderText="Completed on"
+        />
+      </FormField>
+      <FormField>
+        Comments
+        <TextareaField
+          name="completionComment"
+          onBlur={save}
+          placeholder="Comments"
+        />
+      </FormField>
+    </FieldCondition>
   </CardBlock>
 );
 
 MilestoneForm.propTypes = {
-  onChangeTitle: PropTypes.func,
-  onChangeDescription: PropTypes.func,
-  linkedTo: PropTypes.shape({
-    title: PropTypes.string,
-    sequentialId: PropTypes.string,
-  }).isRequired,
-  onChangeCompletionTargetDate: PropTypes.func,
+  save: PropTypes.func,
   isCompleted: PropTypes.bool,
-  onChangeCompletedAt: PropTypes.func,
-  onChangeCompletionComment: PropTypes.func,
-  status: PropTypes.number,
   color: PropTypes.string,
 };
 
