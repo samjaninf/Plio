@@ -136,7 +136,10 @@ const MilestoneEditContainer = ({
               throw err;
             });
           },
-          onDelete: e => onDelete({ deleteMilestone })(e, { entity: milestone }).then(toggle),
+          onDelete: e => onDelete({
+            deleteMilestone,
+            linkedTo: milestone.linkedTo,
+          })(e, { entity: milestone }).then(toggle),
         })}
       </Composer>
     )}
