@@ -18,8 +18,18 @@ input CompleteMilestoneInput {
   _id: ID!
 }
 
+input UpdateMilestoneInput {
+  _id: ID!
+  title: String
+  description: String
+  completionTargetDate: DateTime
+  completedAt: DateTime
+  completionComments: String
+}
+
 type Mutation {
   createMilestone(input: CreateMilestoneInput!): MilestonePayload
   deleteMilestone(input: DeleteMilestoneInput!): MilestonePayload
   completeMilestone(input: CompleteMilestoneInput!): MilestonePayload
+  updateMilestone(input: UpdateMilestoneInput!): Milestone
 }
