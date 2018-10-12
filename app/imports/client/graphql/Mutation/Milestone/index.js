@@ -8,6 +8,7 @@ import UPDATE_MILESTONE_COMPLETED_AT from './UpdateMilestoneCompletedAt.graphql'
 import UPDATE_MILESTONE_COMPLETION_COMMENT from './UpdateMilestoneCompletionComment.graphql';
 import ADD_MILESTONE_NOTIFY_USER from './AddMilestoneNotifyUser.graphql';
 import REMOVE_MILESTONE_NOTIFY_USER from './RemoveMilestoneNotifyUser.graphql';
+import UPDATE_MILESTONE from './UpdateMilestone.graphql';
 
 CREATE_MILESTONE.name = 'createMilestone';
 DELETE_MILESTONE.name = 'deleteMilestone';
@@ -31,4 +32,5 @@ export default {
   UPDATE_MILESTONE_COMPLETION_COMMENT,
   ADD_MILESTONE_NOTIFY_USER,
   REMOVE_MILESTONE_NOTIFY_USER,
+  UPDATE_MILESTONE,
 };

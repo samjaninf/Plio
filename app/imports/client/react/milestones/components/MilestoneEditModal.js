@@ -1,58 +1,78 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import { pure } from 'recompose';
 import { noop } from 'plio-util';
 
-import { EntityModal } from '../../components';
-import MilestoneEditFormContainer from '../containers/MilestoneEditFormContainer';
-import MilestoneNotifySubcardContainer from '../containers/MilestoneNotifySubcardContainer';
+import {
+  EntityModalNext,
+  EntityModalHeader,
+  EntityModalBody,
+  EntityModalForm,
+  RenderSwitch,
+} from '../../components';
+import MilestoneForm from './MilestoneForm';
+import MilestoneEdit from './MilestoneEdit';
+import { validateMilestone } from '../../../validation';
 
-const MilestoneEditModal = ({
+export const MilestoneEditModal = ({
   isOpen,
   toggle,
-  loading,
-  initialValues,
+  organizationId,
   onDelete,
+  loading,
+  error,
+  initialValues,
+  onSubmit,
   milestone,
-  ...props
 }) => (
-  <EntityModal
+  <EntityModalNext
     {...{
       isOpen,
       toggle,
       loading,
-      initialValues,
+      error,
       onDelete,
     }}
     isEditMode
-    title="Milestone"
-    onSave={noop}
   >
-    {({ handleMutation }) => (
-      <Fragment>
-        <MilestoneEditFormContainer
-          {...{ ...props, milestone }}
-          mutateWithState={handleMutation}
-        />
-
-        {!loading && (
-          <MilestoneNotifySubcardContainer
-            milestoneId={milestone._id}
-            organizationId={props.organizationId}
-          />
-        )}
-      </Fragment>
-    )}
-  </EntityModal>
+    <EntityModalForm
+      {...{ initialValues, onSubmit }}
+      validate={validateMilestone}
+    >
+      {({ handleSubmit }) => (
+        <Fragment>
+          <EntityModalHeader label="Milestone" />
+          <EntityModalBody>
+            <RenderSwitch
+              {...{ loading }}
+              renderLoading={<MilestoneForm {...{ organizationId }} />}
+              errorWhenMissing={noop}
+              require={milestone}
+            >
+              {({ _id }) => (
+                <MilestoneEdit
+                  {...{ _id, organizationId }}
+                  save={handleSubmit}
+                />
+              )}
+            </RenderSwitch>
+          </EntityModalBody>
+        </Fragment>
+      )}
+    </EntityModalForm>
+  </EntityModalNext>
 );
 
 MilestoneEditModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
-  initialValues: PropTypes.object,
-  onDelete: PropTypes.func,
-  milestone: PropTypes.object.isRequired,
   organizationId: PropTypes.string.isRequired,
+  onDelete: PropTypes.func,
+  loading: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  initialValues: PropTypes.object,
+  onSubmit: PropTypes.func.isRequired,
+  milestone: PropTypes.object,
 };
 
-export default MilestoneEditModal;
+export default pure(MilestoneEditModal);

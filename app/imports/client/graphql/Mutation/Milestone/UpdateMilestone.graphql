@@ -1,0 +1,7 @@
+#import "../../Fragment/MilestoneCard.graphql"
+
+mutation updateMilestone($input: UpdateMilestoneInput!) {
+  updateMilestone(input: $input) {
+    ...MilestoneCard
+  }
+}

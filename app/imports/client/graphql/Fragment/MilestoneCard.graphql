@@ -10,6 +10,12 @@ fragment MilestoneCard on Milestone {
   isCompleted
   completedAt
   completionComment
+  linkedTo: goal {
+    _id
+    title
+    sequentialId
+    color
+  }
   notify {
     _id
     profile {

@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 
 import { namedCompose } from '../../helpers';
 import MilestoneAddModalContainer from './MilestoneAddModalContainer';
-import MilestoneEditModalContainer from './MilestoneEditModalContainer';
+import MilestoneEditContainer from './MilestoneEditContainer';
+import MilestoneEditModal from '../components/MilestoneEditModal';
 
 const enhance = namedCompose('MilestoneModalContainer')(
   connect(),
@@ -31,10 +32,10 @@ export default enhance(({
   }
 
   return (
-    <MilestoneEditModalContainer
+    <MilestoneEditContainer
       {...{ isOpen, toggle, organizationId }}
-      goalId={activeGoal}
       milestoneId={activeMilestone}
+      component={MilestoneEditModal}
     />
   );
 });
