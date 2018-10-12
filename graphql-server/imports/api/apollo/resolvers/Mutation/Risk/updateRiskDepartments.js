@@ -3,7 +3,7 @@ import {
   checkLoggedIn,
   flattenInput,
   checkRiskAccess,
-  checkDocsAccess,
+  checkDepartmentsAccess,
   riskUpdateAfterware,
 } from '../../../../../share/middleware';
 
@@ -14,9 +14,6 @@ export default applyMiddleware(
   checkLoggedIn(),
   flattenInput(),
   checkRiskAccess(),
-  checkDocsAccess((root, { departmentsIds }, { collections: { Departments } }) => ({
-    ids: departmentsIds,
-    collection: Departments,
-  })),
+  checkDepartmentsAccess(),
   riskUpdateAfterware(),
 )(resolver);

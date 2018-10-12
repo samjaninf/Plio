@@ -1,5 +1,8 @@
 import { Template } from 'meteor/templating';
+import { ViewModel } from 'meteor/manuel:viewmodel';
 import invoke from 'lodash.invoke';
+
+import { getNestingLevel } from '../../../../../../share/helpers';
 
 Template.Standards_Title_Edit.viewmodel({
   mixin: 'numberRegex',
@@ -14,8 +17,7 @@ Template.Standards_Title_Edit.viewmodel({
       withFocusCheck,
       label: 'Document title',
       onFocusOut: (e, { value: title }) => {
-        const number = this.parseNumber(title);
-        const nestingLevel = (_.first(number) || '').split('.').length || 1;
+        const nestingLevel = getNestingLevel(title);
 
         if (nestingLevel > 4) {
           return invoke(
@@ -27,7 +29,7 @@ Template.Standards_Title_Edit.viewmodel({
 
         this.title(title);
 
-        if (!this._id) return;
+        if (!this._id) return null;
 
         return invoke(this.parent(), 'update', { title, nestingLevel });
       },

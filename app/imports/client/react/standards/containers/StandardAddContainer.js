@@ -4,13 +4,12 @@ import { Query, Mutation } from 'react-apollo';
 import { compose, append, map, prop, view, find, propEq, either, sort } from 'ramda';
 import { noop, getUserOptions, getEntityOptions, lenses, getId, byTitle } from 'plio-util';
 import { pure } from 'recompose';
-import { FORM_ERROR } from 'final-form';
 
 import { insert as insertFile } from '../../../../api/files/methods';
 import { Query as Queries, Mutation as Mutations } from '../../../graphql';
 import { validateStandard } from '../../../validation';
 import { Composer, renderComponent } from '../../helpers';
-import { getNestingLevel, uploadFile } from '../helpers';
+import { uploadFile } from '../helpers';
 import { ApolloFetchPolicies } from '../../../../api/constants';
 import { StandardStatusTypes, DefaultStandardTypes } from '../../../../share/constants';
 
@@ -129,11 +128,6 @@ const StandardAddContainer = ({
         const errors = validateStandard(values);
         if (errors) return errors;
 
-        const nestingLevel = getNestingLevel(title);
-        if (nestingLevel > 4) {
-          return { [FORM_ERROR]: 'Maximum nesting is 4 levels. Please change your title.' };
-        }
-
         let fileId;
         if (source1.type === 'attachment' && file) {
           fileId = await insertFile.call({
@@ -151,7 +145,6 @@ const StandardAddContainer = ({
               sectionId,
               typeId,
               owner,
-              nestingLevel,
               organizationId,
               source1: {
                 fileId,

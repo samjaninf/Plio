@@ -6,6 +6,7 @@ import {
   checkGoalsAccess,
   checkFilesAccess,
   checkRisksAccess,
+  checkStandardsAccess,
   keyPartnerUpdateAfterware,
 } from '../../../../../share/middleware';
 
@@ -19,5 +20,6 @@ export default applyMiddleware(
   checkGoalsAccess(),
   checkFilesAccess(),
   checkRisksAccess(),
+  checkStandardsAccess(),
   keyPartnerUpdateAfterware(),
 )(resolver);

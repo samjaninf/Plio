@@ -273,11 +273,6 @@ export const getSelectedStandardDeletedState = state => ({
   ),
 });
 
-export const getNestingLevel = (title) => {
-  const number = title.match(/^[\d.]*\d/);
-  return (number && number[0].split('.').length) || 1;
-};
-
 const launchDocxRendering = (fileUrl, fileName, standardId) => {
   Meteor.call('Mammoth.convertStandardFileToHtml', {
     fileUrl,

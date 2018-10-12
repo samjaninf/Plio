@@ -65,7 +65,6 @@ export const StandardEditForm = ({ organizationId, standardId, save }) => (
         type="number"
         placeholder="#"
         min={1}
-        max={10000}
         onChange={save}
       />
     </FormField>
@@ -85,7 +84,6 @@ export const StandardEditForm = ({ organizationId, standardId, save }) => (
         name="issueNumber"
         type="number"
         min={1}
-        max={1000}
         onChange={save}
       />
     </FormField>
@@ -103,6 +101,7 @@ export const StandardEditForm = ({ organizationId, standardId, save }) => (
         {...{ organizationId }}
       />
     </FormField>
+    <hr />
     <EditSourceField
       name="source1"
       label="Source file"

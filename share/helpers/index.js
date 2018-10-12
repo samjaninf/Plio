@@ -331,3 +331,8 @@ export const removeRolesFromAllUsers = roles =>
   });
 
 export const getWorkspaceDefaultsUpdater = mapKeys(concat(`${WORKSPACE_DEFAULTS}.`));
+
+export const getNestingLevel = (title) => {
+  const number = title.match(/^[\d.]*\d/);
+  return (number && number[0].split('.').length) || 1;
+};

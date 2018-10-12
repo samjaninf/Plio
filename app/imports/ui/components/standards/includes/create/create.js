@@ -2,7 +2,8 @@ import { Template } from 'meteor/templating';
 import invoke from 'lodash.invoke';
 import { and } from 'ramda';
 
-import { getNestingLevel, uploadFile } from '../../../../../client/react/standards/helpers';
+import { getNestingLevel } from '../../../../../share/helpers';
+import { uploadFile } from '../../../../../client/react/standards/helpers';
 import { insert } from '../../../../../api/standards/methods';
 import { setModalError, inspire } from '../../../../../api/helpers';
 import { insert as insertFile } from '../../../../../api/files/methods';

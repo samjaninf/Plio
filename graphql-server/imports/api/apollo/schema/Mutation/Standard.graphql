@@ -16,7 +16,6 @@ input CreateStandardInput {
   typeId: ID!
   owner: ID!
   source1: SourceInput!
-  nestingLevel: Int!
 }
 
 input UpdateStandardInput {
@@ -28,7 +27,6 @@ input UpdateStandardInput {
   owner: ID
   source1: SourceInput
   source2: SourceInput
-  nestingLevel: Int
   description: String
   issueNumber: Int
   uniqueNumber: Int

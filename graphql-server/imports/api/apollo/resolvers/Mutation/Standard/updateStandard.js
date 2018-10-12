@@ -5,6 +5,7 @@ import {
   checkStandardAccess,
   branch,
   checkOrgMembership,
+  checkDepartmentsAccess,
   standardUpdateAfterware,
 } from '../../../../../share/middleware';
 
@@ -22,5 +23,6 @@ export default applyMiddleware(
       userId: owner,
     })),
   ),
+  checkDepartmentsAccess(),
   standardUpdateAfterware(),
 )(resolver);
