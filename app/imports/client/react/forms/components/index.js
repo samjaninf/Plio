@@ -38,3 +38,4 @@ export { default as SliderAdapter } from './SliderAdapter';
 export { default as SliderField } from './SliderField';
 export { default as CreateSourceField } from './CreateSourceField';
 export { default as DepartmentsCreatableField } from './DepartmentsCreatableField';
+export { default as EditSourceField } from './EditSourceField';

@@ -4,8 +4,10 @@ import { Template } from 'meteor/templating';
 Template.ESSources.viewmodel({
   mixin: ['organization'],
   update(args, cb) {
-    const onChange = this.onChange || this.parent().update;
-    onChange(args, cb);
+    if (this.onChangeSource) {
+      return this.onChangeSource(args.source);
+    }
+    return this.parent().update(args, cb);
   },
   uploaderMetaContext() {
     const parent = this.parent();
@@ -18,8 +20,8 @@ Template.ESSources.viewmodel({
     Meteor.call('Mammoth.convertStandardFileToHtml', {
       fileUrl: url,
       htmlFileName: `${fileObj.name}.html`,
-      source: `source${this.id()}`,
-      standardId: this.parent()._id(),
+      source: `source${this.id ? this.id() : ''}`,
+      standardId: this.standardId() || this.parent()._id(),
     }, cb);
   },
   onRemoveSourceFile(err) {

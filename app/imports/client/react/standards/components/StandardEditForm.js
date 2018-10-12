@@ -10,6 +10,7 @@ import {
   SelectField,
   TextareaField,
   DepartmentsCreatableField,
+  EditSourceField,
 } from '../../components';
 import { StringLimits } from '../../../../share/constants';
 import { OrgUsersSelectInputContainer } from '../../containers';
@@ -21,7 +22,7 @@ const NumberField = styled(InputField)`
   max-width: 75px;
 `;
 
-export const StandardEditForm = ({ organizationId, save }) => (
+export const StandardEditForm = ({ organizationId, standardId, save }) => (
   <Fragment>
     <FormField>
       Document title
@@ -102,11 +103,24 @@ export const StandardEditForm = ({ organizationId, save }) => (
         {...{ organizationId }}
       />
     </FormField>
+    <EditSourceField
+      name="source1"
+      label="Source file"
+      onChange={save}
+      {...{ organizationId }}
+    />
+    <EditSourceField
+      name="source2"
+      label="Source file 2"
+      onChange={save}
+      {...{ organizationId, standardId }}
+    />
   </Fragment>
 );
 
 StandardEditForm.propTypes = {
   organizationId: PropTypes.string.isRequired,
+  standardId: PropTypes.string.isRequired,
   save: PropTypes.func.isRequired,
 };
 

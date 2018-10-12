@@ -31,7 +31,7 @@ type Standard implements BaseEntity, PlioEntity {
   section: StandardSection
   # review: StandardReview
   source1: Source!
-  source2: Source!
+  source2: Source
   # lessons
   improvementPlan: ImprovementPlan
 }

@@ -33,7 +33,11 @@ const StandardSubcard = ({
         }}
       >
         <CardBlock>
-          <StandardEditForm {...props} save={handleSubmit} />
+          <StandardEditForm
+            {...props}
+            standardId={standard._id}
+            save={handleSubmit}
+          />
         </CardBlock>
       </EntitySubcard>
     )}

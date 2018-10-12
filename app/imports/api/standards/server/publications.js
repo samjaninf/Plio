@@ -1,20 +1,21 @@
 import { Meteor } from 'meteor/meteor';
-
-import { getJoinUserToOrganizationDate } from '/imports/api/organizations/utils';
-import { Standards } from '/imports/share/collections/standards';
-import { isOrgMember } from '../../checkers';
-import { Files } from '/imports/share/collections/files';
-import { LessonsLearned } from '/imports/share/collections/lessons';
-import { NonConformities } from '/imports/share/collections/non-conformities';
-import { Risks } from '/imports/share/collections/risks';
-import { Departments } from '/imports/share/collections/departments';
-import { Reviews } from '/imports/share/collections/reviews';
-import Counter from '../../counter/server';
-import { ActionTypes, DocumentTypes } from '/imports/share/constants';
 import { check } from 'meteor/check';
-import { StandardsBookSections } from '/imports/share/collections/standards-book-sections';
-import { StandardTypes } from '/imports/share/collections/standards-types';
-import { RiskTypes } from '/imports/share/collections/risk-types';
+import { _ } from 'meteor/underscore';
+
+import { getJoinUserToOrganizationDate } from '../../../api/organizations/utils';
+import { Standards } from '../../../share/collections/standards';
+import { isOrgMember } from '../../checkers';
+import { Files } from '../../../share/collections/files';
+import { LessonsLearned } from '../../../share/collections/lessons';
+import { NonConformities } from '../../../share/collections/non-conformities';
+import { Risks } from '../../../share/collections/risks';
+import { Departments } from '../../../share/collections/departments';
+import { Reviews } from '../../../share/collections/reviews';
+import Counter from '../../counter/server';
+import { ActionTypes, DocumentTypes } from '../../../share/constants';
+import { StandardsBookSections } from '../../../share/collections/standards-book-sections';
+import { StandardTypes } from '../../../share/collections/standards-types';
+import { RiskTypes } from '../../../share/collections/risk-types';
 import {
   makeOptionsFields,
   getCursorNonDeleted,
@@ -31,7 +32,7 @@ import {
   getProblemsByStandardIds,
   createProblemsTree,
 } from '../../problems/utils';
-import { getPublishCompositeOrganizationUsers } from '/imports/server/helpers/pub-helpers';
+import { getPublishCompositeOrganizationUsers } from '../../../server/helpers/pub-helpers';
 import { publishWithMiddleware } from '../../helpers/server';
 import { checkOrgMembership } from '../../middleware';
 import { checkLoggedIn } from '../../../share/middleware';
@@ -40,9 +41,11 @@ const getStandardFiles = ({
   improvementPlan: {
     fileIds = [],
   } = {},
-  source1: { fileId: fileId1 } = {},
-  source2: { fileId: fileId2 } = {},
+  source1,
+  source2,
 }) => {
+  const { fileId: fileId1 } = source1 || {};
+  const { fileId: fileId2 } = source2 || {};
   let ids = [...fileIds];
 
   if (fileId1) ids = ids.concat(fileId1);
@@ -102,7 +105,7 @@ Meteor.publishComposite('standardsList', (
   isDeleted = { $in: [null, false] },
 ) => ({
   find() {
-    const userId = this.userId;
+    const { userId } = this;
 
     if (!userId || !isOrgMember(userId, organizationId)) {
       return this.ready();
@@ -124,7 +127,7 @@ Meteor.publishComposite('standardCard', function publishStandardCard({
   check(organizationId, String);
   check(isDeleted, Boolean);
 
-  const userId = this.userId;
+  const { userId } = this;
 
   if (!userId || !isOrgMember(userId, organizationId)) {
     return this.ready();
@@ -133,7 +136,7 @@ Meteor.publishComposite('standardCard', function publishStandardCard({
   const find = () => {
     const query = { _id, organizationId };
 
-    if (typeof isDeleted !== undefined && isDeleted !== null) Object.assign(query, { isDeleted });
+    if (typeof isDeleted !== 'undefined' && isDeleted !== null) Object.assign(query, { isDeleted });
 
     return Standards.find(query);
   };
@@ -164,7 +167,7 @@ Meteor.publishComposite('standardCard', function publishStandardCard({
 Meteor.publish('standardsDeps', function (organizationId) {
   check(organizationId, String);
 
-  const userId = this.userId;
+  const { userId } = this;
 
   if (!userId || !isOrgMember(userId, organizationId)) return this.ready();
 
@@ -214,7 +217,9 @@ publishWithMiddleware(
 );
 
 Meteor.publish('standardsNotViewedCount', function (counterName, organizationId) {
-  const userId = this.userId;
+  check(counterName, String);
+  check(organizationId, String);
+  const { userId } = this;
 
   if (!userId || !isOrgMember(userId, organizationId)) {
     return this.ready();

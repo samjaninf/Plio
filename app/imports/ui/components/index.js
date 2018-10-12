@@ -12,3 +12,4 @@ import './notifications';
 import './problems';
 import './help-docs';
 import './data-export';
+import './standards/includes/fields/sources';

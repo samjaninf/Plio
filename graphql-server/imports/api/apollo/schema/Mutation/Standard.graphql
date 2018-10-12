@@ -27,6 +27,7 @@ input UpdateStandardInput {
   typeId: ID
   owner: ID
   source1: SourceInput
+  source2: SourceInput
   nestingLevel: Int
   description: String
   issueNumber: Int

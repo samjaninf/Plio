@@ -25,4 +25,9 @@ fragment StandardSubcard on Standard {
     fileId
     url
   }
+  source2 {
+    type
+    fileId
+    url
+  }
 }
