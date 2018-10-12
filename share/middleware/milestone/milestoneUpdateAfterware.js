@@ -6,5 +6,5 @@ export default () => async (next, root, args, context) => {
 
   const milestone = await Milestones.findOne({ _id });
 
-  return { milestone };
+  return milestone;
 };

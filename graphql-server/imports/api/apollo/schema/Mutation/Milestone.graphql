@@ -30,6 +30,6 @@ input UpdateMilestoneInput {
 type Mutation {
   createMilestone(input: CreateMilestoneInput!): MilestonePayload
   deleteMilestone(input: DeleteMilestoneInput!): MilestonePayload
-  completeMilestone(input: CompleteMilestoneInput!): MilestonePayload
+  completeMilestone(input: CompleteMilestoneInput!): Milestone
   updateMilestone(input: UpdateMilestoneInput!): Milestone
 }
